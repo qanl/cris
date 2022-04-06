@@ -1,2 +1,2 @@
 # cris
-Testcafe tests f\or CRIS project
+Testcafe tests for CRIS project
