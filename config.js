@@ -11,7 +11,7 @@ const environment = args.env;
 export const baseUrl = () => {
     if (environment === '' || environment === undefined || environment === 'QA') {
 
-        return 'https://cris-web-int.36eighttechnologies.com/#/home';
+        return 'https://cris-web-int.36eighttechnologies.com';
     }
     if (environment === 'UAT')
         return 'https://cris-web-uat.36eighttechnologies.com/#/home';
@@ -23,6 +23,6 @@ export const baseUrl = () => {
     return environment; // for passing custom url
 };
 
-export const user = 'nlapuste@36eighttechnologies.com';
-export const pwd = 'Biserica89!';
+export const user = 'nlapuste@';
+export const pwd = 'Biko!';
 

@@ -1,18 +1,19 @@
-const { Selector, Role, t } = require("testcafe");
+const { Selector, Role, ClientFunction, t } = require("testcafe");
 const { expect } = require("chai");
 import {baseUrl, pwd, user} from '../config.js';
 
 
-const userOne = Role(baseUrl(), async t => {
+const userOne = Role(baseUrl()+'/#/home', async t => {
     await t
         .typeText('input[name="loginfmt"]', user)
         .click( '[type="submit"]')
         .typeText('input[name="passwd"]', pwd)
         .click( '[type="submit"]');
-});
+}, { preserveUrl: true }
+);
 
-fixture`E2E on CRIS`
-    .page(baseUrl())
+fixture`E2E - C/R/I/S HOME PAGE`
+    .page(baseUrl()+'/#/home')
     .before(async () => {
         console.log('Test begins');
     })
@@ -20,19 +21,13 @@ fixture`E2E on CRIS`
         await t
             .maximizeWindow();
         await t.useRole(userOne);
-        // t.fixtureCtx.siteName = random.randomDept + ' QA SITE';
-        // t.fixtureCtx.appName = random.randomProd + 'QA APP';
-        // t.fixtureCtx.buildAppUrl = '/Admin/Assets/assets.cfm?siteID=1#apps';
-        // const ua = await getUA();
-        //
-        // t.fixtureCtx.browserAlias = uaParser(ua).browser.name;
 
     })
     .afterEach(async t => {
         await t.maximizeWindow();
     })
     .after(async () => {
-        console.log('Test si Done!');
+        console.log('Test is Done!');
     });
 
 test("Log in CRIS and verify that the logo link points to home page", async () => {
@@ -64,4 +59,65 @@ test("Verify that there are two subpages on CRIS homepage", async () => {
     expect(daylySales).to.equal("Daily Sales");
     expect(daylySalesTxt).to.equal("All medical cannabis sales completed in this store every day");
 
+});
+test("Verify that you can see CRIS notifications (created by admin portal)", async () => {
+    await t.maximizeWindow()
+    await t.switchToMainWindow();
+
+    const crisNotif = await Selector("div.section-header").nth(1).innerText;
+    expect(crisNotif).to.equal("CRIS Notifications");
+});
+
+test("Verify going to the wrong URL, should redirect the user to 404 page)", async () => {
+    await t.maximizeWindow()
+    await t.switchToMainWindow();
+
+
+    const crisNotif = await Selector("div.section-header").nth(1).innerText;
+    expect(crisNotif).to.equal("CRIS Notifications");
+    const daylySales = await Selector("a.report-link").nth(1);
+
+    const getLocation = ClientFunction(() => document.location.href);
+
+    await t
+        .navigateTo(baseUrl()+ '/#/daily-sales')
+        .wait(1000)
+        .expect(getLocation()).contains('/#/daily-sales');
+
+    await t
+        .navigateTo(baseUrl()+ '/#/daily-sale')
+        .wait(1000)
+        .expect(Selector('#statusCode-label').innerText).contains('404')
+        .expect(getLocation()).contains(  '/#/error-handling/404');
+
+    await t
+        .click('#btnBackToCris')
+        .wait(1000)
+        .expect(getLocation()).contains('/#/home');
+
+});
+
+test("Verify that by default when the user logs in to CRIS, privacy should be ON", async () => {
+    await t.maximizeWindow()
+    await t.switchToMainWindow();
+
+    const privacyON = await Selector("button.btn.btn-toggle.active").exists;
+    await t
+        .wait(1000)
+        .expect(privacyON).ok('Oops, the Privacy button is toggles OFF');
+});
+
+
+test("Verify that the user should sign out from CRIS by clicking on sign out button", async () => {
+    await t.maximizeWindow()
+    await t.switchToMainWindow();
+    const getLocation = ClientFunction(() => document.location.href);
+    const signOut = await Selector("#signOutBtn > div > div:nth-child(2) > strong");
+    await t
+        .wait(1000)
+        .click('button#dropdownMenuButton > img')
+        .wait(500)
+        .click(signOut)
+        .wait(1000)
+        .expect(getLocation()).contains(  'https://login.microsoftonline.com/');
 });

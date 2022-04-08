@@ -2,8 +2,7 @@
   "name": "cris",
   "version": "1.0.0",
   "dependencies": {
-    "chai": "4.3.6",
-    "testcafe": "^1.18.4"
+    "chai": "4.3.6"
   },
   "description": "TestCafé end-to-end test automation boilerplate. Using Commonjs, Chai and Expect. CRIS",
   "devDependencies": {
@@ -18,7 +17,9 @@
     "lint-staged": "10.5.4",
     "minimist": "^1.2.6",
     "prettier": "2.6.0",
-    "pretty-quick": "3.1.3"
+    "pretty-quick": "3.1.3",
+    "testcafe": "^1.18.5",
+    "testcafe-reporter-xunit": "^2.2.1"
   },
   "homepage": "https://github.com/qanl/cris#readme",
   "husky": {
@@ -55,6 +56,6 @@
   },
   "scripts": {
     "lint": "npx eslint --ext .js ./ --fix",
-    "test": "npx testcafe chrome incognito spec/e2e.spec.js"
+    "test": "npx testcafe \"chrome:headless\" --disable-page-caching spec/e2e.spec.js --reporter spec,xunit:report.xml"
   }
 }
