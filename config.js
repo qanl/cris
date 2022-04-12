@@ -11,18 +11,23 @@ const environment = args.env;
 export const baseUrl = () => {
     if (environment === '' || environment === undefined || environment === 'QA') {
 
-        return 'https://cris-web-int.36eighttechnologies.com';
+        return 'https://cris-web-int.36eighttechnologies.com/#';
     }
     if (environment === 'UAT')
-        return 'https://cris-web-uat.36eighttechnologies.com/#/home';
+        return 'https://cris-web-uat.36eighttechnologies.com/#';
 
     if (environment === 'DEV')
-        return 'ttps://cris-web-dev.36eighttechnologies.com/#/home';
+        return 'https://cris-web-dev.36eighttechnologies.com';
 
+    if (environment === 'CANN')
+        return 'https://crisrec-web.azurewebsites.net';
+
+    if (environment === 'ADM')
+        return 'https://cris-admin-qa.36eighttechnologies.com';
 
     return environment; // for passing custom url
 };
 
-export const user = 'nlapuste@';
-export const pwd = 'Biko!';
+export const user = 'nlapust';
+export const pwd = 'rft';
 

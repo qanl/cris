@@ -2,6 +2,22 @@ const { Selector, Role, ClientFunction, t } = require("testcafe");
 const { expect } = require("chai");
 import {baseUrl, pwd, user} from '../config.js';
 
+const endPoint=["/consultation-reminders",
+    "/daily-sales",
+    "/orders",
+    "/patients",
+    "/patients/365/information",
+    "/patients/365/medical-authorizations",
+    "/patients/365/orders",
+    "/patients/365/medications",
+    "/patients/365/consultations",
+    "/patients/365/notes",
+    "/patients/365/attachments",
+    "/hcps",
+    "/medical-authorizations",
+    "/products",
+    "/licensed-sellers",
+    "/virtual-care"];
 
 const userOne = Role(baseUrl()+'/#/home', async t => {
     await t
@@ -12,8 +28,43 @@ const userOne = Role(baseUrl()+'/#/home', async t => {
 }, { preserveUrl: true }
 );
 
-fixture`E2E - C/R/I/S HOME PAGE`
-    .page(baseUrl()+'/#/home')
+
+const ct = endPoint.length;
+
+for (let i = 0; i < ct; i++) {
+    const title = endPoint[i];
+
+    // console.log(title);
+    const userTwo = Role('https://cris-web-int.36eighttechnologies.com'+`${title}`, async t => {
+            await t
+                .typeText('input[name="loginfmt"]', user)
+                .click( '[type="submit"]')
+                .typeText('input[name="passwd"]', pwd)
+                .click( '[type="submit"]');
+        }, { preserveUrl: true }
+    );
+
+fixture `E2E - C/R/I/S End Points`
+    .page(baseUrl()+`${title}`)
+    // .disablePageCaching;
+
+
+    test('Test ' + `${title}` + ' endPoint on 36eighttechnologies.com site', async t => {
+        await t.maximizeWindow();
+        await t.useRole(userTwo);
+        await t.openWindow(baseUrl()+`${title}`);
+        await t
+            .maximizeWindow()
+            .switchToMainWindow()
+            .wait(1000);
+        const getUrl = ClientFunction(() => document.location.href);
+        await t.expect(getUrl()).contains(title);
+        await t.closeWindow()
+    }).disablePageCaching;
+}
+
+fixture`E2E - C/R/I/S HOME PAGE Elements`
+    .page(baseUrl()+'/home')
     .before(async () => {
         console.log('Test begins');
     })
@@ -25,10 +76,11 @@ fixture`E2E - C/R/I/S HOME PAGE`
     })
     .afterEach(async t => {
         await t.maximizeWindow();
-    })
+    }).disablePageCaching
     .after(async () => {
         console.log('Test is Done!');
     });
+
 
 test("Log in CRIS and verify that the logo link points to home page", async () => {
 

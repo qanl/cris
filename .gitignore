@@ -1,0 +1,6 @@
+/TestResult/
+/test-reports/
+/package-lock.json
+/node_modules/
+/.idea/
+/report.xml

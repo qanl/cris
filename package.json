@@ -19,6 +19,8 @@
     "prettier": "2.6.0",
     "pretty-quick": "3.1.3",
     "testcafe": "^1.18.5",
+    "testcafe-reporter-html": "^1.4.6",
+    "testcafe-reporter-html-testrail-3": "^1.0.3",
     "testcafe-reporter-xunit": "^2.2.1"
   },
   "homepage": "https://github.com/qanl/cris#readme",
@@ -56,6 +58,8 @@
   },
   "scripts": {
     "lint": "npx eslint --ext .js ./ --fix",
-    "test": "npx testcafe \"chrome:headless\" --disable-page-caching spec/e2e.spec.js --reporter spec,xunit:report.xml"
+    "test.cris": "npx testcafe chrome spec/e2e.spec.js -u -e -s --env=QA --disable-page-caching --reporter html:./test-reports/e2e_cris_testreport.html -S -s path=./test-reports/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
+    "test.cann": "npx testcafe chrome spec/cann.spec.js -u -e --env=CANN --disable-page-caching --reporter spec,xunit:report.xml",
+    "test.all": "npm run test.cris && npm run test.cansafe"
   }
 }
