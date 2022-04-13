@@ -60,6 +60,7 @@
     "lint": "npx eslint --ext .js ./ --fix",
     "test.cris": "npx testcafe chrome spec/e2e.spec.js -u -e -s --env=QA --disable-page-caching --reporter html:./test-reports/e2e_cris_testreport.html -S -s path=./test-reports/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
     "test.cann": "npx testcafe chrome spec/cann.spec.js -u -e --env=CANN --disable-page-caching --reporter spec,xunit:report.xml",
+    "test.admin": "npx testcafe edge spec/admin.spec.js -u -e -s --env=ADM --disable-page-caching --reporter html:./test-reports/admin_cris_testreport.html -S -s path=./test-reports/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
     "test.all": "npm run test.cris && npm run test.cansafe"
   }
 }

@@ -28,6 +28,6 @@ export const baseUrl = () => {
     return environment; // for passing custom url
 };
 
-export const user = 'nlapust';
-export const pwd = 'rft';
+export const user = 'nlap';
+export const pwd = 'B';
 

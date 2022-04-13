@@ -19,7 +19,7 @@ const endPoint=["/consultation-reminders",
     "/licensed-sellers",
     "/virtual-care"];
 
-const userOne = Role(baseUrl()+'/#/home', async t => {
+const userOne = Role(baseUrl()+'/#', async t => {
     await t
         .typeText('input[name="loginfmt"]', user)
         .click( '[type="submit"]')
@@ -27,44 +27,44 @@ const userOne = Role(baseUrl()+'/#/home', async t => {
         .click( '[type="submit"]');
 }, { preserveUrl: true }
 );
+//
+//
+// const ct = endPoint.length;
+//
+// for (let i = 0; i < ct; i++) {
+//     const title = endPoint[i];
+//
+//     // console.log(title);
+//     const userTwo = Role('https://cris-web-int.36eighttechnologies.com'+`${title}`, async t => {
+//             await t
+//                 .typeText('input[name="loginfmt"]', user)
+//                 .click( '[type="submit"]')
+//                 .typeText('input[name="passwd"]', pwd)
+//                 .click( '[type="submit"]');
+//         }, { preserveUrl: true }
+//     );
+//
+// fixture `E2E - C/R/I/S End Points`
+//     .page(baseUrl()+`${title}`)
+//     // .disablePageCaching;
+//
+//
+//     test('Test ' + `${title}` + ' endPoint on 36eighttechnologies.com site', async t => {
+//         await t.maximizeWindow();
+//         await t.useRole(userTwo);
+//         await t.openWindow(baseUrl()+`${title}`);
+//         await t
+//             .maximizeWindow()
+//             .switchToMainWindow()
+//             .wait(1000);
+//         const getUrl = ClientFunction(() => document.location.href);
+//         await t.expect(getUrl()).contains(title);
+//         await t.closeWindow()
+//     }).disablePageCaching;
+// }
 
-
-const ct = endPoint.length;
-
-for (let i = 0; i < ct; i++) {
-    const title = endPoint[i];
-
-    // console.log(title);
-    const userTwo = Role('https://cris-web-int.36eighttechnologies.com'+`${title}`, async t => {
-            await t
-                .typeText('input[name="loginfmt"]', user)
-                .click( '[type="submit"]')
-                .typeText('input[name="passwd"]', pwd)
-                .click( '[type="submit"]');
-        }, { preserveUrl: true }
-    );
-
-fixture `E2E - C/R/I/S End Points`
-    .page(baseUrl()+`${title}`)
-    // .disablePageCaching;
-
-
-    test('Test ' + `${title}` + ' endPoint on 36eighttechnologies.com site', async t => {
-        await t.maximizeWindow();
-        await t.useRole(userTwo);
-        await t.openWindow(baseUrl()+`${title}`);
-        await t
-            .maximizeWindow()
-            .switchToMainWindow()
-            .wait(1000);
-        const getUrl = ClientFunction(() => document.location.href);
-        await t.expect(getUrl()).contains(title);
-        await t.closeWindow()
-    }).disablePageCaching;
-}
-
-fixture`E2E - C/R/I/S HOME PAGE Elements`
-    .page(baseUrl()+'/home')
+fixture`E2E - C/R/I/S Admin Portal Elements`
+    .page(baseUrl()+'/#/')
     .before(async () => {
         console.log('Test begins');
     })
@@ -76,17 +76,38 @@ fixture`E2E - C/R/I/S HOME PAGE Elements`
     })
     .afterEach(async t => {
         await t.maximizeWindow();
-    }).disablePageCaching
+    })
     .after(async () => {
         console.log('Test is Done!');
     });
 
 
-test("Log in CRIS and verify that the logo link points to home page", async () => {
+test.only("Log in CRIS Admin Portal and verify the logo and home page", async () => {
 
-    const title = await Selector("body > app-root > div > top-nav > nav > a").getAttribute('href');
+    const logo = await Selector('#ctl00_XXX');
+    const logoTxt = await Selector('.portal-header > div:nth-child(1)').innerText;
+    const adminPortal = await Selector('.portal-header > div.text-white.font-weight-bold').innerText;
+    const pharmacyMenu = await Selector('#pharmacyLi > span.fa.fa-chevron-down');
+    const pharmacyBtn = await Selector('#pharmacyLi');
+    const notificationMenu = await Selector('#sidebar-menu > div > ul > li > ul > li:nth-child(1) > a').getAttribute('href');
+    const manageProducts = await Selector('#sidebar-menu > div > ul > li > ul > li:nth-child(2) > a').getAttribute('href');
+    const welcomePortal = await Selector('#home > h1').innerText;
+    const topHeader = await Selector('body > div > app-root > div > div.top_nav > topnav-bar > div > div.align-self-center > h3').innerText;
 
-    expect(title).to.contain("#/home");
+    expect(topHeader).to.contain('QA Environment');
+    expect(welcomePortal).to.contain("Welcome to the CRIS Admin Portal.");
+    expect(pharmacyBtn).to.contain("Pharmacy");
+    expect(logo.exists).ok('Logo is missing')
+    expect(logoTxt).to.contain("CRIS");
+    expect(adminPortal).to.contain("Admin Portal");
+
+    await t
+        .click(pharmacyMenu)
+        .wait(1000);
+
+    expect(notificationMenu).to.contain("#/notifications");
+    expect(manageProducts).to.contain("#/products");
+
 });
 
 test("Verify user is logged in CRIS", async () => {
