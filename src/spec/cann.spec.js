@@ -1,6 +1,6 @@
 const { Selector, Role, ClientFunction, t } = require("testcafe");
 const { expect } = require("chai");
-import {baseUrl} from '../config.js';
+import {baseUrl} from '../../config.js';
 
 
 // const userOne = Role(baseUrl()+'/#/home', async t => {
