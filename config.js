@@ -26,5 +26,5 @@ export const baseUrl = () => {
     return environment; // for passing custom url
 };
 
-export const username = 'nlapuste@36eighttechnologies.com';
-export const password = 'Biserica89!';
+export const username = ' ww';
+export const password = ' ser';
