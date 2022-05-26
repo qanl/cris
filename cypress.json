@@ -1,0 +1,8 @@
+{{
+    "baseUrl": "https://cris-admin-qa.36eighttechnologies.com",
+    "experimentalSessionSupport": true,
+    "defaultCommandTimeout": 10000,
+    "user": "nlapuste@36eighttechnologies.com",
+    "pwd": "Biserica89!"
+
+}}

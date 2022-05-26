@@ -1,0 +1,21 @@
+{
+    "browsers": "chrome",
+    "src": [
+        "./src/spec/*.js",
+      "./src/spec/*.feature"
+    ],
+    "screenshots": {
+      "path": "./test-reports/screenshots/",
+      "takeOnFails": true,
+      "pathPattern": "${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
+    },
+    "quarantineMode": false,
+    "stopOnFirstFail": true,
+    "skipJsErrors": true,
+    "skipUncaughtErrors": true,
+    "concurrency": 1,
+    "selectorTimeout": 3000,
+    "assertionTimeout": 1000,
+    "pageLoadTimeout": 1000,
+    "disablePageCaching": true
+  }

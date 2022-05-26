@@ -86,23 +86,7 @@ fixture`E2E - C/R/I/S Admin Portal Elements`
   });
 
 test.only("Log in CRIS Admin Portal and verify the logo and home page", async () => {
-  const logo = await Selector("#ctl00_XXX");
-  const logoTxt = await Selector(".portal-header > div:nth-child(1)").innerText;
-  const adminPortal = await Selector(
-    ".portal-header > div.text-white.font-weight-bold"
-  ).innerText;
-  const pharmacyMenu = await Selector("#pharmacyLi > span.fa.fa-chevron-down");
-  const pharmacyBtn = await Selector("#pharmacyLi");
-  const notificationMenu = await Selector(
-    "#sidebar-menu > div > ul > li > ul > li:nth-child(1) > a"
-  ).getAttribute("href");
-  const manageProducts = await Selector(
-    "#sidebar-menu > div > ul > li > ul > li:nth-child(2) > a"
-  ).getAttribute("href");
-  const welcomePortal = await Selector("#home > h1").innerText;
-  const topHeader = await Selector(
-    "body > div > app-root > div > div.top_nav > topnav-bar > div > div.align-self-center > h3"
-  ).innerText;
+
 
   expect(topHeader).to.contain("QA Environment");
   expect(welcomePortal).to.contain("Welcome to the CRIS Admin Portal.");

@@ -13,5 +13,8 @@
 ],
     "rules": {
     "no-unused-expressions": 0
+},
+"edit.codeActionsOnSave": {
+    "source.fixAll.eslint": true
 }
 }
