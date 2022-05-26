@@ -4,6 +4,16 @@
         "./src/spec/*.js",
       "./src/spec/*.feature"
     ],
+    "reporter": [
+      {
+          "name": "spec",
+          "name": "html"
+      },
+      {
+          "name": "json",
+          "output": "results/report.json"
+      }
+  ],
     "screenshots": {
       "path": "./test-reports/screenshots/",
       "takeOnFails": true,

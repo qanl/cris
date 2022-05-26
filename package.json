@@ -6,6 +6,8 @@
   },
   "description": "TestCafé end-to-end test automation boilerplate. Using Commonjs, Chai and Expect. CRIS",
   "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
     "cypress": "^9.6.1",
     "dotenv": "^16.0.1",
     "eslint": "8.15.0",
@@ -22,6 +24,7 @@
     "testcafe-angular-selectors": "^0.4.1",
     "testcafe-reporter-html": "^1.4.6",
     "testcafe-reporter-html-testrail-3": "^1.0.3",
+    "testcafe-reporter-spec": "^2.1.1",
     "testcafe-reporter-xunit": "^2.2.1"
   },
   "homepage": "https://github.com/qanl/cris#readme",
@@ -54,9 +57,9 @@
   },
   "scripts": {
     "lint": "npx eslint --ext .js ./ --fix",
-    "test.cris": "npx testcafe chrome src/spec/patients.spec.js -u -e -s --disable-page-caching -r html:test-reports/chrome_25May_e2e_cris_testreport.html -S -s path=./test-reports/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
+    "test.cris": "npx testcafe chrome src/spec/e2e.spec.js -u -e -s --disable-page-caching -r html:test-reports/chrome_25May_e2e_cris_testreport.html -S -s path=./test-reports/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
     "test.cann": "npx testcafe chrome src/spec/patients.spec.js -u -e --env=CANN --disable-page-caching --reporter spec,xunit:report.xml",
     "test.admin": "npx testcafe edge src/spec/admin.spec.js -u -e -s --env=ADM --disable-page-caching --reporter html:test-reports/admin_cris_testreport.html -S -s path=./test-reports/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
-    "test.all": "npm run test.cris && npm run test.cansafe"
+    "test.all": "npm run lint && npm run test.cris && npm run test.cansafe"
   }
 }

@@ -1,6 +1,6 @@
-import minimist from "minimist";
+import minimist from 'minimist';
 
-require("dotenv").config();
+require('dotenv').config();
 
 const args = minimist(process.argv.slice(1));
 
@@ -9,23 +9,22 @@ const environment = args.env;
 // const featureFlagsArgs = args.features ? args.features.split(' ') : undefined;
 
 export const baseUrl = () => {
-  if (environment === "" || environment === undefined || environment === "QA") {
-    return "https://cris-web-int.36eighttechnologies.com/#";
-  }
-  if (environment === "UAT")
-    return "https://cris-web-uat.36eighttechnologies.com/#";
+    if (environment === '' || environment === undefined || environment === 'QA')
+        return 'https://cris-web-int.36eighttechnologies.com/#';
 
-  if (environment === "DEV")
-    return "https://cris-web-dev.36eighttechnologies.com";
+    if (environment === 'UAT')
+        return 'https://cris-web-uat.36eighttechnologies.com/#';
 
-  if (environment === "CANN") return "https://crisrec-web.azurewebsites.net";
+    if (environment === 'DEV')
+        return 'https://cris-web-dev.36eighttechnologies.com';
 
-  if (environment === "ADM")
-    return "https://cris-admin-qa.36eighttechnologies.com";
+    if (environment === 'CANN') return 'https://crisrec-web.azurewebsites.net';
 
-  return environment; // for passing custom url
+    if (environment === 'ADM')
+        return 'https://cris-admin-qa.36eighttechnologies.com';
+
+    return environment; // for passing custom url
 };
 
-export const username = "@ d";
-export const password = " 9!";
-
+export const username = 'nlapuste@36eighttechnologies.com';
+export const password = 'Biserica89!';
