@@ -69,6 +69,8 @@ class PatientNav {
         this.menuOption = Selector(
             'a .routerlink .nav-item.nav-link.rounded-0.px-1.transparent-bg'
         );
+        this.signOutIcon = Selector('#dropdownMenuButton > img');
+        this.signOutBtn = Selector('button#signOutBtn strong');
         this.navOption = Selector('.d-flex.flex-row.align-items-center');
         this.diModal = Selector('.btn.close-btn.btn-sm.btn-width');
         this.privacyTxt = Selector('h5.text-white-50'); // Priacy text
@@ -181,7 +183,7 @@ class PatientNav {
         this.addressInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(1) > input');
         this.addressTwoInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(2) > input');
         this.cityInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(3) > div:nth-child(1) > input');
-        this.provinceSel = Selector('.form-control.form-control-sm.border-bottom-input.pl-0.pb-0.pt-0.dropdown.cursor-pointer.ng-pristine.ng-invalid.ng-touched');
+        this.provinceSel = Selector('mat-dialog-container#mat-dialog-7 div:nth-child(2) > label > select#gender');
         this.provinceOpt = Selector('#gender > option:nth-child(1)');
         this.provinceAB = Selector('option').filter('[value="AB"]');
         this.provinceBC = Selector('option').filter('[value="BC"]');
@@ -211,11 +213,19 @@ class PatientNav {
         this.cancelIDBtn = Selector('.btn.close-btn.btn-sm').nth(2);
         this.savedIDTxt = Selector('.btn.btn-sm.btn-link.pl-0.text-left');
         this.createPatEnabled = Selector('button.btn.btn-success.btn-sm.mr-2').withText('CREATE PATIENT');
-
-
-
-
-
+        // CONSENT
+        this.consentCheckbox = Selector('#consentCheck');
+        this.consentText = Selector('form > div:nth-child(6) > div > div > label');
+        //UPDATE DEMOGRAPHICS
+        this.updatePatientDemographicTitle = Selector('.h5.blue-label-color.mx-1.my-2.py-2.col-md-12');
+        this.updateFirstName = Selector('#mat-dialog-0 div:nth-child(1) > div:nth-child(1) > input');
+        this.updateLastName = Selector('#mat-dialog-0 div:nth-child(1) > div:nth-child(2) > input');
+        this.updateCalendarInput = Selector('div#birthDate > input'); // Format DD-MMM-YYYY
+        this.updatePickCalendr = Selector('div#birthDate i');
+        this.updatePreferredName = Selector('input#preferredName');
+        this.updateOccupation = Selector('input#occupation');
+        this.updateWeight = Selector('input#inputWeight');
+        this.updateWeightUpArrow = Selector('up-down-arrows-container > div > div > div:nth-child(1) > button[type="button"] > i');
 
 
     }
@@ -238,6 +248,7 @@ class PatientNav {
         await waitForAngular();
 
         await t
+            .scroll(this.navOption.withText(text))
             .hover(this.navOption.withText(text))
             .expect(this.navOption.withText(text).exists)
             .ok();
@@ -284,8 +295,9 @@ class PatientNav {
             { returnDOMNodes: true }
         );
 
-        await t.hover(selectedRow.withText(val)).click(selectedRow.withText(val));
-        // .click(fieldSet.withAttribute('id', 'tried-section').getInput(0));
+        await t
+            .hover(selectedRow.withText(val)).click(selectedRow.withText(val))
+            .click(selectedRow.withText(val)).click(selectedRow.withText(val));
     }
     /**
      * -- Check all checkboxes

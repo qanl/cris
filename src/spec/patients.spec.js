@@ -13,7 +13,7 @@ const patientnav = new PatientNav();
 
 const userOne = Role(
     `${baseUrl()}/#/home`,
-    async t => {
+    async (t) => {
         await t
             .typeText('input[name="loginfmt"]', username)
             .click('[type="submit"]')
@@ -28,12 +28,12 @@ fixture`E2E - C/R/I/S Patients tests`
     .before(async () => {
         console.log('Test begins');
     })
-    .beforeEach(async t => {
-        await t.maximizeWindow();
+    .beforeEach(async (t) => {
+        // await t.maximizeWindow();
         await t.useRole(userOne);
     })
-    .afterEach(async t => {
-        await t.maximizeWindow();
+    .afterEach(async (t) => {
+        // await t.maximizeWindow();
     })
     .disablePageCaching.after(async () => {
         console.log('Test is Done!');
@@ -53,7 +53,6 @@ test('Verify user can select the Patients menu option', async () => {
     await t.switchToMainWindow();
 
     await patientnav.clickOption(patientnav.patBtn);
-
 });
 
 test.only('Verify user can select a patient record from the Patients menu option', async () => {
@@ -64,11 +63,12 @@ test.only('Verify user can select a patient record from the Patients menu option
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
-        .expect(patientnav.patientDetailsBtnEnabled.exists).ok('Oops, something went wrong!')
+        .expect(patientnav.patientDetailsBtnEnabled.exists)
+        .ok('Oops, something went wrong!')
         .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
-        .expect(patientnav.subLastName.innerText.contains('LAR')).ok('OOps, something is not matching up!');
-
+        .expect(patientnav.subLastName.innerText)
+        .contains('HSR', 'oops!');
 });
 
 test('Verify that there are two subpages on CRIS homepage', async () => {
@@ -93,13 +93,14 @@ test('Verify that there are two subpages on CRIS homepage', async () => {
         'All medical cannabis sales completed in this store every day'
     );
 });
-// test("Verify that you can see CRIS notifications (created by admin portal)", async () => {
-//   await t.maximizeWindow();
-//   await t.switchToMainWindow();
-//
-//   const crisNotif = await Selector("div.section-header").nth(1).innerText;
-//   expect(crisNotif).to.equal("CRIS Notifications");
-// });
+test('Verify that you can see CRIS notifications (created by admin portal)', async () => {
+    await t.maximizeWindow();
+    await t.switchToMainWindow();
+
+    const crisNotif = await Selector('div.section-header').nth(1).innerText;
+
+    expect(crisNotif).to.equal('CRIS Notifications');
+});
 
 test('Verify Patients List', async () => {
     await t.maximizeWindow();
