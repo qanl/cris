@@ -13,10 +13,12 @@ import { waitForAngular } from 'testcafe-angular-selectors';
  * @param {*} imgSelector
  * @returns
  */
-const selectImg = async imgSelector => {
+const selectImg = async (imgSelector) => {
     /** @type { SelectorAPI & HTMLImageElement} */
 
-    const result = await /** @type { ? } */ Selector(imgSelector).addCustomDOMProperties({
+    const result = await /** @type { ? } */ Selector(
+        imgSelector
+    ).addCustomDOMProperties({
         complete: (/** @type {HTMLImageElement} */ el) => {
             return el.complete;
         },
@@ -137,8 +139,15 @@ class PatientNav {
         this.subInfo = Selector(
             'patient-left-nav > div > div > nav > a > div > div'
         );
-        this.subMx = Selector('patient-left-nav > div > nav:nth-child(2) > a > div');
-        this.subOrders = Selector('patient-left-nav > div > nav:nth-child(3) > a');
+        this.subMx = Selector(
+            'patient-left-nav > div > nav:nth-child(2) > a > div'
+        );
+        this.subOrders = Selector(
+            'patient-left-nav > div > nav:nth-child(3) > a'
+        );
+        this.subNewOrderBtn = Selector(
+            '.align-items-center > div:nth-child(4) > button'
+        );
         this.subMeds = Selector(
             'patient-left-nav > div > nav:nth-child(4) > a > div'
         );
@@ -155,17 +164,31 @@ class PatientNav {
             '#info-div > div:nth-child(1) > div.d-flex.align-items-center > i'
         );
         // Patient Demographics / Create Patient
-        this.firstNameCreate = Selector('.modal-body > div > form > div:nth-child(1) > div:nth-child(1) > input');
-        this.lastNameCreate = Selector('.modal-body > div > form > div:nth-child(1) > div:nth-child(2) > input');
+        this.firstNameCreate = Selector(
+            '.modal-body > div > form > div:nth-child(1) > div:nth-child(1) > input'
+        );
+        this.lastNameCreate = Selector(
+            '.modal-body > div > form > div:nth-child(1) > div:nth-child(2) > input'
+        );
         this.calendarCreate = Selector('#birthDate > input');
         this.preferredName = Selector('#preferredName');
         this.occupation = Selector('#occupation');
         this.weight = Selector('#inputWeight');
-        this.height = Selector('patient-height > div > div.ng-star-inserted > up-down-arrows-container > div > input');
-        this.metricWeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(1);
-        this.metricHeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(2);
-        this.imperialWeight = Selector('.icon_Circle.disabled-radio.ng-star-inserted').nth(1);
-        this.imperialHeight = Selector('.icon_Circle.disabled-radio.ng-star-inserted').nth(2);
+        this.height = Selector(
+            'patient-height > div > div.ng-star-inserted > up-down-arrows-container > div > input'
+        );
+        this.metricWeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(
+            1
+        );
+        this.metricHeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(
+            2
+        );
+        this.imperialWeight = Selector(
+            '.icon_Circle.disabled-radio.ng-star-inserted'
+        ).nth(1);
+        this.imperialHeight = Selector(
+            '.icon_Circle.disabled-radio.ng-star-inserted'
+        ).nth(2);
         this.addressLabel = Selector('.blue-label-color.fs-18').nth(1);
         this.telephoneLabel = Selector('.blue-label-color.fs-18').nth(2);
         this.emailLabel = Selector('.blue-label-color.fs-18').nth(3);
@@ -176,35 +199,61 @@ class PatientNav {
         this.addNewIdBtn = Selector('#addNewidBtn > i');
         // Add Patient Address
         this.homeTagSel = Selector('#gender');
-        this.homeTag = Selector('.dropdown.cursor-pointer.pt-0.ng-pristine.ng-valid.ng-touched');
+        this.homeTag = Selector(
+            '.dropdown.cursor-pointer.pt-0.ng-pristine.ng-valid.ng-touched'
+        );
         this.homeOpt = Selector('#gender > option:nth-child(1)');
         this.workOpt = Selector('#gender > option:nth-child(2)');
         this.otherOpt = Selector('#gender > option:nth-child(3)');
-        this.addressInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(1) > input');
-        this.addressTwoInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(2) > input');
-        this.cityInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(3) > div:nth-child(1) > input');
-        this.provinceSel = Selector('mat-dialog-container#mat-dialog-7 div:nth-child(2) > label > select#gender');
+        this.addressInput = Selector(
+            '#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(1) > input'
+        );
+        this.addressTwoInput = Selector(
+            '#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(2) > input'
+        );
+        this.cityInput = Selector(
+            '#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(3) > div:nth-child(1) > input'
+        );
+        this.provinceSel = Selector(
+            'mat-dialog-container#mat-dialog-7 div:nth-child(2) > label > select#gender'
+        );
         this.provinceOpt = Selector('#gender > option:nth-child(1)');
         this.provinceAB = Selector('option').filter('[value="AB"]');
         this.provinceBC = Selector('option').filter('[value="BC"]');
         this.postalCode = Selector('#inputZip');
-        this.okAddPatAddressBtn = Selector('.btn.close-btn.btn-sm.ok-close-btn').withText('OK');
-        this.cancelAddPatAddressBtn = Selector('.btn.close-btn.btn-sm.ok-close-btn').withText('Cancel');
-        this.countryAdd = Selector('form > div:nth-child(4) > div:nth-child(2) > div.gray-text.pt-4.mt-1.border-bottom');
+        this.okAddPatAddressBtn = Selector(
+            '.btn.close-btn.btn-sm.ok-close-btn'
+        ).withText('OK');
+        this.cancelAddPatAddressBtn = Selector(
+            '.btn.close-btn.btn-sm.ok-close-btn'
+        ).withText('Cancel');
+        this.countryAdd = Selector(
+            'form > div:nth-child(4) > div:nth-child(2) > div.gray-text.pt-4.mt-1.border-bottom'
+        );
         this.checkReview = Selector('#consentCheck');
-        this.consentText = Selector('form > div:nth-child(6) > div > div > label');
-        this.createPatDisabled = Selector('#mat-dialog-0 > app-create-patient-modal > div > div.d-flex.modal-footer.justify-content-end.p-2 > button.btn.btn-success.btn-sm.mr-2').hasAttribute('disabled');
+        this.consentText = Selector(
+            'form > div:nth-child(6) > div > div > label'
+        );
+        this.createPatDisabled = Selector(
+            '#mat-dialog-0 > app-create-patient-modal > div > div.d-flex.modal-footer.justify-content-end.p-2 > button.btn.btn-success.btn-sm.mr-2'
+        ).hasAttribute('disabled');
         // Add Telephone
         this.phoneTag = Selector('#tag');
         this.phoneInput = Selector('#telephone');
-        this.okPhoneBtn = Selector('telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(1)'); //phone Selector('.btn.close-btn.btn-sm').nth(1)
-        this.cancelPhoneBtn = Selector('telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(2)'); // Cancel //phone Selector('.btn.close-btn.btn-sm').nth(2)
+        this.okPhoneBtn = Selector(
+            'telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(1)'
+        ); //phone Selector('.btn.close-btn.btn-sm').nth(1)
+        this.cancelPhoneBtn = Selector(
+            'telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(2)'
+        ); // Cancel //phone Selector('.btn.close-btn.btn-sm').nth(2)
         //Add Email
         this.emailTag = Selector('#tag');
         this.emailInput = Selector('#inputEmail');
         this.okEmailBtn = Selector('.btn.close-btn.btn-sm').nth(1);
         this.cancelEmailBtn = Selector('.btn.close-btn.btn-sm').nth(2);
-        this.emailTooltipTxt = Selector('[ng-reflect-tooltip="Please enter a valid email add"]');
+        this.emailTooltipTxt = Selector(
+            '[ng-reflect-tooltip="Please enter a valid email add"]'
+        );
         this.emailSaved = Selector('#emailList .text-primary.ng-star-inserted');
         // Add IDENTIFICATION
         this.provTag = Selector('#tag');
@@ -212,22 +261,32 @@ class PatientNav {
         this.okIDBtn = Selector('.btn.close-btn.btn-sm').nth(1);
         this.cancelIDBtn = Selector('.btn.close-btn.btn-sm').nth(2);
         this.savedIDTxt = Selector('.btn.btn-sm.btn-link.pl-0.text-left');
-        this.createPatEnabled = Selector('button.btn.btn-success.btn-sm.mr-2').withText('CREATE PATIENT');
+        this.createPatEnabled = Selector(
+            'button.btn.btn-success.btn-sm.mr-2'
+        ).withText('CREATE PATIENT');
         // CONSENT
         this.consentCheckbox = Selector('#consentCheck');
-        this.consentText = Selector('form > div:nth-child(6) > div > div > label');
+        this.consentText = Selector(
+            'form > div:nth-child(6) > div > div > label'
+        );
         //UPDATE DEMOGRAPHICS
-        this.updatePatientDemographicTitle = Selector('.h5.blue-label-color.mx-1.my-2.py-2.col-md-12');
-        this.updateFirstName = Selector('#mat-dialog-0 div:nth-child(1) > div:nth-child(1) > input');
-        this.updateLastName = Selector('#mat-dialog-0 div:nth-child(1) > div:nth-child(2) > input');
+        this.updatePatientDemographicTitle = Selector(
+            '.h5.blue-label-color.mx-1.my-2.py-2.col-md-12'
+        );
+        this.updateFirstName = Selector(
+            '#mat-dialog-0 div:nth-child(1) > div:nth-child(1) > input'
+        );
+        this.updateLastName = Selector(
+            '#mat-dialog-0 div:nth-child(1) > div:nth-child(2) > input'
+        );
         this.updateCalendarInput = Selector('div#birthDate > input'); // Format DD-MMM-YYYY
         this.updatePickCalendr = Selector('div#birthDate i');
         this.updatePreferredName = Selector('input#preferredName');
         this.updateOccupation = Selector('input#occupation');
         this.updateWeight = Selector('input#inputWeight');
-        this.updateWeightUpArrow = Selector('up-down-arrows-container > div > div > div:nth-child(1) > button[type="button"] > i');
-
-
+        this.updateWeightUpArrow = Selector(
+            'up-down-arrows-container > div > div > div:nth-child(1) > button[type="button"] > i'
+        );
     }
 
     // Functions
@@ -296,8 +355,10 @@ class PatientNav {
         );
 
         await t
-            .hover(selectedRow.withText(val)).click(selectedRow.withText(val))
-            .click(selectedRow.withText(val)).click(selectedRow.withText(val));
+            .hover(selectedRow.withText(val))
+            .click(selectedRow.withText(val))
+            .click(selectedRow.withText(val))
+            .click(selectedRow.withText(val));
     }
     /**
      * -- Check all checkboxes
@@ -350,9 +411,12 @@ class PatientNav {
             await t
                 .setNativeDialogHandler(() => true)
                 .hover(el)
-                .expect(sel.exists).ok()
-                .expect(pic.currentSrc).contains('PL_blankpic')
-                .expect(pic.currentSrc).notContains('http://aghujhttp://');
+                .expect(sel.exists)
+                .ok()
+                .expect(pic.currentSrc)
+                .contains('PL_blankpic')
+                .expect(pic.currentSrc)
+                .notContains('http://aghujhttp://');
             i++;
         }
     }

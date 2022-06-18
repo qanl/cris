@@ -1,39 +1,21 @@
-import {
-    baseUrl, password, username,
-} from '../../config.js';
-import Navbar from '../../page-objects/components/navbar.js';
+import { baseUrl, password, username } from '../../config.js';
+// import Navbar from '../../page-objects/components/navbar.js';
 import PatientNav from '../../page-objects/components/patientnav.js';
-import Random from '../../page-objects/components/rand.mo.js';
+import Random from '../../page-objects/components/rand.mo';
 import { waitForAngular } from 'testcafe-angular-selectors';
 import { faker } from '@faker-js/faker';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const { expect } = require('chai');
-const navbar = new Navbar();
-const format = require('date-format');
+// const navbar = new Navbar();
 const patientnav = new PatientNav();
 const random = new Random();
-const dob = random.randomDay + '-' + faker.date.month() + '-' + random.randomYear;
-const patientOne = [
-    'John',
-    'Doe',
-    '10-Mar-1982',
-    'Johnu',
-    '88',
-    'Tester',
-    '188',
-    '232 Empire State',
-    'Blvd',
-    'Vancouver',
-    'BC',
-    'V5D 2A3',
-    '60455555555',
-    'doejohn@gmail.com',
-    '901211111',
-];
+const dob =
+    random.randomDay + '-' + faker.date.month() + '-' + random.randomYear;
+
 
 const userOne = Role(
     `${baseUrl()}/#/home`,
-    async (t) => {
+    async ()=> {
         await t
             .typeText('input[name="loginfmt"]', username)
             .click('[type="submit"]')
@@ -48,14 +30,14 @@ fixture`E2E - C/R/I/S Create Patients`
     .before(async () => {
         console.log('Test begins');
     })
-    .beforeEach(async (t) => {
+    .beforeEach(async ()=> {
         await t.maximizeWindow();
         await t.useRole(userOne);
         t.fixtureCtx.firstName = random.FirstName;
         t.fixtureCtx.lastName = random.LastName;
         t.fixtureCtx.datePast = random.DatePast;
     })
-    .afterEach(async (t) => {
+    .afterEach(async ()=> {
         await t.maximizeWindow();
     })
     .disablePageCaching.after(async () => {
@@ -68,7 +50,7 @@ test('Verify user is logged in CRIS', async () => {
     const userNm = await Selector('body > app-root > div > top-nav > nav > div')
         .innerText;
 
-    expect(userNm).to.equal('Nicolae Lapusta');
+    expect(userNm).to.equal('Nicolae Lapuste (Gmail)');
 });
 
 test('Verify user can select the Patients menu option', async () => {
@@ -81,7 +63,7 @@ test('Verify user can select a patient record from the Patients menu option', as
     await t.switchToMainWindow();
 
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'LAR'); // select patient name starting with 'BAC'
+    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'DOE'); // select patient name starting with 'BAC'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
@@ -90,10 +72,10 @@ test('Verify user can select a patient record from the Patients menu option', as
         .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
         .expect(patientnav.subLastName.innerText)
-        .contains('LAR', 'oops!');
+        .contains('DOE', 'oops!');
 });
 
-test.only('Verify Create Patient', async () => {
+test('Verify Create Patient', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -102,14 +84,14 @@ test.only('Verify Create Patient', async () => {
 
     await t.click(patientnav.patBtn);
     await t.wait(1000);
-    await t.click(patientnav.privacyBtnActive);
+    // await t.click(patientnav.privacyBtnActive);
     await t.expect(getLocation()).contains('/#/patients');
     /** Open Create Patient modal menu */
     await t
         .expect(patientnav.createPatientBtn.exists)
         .ok('Create Patient button is missing!');
     await t.click(patientnav.createPatientBtn);
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
 
     /**Add content to Create Patient screen */
@@ -141,7 +123,7 @@ test.only('Verify Create Patient', async () => {
         .click(Selector('option').filter('[value="F"]'));
 
     /**Add New Address to the patient */
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
     await t
         .typeText(patientnav.addressInput, random.randomStreetAddress, {
@@ -163,7 +145,7 @@ test.only('Verify Create Patient', async () => {
 
     /** Add telefone */
     await t.click(patientnav.addNewTelBtn);
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
     await t
         .typeText(patientnav.phoneInput, random.randomPhone, {
@@ -182,20 +164,19 @@ test.only('Verify Create Patient', async () => {
     //         replace: true,
     //         paste: true,
     //     })
-    //     .click(patientnav.okEmailBtn);
 
-    // await t.switchToMainWindow();
     /**Add new ID */
     await t.click(patientnav.addNewIdBtn);
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
 
     await t
         .click('#tag')
-        // .pressKey("down down enter")
-        // .click(Selector('option').filter('[value="British Columbia Provincial Health Number"]'))
-        // .click(Selector('option').filter('[value="Quebec Provincial Health Number"]'))
-        .click(Selector('option').filter('[value="Ontario Provincial Health Number"]'))
+        .click(
+            Selector('option').filter(
+                '[value="Ontario Provincial Health Number"]'
+            )
+        )
         .typeText(patientnav.idNumberInput, random.randomNumber.toString(), {
             replace: true,
             paste:   true,
@@ -227,25 +208,25 @@ test('Verify the Patient Update Demographics for an existing patient', async () 
     await t.click(patientnav.privacyBtnActive);
     await t.expect(getLocation()).contains('/#/patients');
 
-    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'LAR');
-    await waitForAngular();
+    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'DOE');
+    // await waitForAngular();
     await t
         .expect(patientnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
         .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
         .expect(patientnav.subLastName.innerText)
-        .contains('LAR', 'oops!');
+        .contains('DOE', 'oops!');
 
-    await waitForAngular();
+    // await waitForAngular();
     await t.switchToMainWindow();
     const patProfile = await Selector('span')
-        .withExactText('Patient: LARUSSO, Kim')
+        .withExactText('Patient: DOE, Georgina')
         .filterVisible();
 
     await t.hover(patProfile);
     await t.hover(patientnav.subPatTitle);
-    await t.expect(patientnav.subPatTitle.innerText).contains('LARUSSO, Kim');
+    await t.expect(patientnav.subPatTitle.innerText).contains('DOE, Georgina');
     await t.click(patientnav.pencilDemographic);
     await t.setNativeDialogHandler(() => true);
     await t

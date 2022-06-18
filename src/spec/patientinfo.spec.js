@@ -9,7 +9,7 @@ const patientnav = new PatientNav();
 
 const userOne = Role(
     `${baseUrl()}/#/home`,
-    async ()=> {
+    async () => {
         await t
             .typeText('input[name="loginfmt"]', username)
             .click('[type="submit"]')
@@ -24,11 +24,11 @@ fixture`E2E - C/R/I/S Patients tests`
     .before(async () => {
         console.log('Test begins');
     })
-    .beforeEach(async ()=> {
+    .beforeEach(async () => {
         // await t.maximizeWindow();
         await t.useRole(userOne);
     })
-    .afterEach(async ()=> {
+    .afterEach(async () => {
         // await t.maximizeWindow();
     })
     .disablePageCaching.after(async () => {
@@ -42,7 +42,7 @@ test('Verify user is logged in CRIS', async () => {
     const userNm = await Selector('body > app-root > div > top-nav > nav > div')
         .innerText;
 
-    expect(userNm).to.equal('Nic Lapuste');
+    expect(userNm).to.equal('Nicolae Lapusta');
 });
 
 test('Verify user can select the Patients menu option', async () => {

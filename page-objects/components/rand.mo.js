@@ -1,5 +1,5 @@
 const faker = require('faker');
-
+// import { faker } from 'faker';
 // Module is used to generate random data for tests. Faker library can be used on its own, without this module.
 
 faker.locale = 'en_CA';
@@ -37,7 +37,8 @@ export default class Random {
         this.randomCity = faker.address.city();
         this.randomCountry = faker.address.country();
         this.randomZip = faker.address.zipCode();
-        this.randomPerson = faker.name.firstName() + ' ' + faker.name.lastName();
+        this.randomPerson =
+            faker.name.firstName() + ' ' + faker.name.lastName();
         this.randomNr = faker.datatype.number();
         this.randomDirection = faker.address.cardinalDirection();
         this.randomPhone = faker.phone.phoneNumber();
@@ -48,7 +49,10 @@ export default class Random {
         this.randomImgUrl = faker.image.imageUrl();
         this.randomCard = faker.helpers.createCard();
         this.randomUri = faker.image.dataUri();
-        this.randomNumber = faker.datatype.number({ min: 100000000, max: 999999999 });
+        this.randomNumber = faker.datatype.number({
+            min: 100000000,
+            max: 999999999,
+        });
         this.randomImageUrl = faker.internet.url();
         this.blurb = faker.lorem.paragraphs();
         this.randomUserName = faker.internet.userName();

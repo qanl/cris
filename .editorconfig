@@ -11,5 +11,5 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 4
 
-[{package.json,.eslintrc,.babelrc,.env,.eslintrc.json,test_config.json}]
+[{package.json,.eslintrc,.env,.eslintrc.js,.testcaferc.json}]
 indent_size = 2

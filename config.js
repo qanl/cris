@@ -21,10 +21,12 @@ export const baseUrl = () => {
     if (environment === 'CANN') return 'https://crisrec-web.azurewebsites.net';
 
     if (environment === 'ADM')
-        return 'https://cris-admin-qa.36eighttechnologies.com';
+        return 'https://cris-admin-qa.36eighttechnologies.com/#/';
 
     return environment; // for passing custom url
 };
 
-export const username = ' ww';
-export const password = ' ser';
+// export const username = 'nic36eight@gmail.com';
+// export const password = 'Churchill89!';
+export const username = 'nlapuste@36eighttechnologies.com';
+export const password = 'Biserica89!';

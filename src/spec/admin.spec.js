@@ -1,36 +1,34 @@
-import {
-    baseUrl, pwd, user,
-} from '../../config.js';
+import { baseUrl, password, username } from '../../config.js';
 
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const { expect } = require('chai');
 
-const endPoint = [
-    '/consultation-reminders',
-    '/daily-sales',
-    '/orders',
-    '/patients',
-    '/patients/365/information',
-    '/patients/365/medical-authorizations',
-    '/patients/365/orders',
-    '/patients/365/medications',
-    '/patients/365/consultations',
-    '/patients/365/notes',
-    '/patients/365/attachments',
-    '/hcps',
-    '/medical-authorizations',
-    '/products',
-    '/licensed-sellers',
-    '/virtual-care',
-];
+// const endPoint = [
+//     '/consultation-reminders',
+//     '/daily-sales',
+//     '/orders',
+//     '/patients',
+//     '/patients/365/information',
+//     '/patients/365/medical-authorizations',
+//     '/patients/365/orders',
+//     '/patients/365/medications',
+//     '/patients/365/consultations',
+//     '/patients/365/notes',
+//     '/patients/365/attachments',
+//     '/hcps',
+//     '/medical-authorizations',
+//     '/products',
+//     '/licensed-sellers',
+//     '/virtual-care',
+// ];
 
 const userOne = Role(
     `${baseUrl()}/#`,
-    async (t) => {
+    async () => {
         await t
-            .typeText('input[name="loginfmt"]', user)
+            .typeText('input[name="loginfmt"]', username)
             .click('[type="submit"]')
-            .typeText('input[name="passwd"]', pwd)
+            .typeText('input[name="passwd"]', password)
             .click('[type="submit"]');
     },
     { preserveUrl: true }
@@ -72,42 +70,63 @@ const userOne = Role(
 // }
 
 fixture`E2E - C/R/I/S Admin Portal Elements`
-    .page(`${baseUrl()}/#/`)
+    .page(`${baseUrl()}`)
     .before(async () => {
         console.log('Test begins');
     })
-    .beforeEach(async (t) => {
+    .beforeEach(async () => {
         await t.maximizeWindow();
         await t.useRole(userOne);
     })
-    .afterEach(async (t) => {
+    .afterEach(async () => {
         await t.maximizeWindow();
     })
     .after(async () => {
         console.log('Test is Done!');
     });
 
-test.only('Log in CRIS Admin Portal and verify the logo and home page', async () => {
+test('Log in CRIS Admin Portal and verify the logo and home page', async () => {
+    expect(
+        Selector('.top_nav > topnav-bar > div > div.align-self-center > h3')
+            .innerText
+    ).contains('QA Environment');
+    expect(Selector('#home > h1 > b').innerText).contains(
+        'Welcome to the CRIS Admin Portal.'
+    );
+    expect(
+        Selector(
+            'div.d-flex.flex-column.pl-4.portal-header > div.text-white.font-weight-bold'
+        ).innerText
+    ).contains('CRIS Admin Portal');
+    expect(Selector('#pharmacyLi').innerText).contains('Pharmacy');
+    expect(Selector('#ctl00_XXX').exists).ok('Logo is missing');
+    expect(
+        Selector(
+            'div.d-flex.flex-column.pl-4.portal-header > div:nth-child(1) > h2'
+        )
+    ).to.contain('CRIS');
+    expect(
+        Selector(
+            'div.d-flex.flex-column.pl-4.portal-header > div.text-white.font-weight-bold'
+        )
+    ).to.contain('Admin Portal');
 
+    await t.click(Selector('#pharmacyLi')).wait(1000);
 
-    expect(topHeader).to.contain('QA Environment');
-    expect(welcomePortal).to.contain('Welcome to the CRIS Admin Portal.');
-    expect(pharmacyBtn).to.contain('Pharmacy');
-    expect(logo.exists).ok('Logo is missing');
-    expect(logoTxt).to.contain('CRIS');
-    expect(adminPortal).to.contain('Admin Portal');
-
-    await t.click(pharmacyMenu).wait(1000);
-
-    expect(notificationMenu).to.contain('#/notifications');
-    expect(manageProducts).to.contain('#/products');
+    expect(
+        Selector('#sidebar-menu > div > ul > li > ul > li:nth-child(1) > a')
+    ).to.contain('#/notifications');
+    expect(
+        Selector('#sidebar-menu > div > ul > li > ul > li:nth-child(2) > a')
+    ).to.contain('#/products');
 });
 
 test('Verify user is logged in CRIS', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
-    const userNm = await Selector('body > app-root > div > top-nav > nav > div').innerText;
+    const userNm = await Selector('body > app-root > div > top-nav > nav > div')
+        .innerText;
 
     expect(userNm).to.equal('Nicolae Lapuste');
 });
@@ -150,7 +169,7 @@ test('Verify going to the wrong URL, should redirect the user to 404 page)', asy
     const crisNotif = await Selector('div.section-header').nth(1).innerText;
 
     expect(crisNotif).to.equal('CRIS Notifications');
-    const daylySales = await Selector('a.report-link').nth(1);
+    // const daylySales = await Selector('a.report-link').nth(1);
 
     const getLocation = ClientFunction(() => document.location.href);
 

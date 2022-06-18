@@ -13,12 +13,11 @@ import { waitForAngular } from 'testcafe-angular-selectors';
  * @param {*} imgSelector
  * @returns
  */
-const selectImg = async imgSelector => {
+const selectImg = async (imgSelector) => {
     /** @type { SelectorAPI & HTMLImageElement} */
     const result = await /** @type { ? } */ Selector(
         imgSelector
     ).addCustomDOMProperties({
-
         complete: (/** @type {HTMLImageElement} */ el) => {
             return el.complete;
         },
@@ -182,7 +181,9 @@ class Navbar {
                 .expect(pic.currentSrc)
                 .contains('PL_blankpic')
                 .expect(pic.currentSrc)
-                .notContains('http://atropos/EmployeeDirectory/EmployeePics/http://');
+                .notContains(
+                    'http://atropos/EmployeeDirectory/EmployeePics/http://'
+                );
             i++;
         }
     }
