@@ -8,9 +8,9 @@ import { waitForAngular } from 'testcafe-angular-selectors';
 // Call action in code:
 // patientnav.search('online bank')
 
-const browserScroll = ClientFunction(function () {
-    window.scrollBy(0, 3000);
-});
+// const browserScroll = ClientFunction(function () {
+//     window.scrollBy(0, 3000);
+// });
 
 /**
  *  -- Select Image
