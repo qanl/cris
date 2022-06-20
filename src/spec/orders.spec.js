@@ -122,7 +122,7 @@ test.only('Verify New Order', async () => {
         .notOk('Create Patient button is present!');
 
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'COOMBES'); // select patient name starting with 'A'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'WENGER'); // select patient name starting with 'A'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
@@ -131,7 +131,7 @@ test.only('Verify New Order', async () => {
         .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
         .expect(patientnav.subLastName.innerText)
-        .contains('COOMBES', 'oops!');
+        .contains('WENGER', 'oops!');
 
     const inputFirstName = await Selector(
         'div:nth-child(2) > div:nth-child(1) > div.pl-1.overflow'
@@ -234,7 +234,7 @@ test.only('Verify New Order', async () => {
         await t.click(mX);
     await waitForAngular();
     await t.setNativeDialogHandler(() => true);
-    await t.wait(1000);
+    await t.wait(2000);
     /**Click Next to advance to preview Patient Information. Here you can modify Mx condition and Health Issue */
 
     const selMx = Selector('div.col.text-right.d-flex.justify-content-end.align-items-center > button:nth-child(3) > div').withExactText('S Select Mx').filterVisible();
@@ -247,8 +247,22 @@ test.only('Verify New Order', async () => {
     await t.click(
         'mat-dialog-container#mat-dialog-0 button[type="button"].btn.mx-2.btn-primary.ng-star-inserted > span'
     );
+
     await t.setNativeDialogHandler(() => true);
     await t.wait(1000);
+    await waitForAngular();
+    /** Verify if the Weight field is empty */
+    const weightInput = Selector('#mat-dialog-0 > create-order-modal > div > div > div.modal-body.p-0 > div > div.col.mx-auto.cris-max-width > div:nth-child(3) > cannabis-preferences > div > div > div:nth-child(1) > div.row.align-items-center.w-60.text-secondary.py-2 > div.col-4 > div > div > div > div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt');
+
+    if (await weightInput.exists && await weightInput.visible) {
+        await t
+            .setNativeDialogHandler(() => true)
+            .click(weightInput)
+            .typeText('#inputWeight', '94', { paste: true, replace: true })
+            .click('app-patient-weight-modal > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(1)');
+    }
+    else await t.expect(weightInput.exists).notOk('The weight has been set already!');
+
     /** Click to select the Health Issue radio button */
     await t.click(Selector('div:nth-child(5) > div > span > span.numberLayer'));
     /**Click to set Patient Preferences Yes, No,No,NO */

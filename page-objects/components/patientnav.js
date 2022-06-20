@@ -1,4 +1,4 @@
-import { Selector, t } from 'testcafe';
+import { ClientFunction, Selector, t } from 'testcafe';
 import { waitForAngular } from 'testcafe-angular-selectors';
 // Import in tests like this:
 // --------------------------
@@ -7,6 +7,10 @@ import { waitForAngular } from 'testcafe-angular-selectors';
 // Reference with 'patientnav.homeOption'
 // Call action in code:
 // patientnav.search('online bank')
+
+const browserScroll = ClientFunction(function () {
+    window.scrollBy(0, 3000);
+});
 
 /**
  *  -- Select Image
@@ -290,6 +294,17 @@ class PatientNav {
     }
 
     // Functions
+
+
+    /**
+ * getElementAttribute e, a parameters
+ */
+    async getElementAttribute (e, a) {
+        const elementattribute = Selector(e).getAttribute(a);
+
+        return elementattribute;
+    }
+
     /**
      *  -- Search
      * @param {*} text
@@ -339,12 +354,23 @@ class PatientNav {
             .click(this.homeOption.withText(text));
     }
     /**
-     * -- Select a row
+     * -- Select a Patient row
      * @param {*} sel
      * @param {*} val
      */
-    async selectFld (sel, val) {
+    async selectPatRow (sel, val) {
         await waitForAngular();
+        await t.setNativeDialogHandler(() => true);
+        const filterPatName = Selector('igx-grid-header-group:nth-child(1) > igx-grid-filtering-cell > igx-chips-area  div > div.igx-chip__content');
+
+        if (await filterPatName.exists && await filterPatName.visible) {
+            await t
+                .hover(filterPatName)
+                .click(filterPatName)
+                .typeText(Selector('input.igx-input-group__input'), val, { speed: 0.05 })
+                .pressKey('enter');
+        }
+
         const selectedRow = Selector(sel).addCustomMethods(
             {
                 getCell: (el, idx) => {
@@ -355,6 +381,36 @@ class PatientNav {
         );
 
         await t
+            .setNativeDialogHandler(() => true)
+            .hover(selectedRow.withText(val))
+            .click(selectedRow.withText(val))
+            .click(selectedRow.withText(val))
+            .click(selectedRow.withText(val));
+    }
+    /**
+     * -- Select a row
+     * @param {*} sel
+     * @param {*} val
+     */
+    async selectFld (sel, val) {
+        await waitForAngular();
+        // const filterPatName = Selector('div.igx-chip__content.span').nth(0);
+
+        // await t
+        //     .click(filterPatName)
+        //     .typeText('div.igx-input-group__bundle.ng-star-inserted > div > input', val);
+
+        const selectedRow = Selector(sel).addCustomMethods(
+            {
+                getCell: (el, idx) => {
+                    return el[0].querySelectorAll(val)[idx];
+                },
+            },
+            { returnDOMNodes: true }
+        );
+
+        await t
+            .setNativeDialogHandler(() => true)
             .hover(selectedRow.withText(val))
             .click(selectedRow.withText(val))
             .click(selectedRow.withText(val))
