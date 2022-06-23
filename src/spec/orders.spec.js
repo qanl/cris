@@ -2,6 +2,7 @@ import { baseUrl, password, username } from '../../config.js';
 import Navbar from '../../page-objects/components/navbar.js';
 import PatientNav from '../../page-objects/components/patientnav.js';
 import { waitForAngular } from 'testcafe-angular-selectors';
+import xpathSelector from '../utilities/xpath-selector.js';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const navbar = new Navbar();
 const patientnav = new PatientNav();
@@ -116,13 +117,16 @@ test.only('Verify New Order', async () => {
     await t.wait(1000);
     // await t.click(patientnav.privacyBtnActive);
     await t.expect(getLocation()).contains('/#/patients');
+    await t.takeElementScreenshot(Selector('body.ng-tns-0-0'), 'patients/patients_full.png');
     /** Open Create Patient modal menu */
     await t
         .expect(patientnav.createPatientBtn.exists)
         .notOk('Create Patient button is present!');
 
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'WENGER'); // select patient name starting with 'A'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'BRAY'); // select patient name starting with the given name'
+
+    // await t.takeElementScreenshot(Selector('.d-flex.flex-row').nth(1), '/orders/patient_profile.png');
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
@@ -130,8 +134,8 @@ test.only('Verify New Order', async () => {
         .ok('Oops, something went wrong!')
         .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
-        .expect(patientnav.subLastName.innerText)
-        .contains('WENGER', 'oops!');
+        .expect(patientnav.subLastName.innerText).notEql('');
+    // .contains('MOHORUK', 'oops!');
 
     const inputFirstName = await Selector(
         'div:nth-child(2) > div:nth-child(1) > div.pl-1.overflow'
@@ -142,13 +146,15 @@ test.only('Verify New Order', async () => {
 
     console.log(inputFirstName.toString());
     console.log(inputLastName.toString());
+    // await t.takeElementScreenshot('body > app-root > div > div > div:nth-child(2)', '/orders/profile_full.png');
     /** Add New Order */
     await t.click(patientnav.subOrders).click(patientnav.subNewOrderBtn);
-
     await t.setNativeDialogHandler(() => true);
     await t.click('.align-items-center > span.ng-star-inserted > button');
+    await t.takeElementScreenshot(Selector('create-mx-modal > div > div.modal-body.p-0'), '/orders/new_order.png');
     /** Enter Mx */
     await t.setNativeDialogHandler(() => true);
+
     /**
      * Set the Daily Quantity -0.02 Grams/Day
      */
@@ -175,7 +181,7 @@ test.only('Verify New Order', async () => {
     await t.click(
         'mat-dialog-container#mat-dialog-1 div.d-flex.align-items-center > div.input-group-sm > input'
     );
-
+    await t.takeElementScreenshot(Selector('create-mx-modal > div'), '/orders/MXLimitationsUpd.png');
     /** Click Next */
     await t.click(
         'mat-dialog-container#mat-dialog-1 button[type="button"].btn.btn-primary.mx-2 > span'
@@ -184,15 +190,18 @@ test.only('Verify New Order', async () => {
     await t.setNativeDialogHandler(() => true);
 
     /** Select the first Health Practitioner available on the list */
-    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'BADII');
-
+    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'BECOTTE');
+    await t.takeScreenshot('/orders/HCPToMx.png');
     /** Select HCP button on top*/
     await t.click(Selector('.btn.btn-link').withText('Select HCP'));
     await t.setNativeDialogHandler(() => true);
-    // await waitForAngular();
+    await waitForAngular();
     await t.hover(
         'hcp-details > div > div > div:nth-child(1) > div:nth-child(1) > div.overflow'
     );
+
+    // await t.click(patientnav.enterMxNextBtn);
+
     const btnNext = Selector(
         'create-mx-modal > div > div.d-flex.modal-footer.justify-content-end.p-2.gray-modal-footer-bg-color > button.btn.btn-primary.mx-2 > span'
     )
@@ -203,13 +212,15 @@ test.only('Verify New Order', async () => {
     if (btnNext.exists && btnNext.visible) await t.hover(btnNext);
     await t.click(btnNext);
 
+
     // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
     /**Select Health Condition Arthritis with Mild Pain*/
     await patientnav.selectFld(
         'igx-grid-cell > div',
-        'Arthritis (Osteoarthritis Inflammation with Mild Pain)'
+        'Arthritis (Rheumatoid Arthritis Inflammation with Mild Pain)'
     );
+    await t.takeScreenshot('/orders/HealthIssueMx.png');
     /**Click Create Mx */
     await t.click(
         Selector(
@@ -223,100 +234,55 @@ test.only('Verify New Order', async () => {
     await waitForAngular();
     await patientnav.selectFld(
         'igx-grid-cell:nth-child(6) > div > div.break-word.overflow',
-        'Badii, Maziar Dr.'
+        'Becotte, Gregory W Dr.'
     );
     await t.setNativeDialogHandler(() => true);
     await waitForAngular();
-    /** Click Select Mx the last item -1 */
-    const mX = Selector('igx-grid-cell:nth-child(6) > div > div.break-word.overflow').withExactText('Badii, Maziar Dr.').nth(-1);
+    // /** Click Select Mx the last item -1 */
+    await t.takeElementScreenshot('create-order-modal.ng-star-inserted', '/orders/SelectMx.png');
+    const mX = Selector('igx-display-container > igx-grid-cell:nth-child(6) > div > div.break-word.overflow').withExactText('Becotte, Gregory W Dr.').nth(1);
 
     if (await mX.exists && await mX.visible)
-        await t.click(mX);
+        await t.click(mX.filterVisible());
     await waitForAngular();
     await t.setNativeDialogHandler(() => true);
-    await t.wait(2000);
+
     /**Click Next to advance to preview Patient Information. Here you can modify Mx condition and Health Issue */
 
     const selMx = Selector('div.col.text-right.d-flex.justify-content-end.align-items-center > button:nth-child(3) > div').withExactText('S Select Mx').filterVisible();
 
     if (await selMx.exists && await selMx.visible)
-        await t.click(selMx);
-    await t.setNativeDialogHandler(() => true);
+        await t.doubleClick(selMx);
+    await waitForAngular();
     await t.wait(1000);
     /** Click Next to advance after Confirming Patient and HCP info */
-    await t.click(
-        'mat-dialog-container#mat-dialog-0 button[type="button"].btn.mx-2.btn-primary.ng-star-inserted > span'
-    );
 
-    await t.setNativeDialogHandler(() => true);
-    await t.wait(1000);
+    await t.click(patientnav.newOrderNext);
+
     await waitForAngular();
+    await t.wait(2000);
+    await t.setNativeDialogHandler(() => true);
     /** Verify if the Weight field is empty */
-    const weightInput = Selector('#mat-dialog-0 > create-order-modal > div > div > div.modal-body.p-0 > div > div.col.mx-auto.cris-max-width > div:nth-child(3) > cannabis-preferences > div > div > div:nth-child(1) > div.row.align-items-center.w-60.text-secondary.py-2 > div.col-4 > div > div > div > div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt');
 
-    if (await weightInput.exists && await weightInput.visible) {
-        await t
-            .setNativeDialogHandler(() => true)
-            .click(weightInput)
-            .typeText('#inputWeight', '94', { paste: true, replace: true })
-            .click('app-patient-weight-modal > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(1)');
-    }
-    else await t.expect(weightInput.exists).notOk('The weight has been set already!');
+    await patientnav.fillHealthForm('75', 'igx-grid-cell:nth-child(3) > div > div:nth-child(1)', 'Oil');
+    await t.takeScreenshot('/orders/ReviewOrder.png');
 
-    /** Click to select the Health Issue radio button */
-    await t.click(Selector('div:nth-child(5) > div > span > span.numberLayer'));
-    /**Click to set Patient Preferences Yes, No,No,NO */
-    await t.click(
-        'div:nth-child(2) > div.d-flex.flex-column.pt-3.align-items-start.pl-2.border-left.pb-2 > div.d-flex.flex-row > div:nth-child(2) > check-mark-radio-button > div > div.d-flex.flex-row.align-items-center.justify-content-center > i'
-    );
-    await t.click(
-        'div:nth-child(3) > div.d-flex.flex-column.pt-3.align-items-start.pl-2.border-left.pb-2 > div.d-flex.flex-row > div:nth-child(1) > check-mark-radio-button > div > div.d-flex.flex-row.align-items-center.justify-content-center > i'
-    );
-    await t.click(
-        'div:nth-child(4) > div.d-flex.flex-column.pt-3.align-items-start.pl-2.border-left.pb-2 > div.d-flex.flex-row > div:nth-child(1) > check-mark-radio-button > div > div.d-flex.flex-row.align-items-center.justify-content-center > i'
-    );
-    await t.click(
-        'div:nth-child(5) > div.d-flex.flex-column.pt-3.align-items-start.pl-2.border-left.false > div.d-flex.flex-row > div:nth-child(1) > check-mark-radio-button > div > div.d-flex.flex-row.align-items-center.justify-content-center > i'
-    );
-    /** Click Next -> button */
-    await t.click(
-        '.modal-footer.justify-content-end.p-2.gray-modal-footer-bg-color > span > button.btn.mx-2.btn-primary.ng-star-inserted > span'
-    );
-    await t.setNativeDialogHandler(() => true);
-
-    await waitForAngular();
-    await t.wait(2000);
-    /** Click to select a Recommended Product */
-    await patientnav.selectFld(
-        'igx-grid-cell:nth-child(3) > div > div:nth-child(1)',
-        'Oil'
-    );
-    await waitForAngular();
-    const btnAddToOrder = Selector(
-        '.modal-body.p-1 > product-list > div > div:nth-child(3) > div.col.text-right.d-flex.justify-content-end > div > span > button'
-    ).withText('Add to Order');
-
-    if (btnAddToOrder.exists && btnAddToOrder.visible)
-        await t.hover(btnAddToOrder);
-    await t.click(btnAddToOrder);
-
-    // await t.setNativeDialogHandler(() => true);
-    await waitForAngular();
-    await t.wait(2000);
-
-    await t.click('.text-center.w-25 > button.btn.btn-sm.btn-link.pb-0 > i');
     /**Click Review */
     await t.click(
         '.gray-modal-footer-bg-color > span > button.btn.mx-2.purple-btn.ng-star-inserted > div > span'
     );
     await waitForAngular();
+    await t.setNativeDialogHandler(() => true);
     /** Click Place Order */
+    await t.takeScreenshot('/orders/PlaceOrder.png');
     await t.click(
         '.gray-modal-footer-bg-color > span:nth-child(3) > button.btn.mx-2.ng-star-inserted.close-btn > div > span'
     );
     await waitForAngular();
+    await t.setNativeDialogHandler(() => true);
+    await t.takeScreenshot('/orders/DefaultScheduleOrder.png');
     await t
-        .wait(1000)
+        .wait(2000)
         .click(
             '.gray-modal-footer-bg-color > span:nth-child(3) > button.btn.mx-2.ng-star-inserted.purple-btn > span'
         );

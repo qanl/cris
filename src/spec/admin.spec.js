@@ -3,25 +3,6 @@ import { baseUrl, password, username } from '../../config.js';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const { expect } = require('chai');
 
-// const endPoint = [
-//     '/consultation-reminders',
-//     '/daily-sales',
-//     '/orders',
-//     '/patients',
-//     '/patients/365/information',
-//     '/patients/365/medical-authorizations',
-//     '/patients/365/orders',
-//     '/patients/365/medications',
-//     '/patients/365/consultations',
-//     '/patients/365/notes',
-//     '/patients/365/attachments',
-//     '/hcps',
-//     '/medical-authorizations',
-//     '/products',
-//     '/licensed-sellers',
-//     '/virtual-care',
-// ];
-
 const userOne = Role(
     `${baseUrl()}/#`,
     async () => {
@@ -33,41 +14,7 @@ const userOne = Role(
     },
     { preserveUrl: true }
 );
-//
-//
-// const ct = endPoint.length;
-//
-// for (let i = 0; i < ct; i++) {
-//     const title = endPoint[i];
-//
-//     // console.log(title);
-//     const userTwo = Role('https://cris-web-int.36eighttechnologies.com'+`${title}`, async t => {
-//             await t
-//                 .typeText('input[name="loginfmt"]', user)
-//                 .click( '[type="submit"]')
-//                 .typeText('input[name="passwd"]', pwd)
-//                 .click( '[type="submit"]');
-//         }, { preserveUrl: true }
-//     );
-//
-// fixture `E2E - C/R/I/S End Points`
-//     .page(baseUrl()+`${title}`)
-//     // .disablePageCaching;
-//
-//
-//     test('Test ' + `${title}` + ' endPoint on 36eighttechnologies.com site', async t => {
-//         await t.maximizeWindow();
-//         await t.useRole(userTwo);
-//         await t.openWindow(baseUrl()+`${title}`);
-//         await t
-//             .maximizeWindow()
-//             .switchToMainWindow()
-//             .wait(1000);
-//         const getUrl = ClientFunction(() => document.location.href);
-//         await t.expect(getUrl()).contains(title);
-//         await t.closeWindow()
-//     }).disablePageCaching;
-// }
+
 
 fixture`E2E - C/R/I/S Admin Portal Elements`
     .page(`${baseUrl()}`)
@@ -85,7 +32,7 @@ fixture`E2E - C/R/I/S Admin Portal Elements`
         console.log('Test is Done!');
     });
 
-test('Log in CRIS Admin Portal and verify the logo and home page', async () => {
+test.only('Log in CRIS Admin Portal and verify the logo and home page', async () => {
     expect(
         Selector('.top_nav > topnav-bar > div > div.align-self-center > h3')
             .innerText

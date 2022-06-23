@@ -5,6 +5,7 @@
 /.idea/
 /report.xml
 /cypress/
+/.env
 /config.js
 /artifacts
 workspace/code-workspace

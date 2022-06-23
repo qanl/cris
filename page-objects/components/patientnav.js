@@ -1,5 +1,7 @@
-import { ClientFunction, Selector, t } from 'testcafe';
+import { Selector, t } from 'testcafe';
 import { waitForAngular } from 'testcafe-angular-selectors';
+import xpathSelector from '../../src/utilities/xpath-selector';
+// import { xpathSelector } from '../../src/utilities/xpath-selector';
 // Import in tests like this:
 // --------------------------
 // import PatientNav from '../page-objects/components/PatientNav'
@@ -288,11 +290,46 @@ class PatientNav {
         this.updatePreferredName = Selector('input#preferredName');
         this.updateOccupation = Selector('input#occupation');
         this.updateWeight = Selector('input#inputWeight');
-        this.updateWeightUpArrow = Selector(
-            'up-down-arrows-container > div > div > div:nth-child(1) > button[type="button"] > i'
-        );
+        this.updateWeightUpArrow = Selector('up-down-arrows-container > div > div > div:nth-child(1) > button[type="button"] > i');
+        this.enterMxNextBtn = Selector('create-mx-modal.ng-star-inserted>div>div:nth-child(3)>button:nth-child(2)');
+        this.newOrderNext = Selector('.mx-2');
+        this.btnAddToOrder = Selector('.modal-body.p-1 > product-list > div > div:nth-child(3) > div.col.text-right.d-flex.justify-content-end > div > span > button').withText('Add to Order');
+        this.weighthLabel = Selector('div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt').withText('kg').filterVisible();
+        this.inputWeight = Selector('div.d-flex.flex-column.w-100 > div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt');
+        this.inputWeightIC = Selector('.icon_InputForm');
+        this.inputField = Selector('#inputWeight');
+        this.inputOkBtn = Selector('.close-btn[appdebounceclick]');
+        this.healthIssueFive = Selector('.pt-0 > div:nth-of-type(5) .numberLayer');
+        this.healthIssueOne = Selector('.pt-0 > div:nth-of-type(1) .numberLayer');
+        this.healthIssueTen = Selector('div:nth-of-type(10) .numberLayer');
+        this.canUserYes = Selector('div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canUserNo = Selector('div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canForm = Selector('[ng-reflect-klass="regular-text h-100"] div:nth-of-type(3) > div:nth-of-type(3) div:nth-of-type(2) > div:nth-of-type(1) i:nth-of-type(1)');
+        this.canFormNo = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canFormCaps = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canFormCart = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)>div:nth-child(3)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canFormDried = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)>div:nth-child(4)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canFormOil = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)>div:nth-child(5)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canFormPowder = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)>div:nth-child(6)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canFormSpray = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(3)>div:nth-child(2)>div:nth-child(2)>div:nth-child(7)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canTypeNo = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(4)>div:nth-child(2)>div:nth-child(2)>div:nth-child(1)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canTypeIndica = Selector( 'div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(4)>div:nth-child(2)>div:nth-child(2)>div:nth-child(2)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canTypeSativa = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(4)>div:nth-child(2)>div:nth-child(2)>div:nth-child(3)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canTypeHybrid = Selector('div.mx-auto>div:nth-child(3)>cannabis-preferences>div>div>div:nth-child(4)>div:nth-child(4)>div:nth-child(2)>div:nth-child(2)>div:nth-child(4)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canAlertNoPref = Selector('div.false>div:nth-child(2)>div:nth-child(1)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canAlertAlert = Selector( 'div.false>div:nth-child(2)>div:nth-child(2)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canAlertSome = Selector('div.false>div:nth-child(2)>div:nth-child(3)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canAlertDrowsy = Selector('div.false>div:nth-child(2)>div:nth-child(4)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canAlertNot = Selector('div.false>div:nth-child(2)>div:nth-child(5)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.canPreviousBtn = Selector('div.modal-footer>span>button:nth-child(1)');
+        this.canCancelBtn = Selector('button.btn-danger');
+        this.canNextBtn = Selector('i.fa-arrow-right');
+        this.confRequiredPopup = Selector('div.b-style');
+        this.startNewTitration = Selector('[ng-reflect-label="Start a new titration schedule"] .icon_Circle');
+        this.continueTitration = Selector('[ng-reflect-label="Continue titrating from the mo"] .icon_Circle');
+        this.cotinueButton = Selector('.btn-success');
+        this.closeButton = Selector('.close-btn.btn-width');
     }
-
     // Functions
 
 
@@ -367,7 +404,7 @@ class PatientNav {
             await t
                 .hover(filterPatName)
                 .click(filterPatName)
-                .typeText(Selector('input.igx-input-group__input'), val, { speed: 0.05 })
+                .typeText(Selector('input.igx-input-group__input'), val, { speed: 0.07 })
                 .pressKey('enter');
         }
 
@@ -380,11 +417,10 @@ class PatientNav {
             { returnDOMNodes: true }
         );
 
+        await t.takeElementScreenshot('body.ng-tns-0-0', 'patients/patient_filtered.png');
         await t
             .setNativeDialogHandler(() => true)
             .hover(selectedRow.withText(val))
-            .click(selectedRow.withText(val))
-            .click(selectedRow.withText(val))
             .click(selectedRow.withText(val));
     }
     /**
@@ -394,11 +430,6 @@ class PatientNav {
      */
     async selectFld (sel, val) {
         await waitForAngular();
-        // const filterPatName = Selector('div.igx-chip__content.span').nth(0);
-
-        // await t
-        //     .click(filterPatName)
-        //     .typeText('div.igx-input-group__bundle.ng-star-inserted > div > input', val);
 
         const selectedRow = Selector(sel).addCustomMethods(
             {
@@ -412,8 +443,6 @@ class PatientNav {
         await t
             .setNativeDialogHandler(() => true)
             .hover(selectedRow.withText(val))
-            .click(selectedRow.withText(val))
-            .click(selectedRow.withText(val))
             .click(selectedRow.withText(val));
     }
     /**
@@ -476,6 +505,64 @@ class PatientNav {
             i++;
         }
     }
+    /**
+     * Fill Health Issue Form
+     */
+    async fillHealthForm (weight, sel, prod) {
+        await t.setNativeDialogHandler(() => true);
+        await waitForAngular();
+        await t.wait(3000);
+
+
+        const checkWeight = await this.weighthLabel.exists === false ? await t
+            .hover(this.inputWeightIC)
+            .click(this.inputWeightIC)
+            .typeText(this.inputField, weight, { paste: true, replace: true })
+            .click(this.inputOkBtn)
+            : await t
+                .expect(this.weighthLabel.exists).ok('Your patient does not have weight set -check it!!')
+                .wait(500);
+
+        await waitForAngular();
+        await checkWeight;
+
+        /** Click to select the Health Issue radio button */
+        await t.click(this.healthIssueFive);
+        /**Click to set Patient Preferences Yes, No,No,NO */
+        await [this.canFormNo, this.canTypeNo, this.canAlertNoPref].exists && await [this.canFormNo, this.canTypeNo, this.canAlertNoPref].visible;
+        await t.click(this.canUserYes);
+        await t.click(this.canFormNo);
+        await t.click(this.canTypeNo);
+        await t.click(this.canAlertNoPref);
+        await t.takeElementScreenshot('create-order-modal.ng-star-inserted', '/orders/SelectHealthIssue.png');
+        /** Click Next -> button */
+        await t.click(this.canNextBtn);
+        await t.setNativeDialogHandler(() => true);
+
+        await waitForAngular();
+        await t.wait(2000);
+        /** Click to select a Recommended Product */
+        await this.selectFld(sel, prod);
+        await waitForAngular();
+        await t.takeScreenshot('/orders/AddToOrder.png');
+        if (this.btnAddToOrder.exists && this.btnAddToOrder.visible)
+            await t.hover(this.btnAddToOrder);
+        await t.click(this.btnAddToOrder);
+
+        await waitForAngular();
+        await t.wait(2000);
+
+        if (await this.confRequiredPopup.exists && this.confRequiredPopup.visible) {
+            await t.takeScreenshot('/orders/ConfirmTitration.png');
+            await t
+                .setNativeDialogHandler(() => true)
+                .click(this.continueTitration)
+                .click(this.cotinueButton);
+        }
+
+        await t.click('.text-center.w-25 > button.btn.btn-sm.btn-link.pb-0 > i');
+    }
+
 }
 
 export default PatientNav;

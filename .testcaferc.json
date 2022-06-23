@@ -1,5 +1,5 @@
 {
-  "browsers": "chrome",
+  "browsers": "edge",
   "proxyBypass": "*@36eighttechnologies.com",
   "disableHttp2": false,
   "src": ["src/spec/orders.spec.js"],
@@ -9,13 +9,14 @@
     },
     {
       "name": "html",
-      "output": "./artifacts/e2e_17Jun_report.html"
+      "output": "./artifacts/e2e_22_June_report.html"
     }
   ],
   "screenshots": {
-    "path": "./artifacts/screenshots/",
+    "path": "./artifacts/screenshots",
+    "fullPage": false,
     "takeOnFails": true,
-    "pathPattern": "/${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
+    "pathPattern": "${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
   },
   "filter": {
     "testGrep": " "
