@@ -1,4 +1,4 @@
-import { baseUrl, password, username } from '../../config.js';
+import { baseUrl, password, username } from '../../index.js';
 import Navbar from '../../page-objects/components/navbar.js';
 import { waitForAngular } from 'testcafe-angular-selectors';
 const { Selector, Role, ClientFunction, t } = require('testcafe');

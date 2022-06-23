@@ -1,4 +1,4 @@
-import { baseUrl, password, username } from '../../config.js';
+import { baseUrl, password, username } from '../../index.js';
 
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const { expect } = require('chai');

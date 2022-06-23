@@ -329,6 +329,20 @@ class PatientNav {
         this.continueTitration = Selector('[ng-reflect-label="Continue titrating from the mo"] .icon_Circle');
         this.cotinueButton = Selector('.btn-success');
         this.closeButton = Selector('.close-btn.btn-width');
+        /**Products List */
+        this.btnAllProds = Selector('div.btn-group>label:nth-child(2)'); // Al Products
+        this.btnRecommendeProds = Selector('label.active'); // Recommended Pr
+        this.cicNr = Selector('igx-display-container>igx-grid-cell:nth-child(2)>div'); //CIC
+        this.ProdName = Selector('igx-display-container>igx-grid-cell:nth-child(3)>div>div:nth-child(1)'); //Product Name
+        this.Seller = Selector('gx-display-container>igx-grid-cell:nth-child(4)>div'); //Seller
+        this.typeProd = Selector('igx-display-container>igx-grid-cell:nth-child(5)>div'); // Type
+        this.formProd = Selector('igx-display-container>igx-grid-cell:nth-child(6)>div'); //Form
+        this.thcProd = Selector('igx-display-container>igx-grid-cell:nth-child(7)>div>div:nth-child(1)'); //THC
+        this.thcQty = Selector('igx-display-container>igx-grid-cell:nth-child(7)>div>div:nth-child(2'); // THC mg/gmn
+        this.cbdProd = Selector('igx-display-container>igx-grid-cell:nth-child(8)>div>div:nth-child(1)'); // CBD
+        this.gramEqv = Selector('igx-display-container>igx-grid-cell:nth-child(9)>div'); //Gram/Equiv
+        this.priceProd = Selector('igx-display-container>igx-grid-cell:nth-child(10)>div>div:nth-child(1)'); //Price
+        this.pricePerGrm = Selector('gx-display-container>igx-grid-cell:nth-child(10)>div>div:nth-child(2)'); //Price per gram
     }
     // Functions
 

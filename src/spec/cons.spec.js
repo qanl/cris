@@ -1,4 +1,4 @@
-import { baseUrl, password, username } from '../../config.js';
+import { baseUrl, password, username } from '../../index.js';
 import Navbar from '../../page-objects/components/navbar.js';
 // import PatientNav from '../../page-objects/components/patientnav.js';
 // import Random from '../../page-objects/components/rand.mo';

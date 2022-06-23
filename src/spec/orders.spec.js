@@ -1,8 +1,8 @@
-import { baseUrl, password, username } from '../../config.js';
+import { baseUrl, password, username } from '../../index.js';
 import Navbar from '../../page-objects/components/navbar.js';
 import PatientNav from '../../page-objects/components/patientnav.js';
 import { waitForAngular } from 'testcafe-angular-selectors';
-import xpathSelector from '../utilities/xpath-selector.js';
+// import xpathSelector from '../utilities/xpath-selector.js';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const navbar = new Navbar();
 const patientnav = new PatientNav();
@@ -124,7 +124,7 @@ test.only('Verify New Order', async () => {
         .notOk('Create Patient button is present!');
 
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'BRAY'); // select patient name starting with the given name'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'ABAO'); // select patient name starting with the given name'
 
     // await t.takeElementScreenshot(Selector('.d-flex.flex-row').nth(1), '/orders/patient_profile.png');
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
@@ -163,14 +163,14 @@ test.only('Verify New Order', async () => {
             Selector(
                 'div:nth-child(2) > div.d-flex.input-group-sm.pl-2.align-items-center > div:nth-child(1) > input'
             ),
-            '0.20',
+            '0.30',
             { paste: true, replace: true }
         )
         .typeText(
             Selector(
                 'div:nth-child(4) > div.pl-2.w-50.d-flex.flex-column.justify-content-center > div.d-flex.align-items-center > div.input-group-sm > input'
             ),
-            '2',
+            '3',
             { paste: true, replace: true }
         );
     await t.click(
@@ -218,7 +218,7 @@ test.only('Verify New Order', async () => {
     /**Select Health Condition Arthritis with Mild Pain*/
     await patientnav.selectFld(
         'igx-grid-cell > div',
-        'Arthritis (Rheumatoid Arthritis Inflammation with Mild Pain)'
+        'Arthritis'
     );
     await t.takeScreenshot('/orders/HealthIssueMx.png');
     /**Click Create Mx */
@@ -264,7 +264,7 @@ test.only('Verify New Order', async () => {
     await t.setNativeDialogHandler(() => true);
     /** Verify if the Weight field is empty */
 
-    await patientnav.fillHealthForm('75', 'igx-grid-cell:nth-child(3) > div > div:nth-child(1)', 'Oil');
+    await patientnav.fillHealthForm('75', 'igx-display-container>igx-grid-cell:nth-child(6)>div', 'Dried');
     await t.takeScreenshot('/orders/ReviewOrder.png');
 
     /**Click Review */
