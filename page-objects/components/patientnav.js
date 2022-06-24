@@ -476,6 +476,8 @@ class PatientNav {
             { returnDOMNodes: true }
         );
 
+        await selectedRow.withText(val).exists && selectedRow.withText(val).visible;
+
         await t
             .setNativeDialogHandler(() => true)
             .hover(selectedRow.withText(val))

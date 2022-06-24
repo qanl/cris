@@ -217,7 +217,7 @@ test.only('Verify New Order', async () => {
     /**Select Health Condition Arthritis with Mild Pain*/
     await patientnav.selectHealthIssue(
         'igx-grid-cell > div.igx-grid__td-text.ng-star-inserted',
-        'Arthritis'
+        'Anxiety'
     );
     await t.takeScreenshot('/orders/HealthIssueMx.png');
     /**Click Create Mx */
