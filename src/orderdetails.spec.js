@@ -107,7 +107,7 @@ test.only('Verify that by default when the user logs in to CRIS, privacy should 
         .notOk('Oops, the Privacy button is toggled ON');
 });
 
-test.only('Verify Update Patient', async () => {
+test('Verify Update Patient', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -126,7 +126,7 @@ test.only('Verify Update Patient', async () => {
     // Select first patient from the list
 
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'ALAEI'); // select patient name starting with 'A'
+    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'AHMED'); // select patient name starting with 'A'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
@@ -135,7 +135,7 @@ test.only('Verify Update Patient', async () => {
         .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
         .expect(patientnav.subLastName.innerText)
-        .contains('ALAEI', 'oops!');
+        .contains('AHMED', 'oops!');
 
     const inputFirstName = await Selector(
         'div:nth-child(2) > div:nth-child(1) > div.pl-1.overflow'
@@ -161,14 +161,14 @@ test.only('Verify Update Patient', async () => {
             Selector(
                 'div:nth-child(2) > div.d-flex.input-group-sm.pl-2.align-items-center > div:nth-child(1) > input'
             ),
-            '0.20',
+            '0.40',
             { paste: true, replace: true }
         )
         .typeText(
             Selector(
                 'div:nth-child(4) > div.pl-2.w-50.d-flex.flex-column.justify-content-center > div.d-flex.align-items-center > div.input-group-sm > input'
             ),
-            '2',
+            '4',
             { paste: true, replace: true }
         )
         .wait(1000);

@@ -23,8 +23,13 @@ fixture`E2E - C/R/I/S Admin Portal Elements`
     })
     .beforeEach(async () => {
         await t.maximizeWindow();
-        await t.useRole(userOne);
-    })
+        //await t.useRole(userOne);
+        await t
+            .typeText('input[name="loginfmt"]', username)
+            .click('[type="submit"]')
+            .typeText('input[name="passwd"]', password)
+            .click('[type="submit"]');
+    }, { preserveUrl: true })
     .afterEach(async () => {
         await t.maximizeWindow();
     })

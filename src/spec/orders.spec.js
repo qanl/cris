@@ -124,10 +124,9 @@ test.only('Verify New Order', async () => {
         .notOk('Create Patient button is present!');
 
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'ABAO'); // select patient name starting with the given name'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'KAUR'); // select patient name starting with the given name'
 
-    // await t.takeElementScreenshot(Selector('.d-flex.flex-row').nth(1), '/orders/patient_profile.png');
-    // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
+    await t.takeScreenshot('/orders/patient_profile.png');
     await waitForAngular();
     await t
         .expect(patientnav.patientDetailsBtnEnabled.exists)
@@ -156,7 +155,7 @@ test.only('Verify New Order', async () => {
     await t.setNativeDialogHandler(() => true);
 
     /**
-     * Set the Daily Quantity -0.02 Grams/Day
+     * Set the Daily Quantity -0.30 Grams/Day
      */
     await t
         .typeText(
@@ -170,7 +169,7 @@ test.only('Verify New Order', async () => {
             Selector(
                 'div:nth-child(4) > div.pl-2.w-50.d-flex.flex-column.justify-content-center > div.d-flex.align-items-center > div.input-group-sm > input'
             ),
-            '3',
+            '2',
             { paste: true, replace: true }
         );
     await t.click(
@@ -216,8 +215,8 @@ test.only('Verify New Order', async () => {
     // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
     /**Select Health Condition Arthritis with Mild Pain*/
-    await patientnav.selectFld(
-        'igx-grid-cell > div',
+    await patientnav.selectHealthIssue(
+        'igx-grid-cell > div.igx-grid__td-text.ng-star-inserted',
         'Arthritis'
     );
     await t.takeScreenshot('/orders/HealthIssueMx.png');
@@ -264,7 +263,7 @@ test.only('Verify New Order', async () => {
     await t.setNativeDialogHandler(() => true);
     /** Verify if the Weight field is empty */
 
-    await patientnav.fillHealthForm('75', 'igx-display-container>igx-grid-cell:nth-child(6)>div', 'Dried');
+    await patientnav.fillHealthForm('105', 'igx-display-container>igx-grid-cell:nth-child(6)>div', 'Capsule');
     await t.takeScreenshot('/orders/ReviewOrder.png');
 
     /**Click Review */

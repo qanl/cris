@@ -460,6 +460,84 @@ class PatientNav {
             .click(selectedRow.withText(val));
     }
     /**
+     * -- Select a row
+     * @param {*} sel
+     * @param {*} val
+     */
+    async selectHealthIssue (sel, val) {
+        await waitForAngular();
+
+        const selectedRow = Selector(sel).addCustomMethods(
+            {
+                getCell: (el, idx) => {
+                    return el[0].querySelectorAll(val)[idx];
+                },
+            },
+            { returnDOMNodes: true }
+        );
+
+        await t
+            .setNativeDialogHandler(() => true)
+            .hover(selectedRow.withText(val))
+            .click(selectedRow.withText(val));
+    }
+
+    /**
+     * -- Select a row
+     * @param {*} sel
+     * @param {*} val
+     */
+    async selectProd (sel, val) {
+        await waitForAngular();
+
+        const selectedRow = Selector(sel).addCustomMethods(
+            {
+                getCell: (el, idx) => {
+                    return el[0].querySelectorAll(val)[idx];
+                },
+            },
+            { returnDOMNodes: true }
+        );
+        /** If this product does not exists, then select the last in the list*/
+        const checkProd = await selectedRow.withText(val).exists === false ?
+            await t
+                .click(this.btnAllProds)
+                .setNativeDialogHandler(() => true)
+                .hover(selectedRow.withText(val))
+                .click(selectedRow.withText(val))
+            :
+            await t
+                .expect(selectedRow.withText(val).exists).ok('Oops no such product exists!!')
+                .wait(500);
+
+        await waitForAngular();
+        await checkProd;
+        await t
+            .hover(this.btnAddToOrder)
+            .click(this.btnAddToOrder);
+
+        /**Check if the selected product is successfully no **/
+        const checkProdOkay = await Selector('.text-white.text-nowrap.bg-success').exists === false ?
+            await t
+                .click(this.btnAllProds)
+                .setNativeDialogHandler(() => true)
+                .hover(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(val)) //select a product
+                .click(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(val))
+                .hover(this.btnAddToOrder)
+                .click(this.btnAddToOrder)
+            :
+            await t
+                .expect(Selector('.text-white.text-nowrap.bg-success').exists).ok('Oops no such product exists!!')
+                .wait(500);
+
+        await waitForAngular();
+
+        await checkProdOkay;
+        await t.takeScreenshot('/orders/ProductAdded.png');
+        console.log('Product added successfully');
+
+    }
+    /**
      * -- Check all checkboxes
      * @param {*} sel --check all checkboxes
      */
@@ -556,12 +634,8 @@ class PatientNav {
         await waitForAngular();
         await t.wait(2000);
         /** Click to select a Recommended Product */
-        await this.selectFld(sel, prod);
-        await waitForAngular();
-        await t.takeScreenshot('/orders/AddToOrder.png');
-        if (this.btnAddToOrder.exists && this.btnAddToOrder.visible)
-            await t.hover(this.btnAddToOrder);
-        await t.click(this.btnAddToOrder);
+        // await this.selectFld(sel, prod);
+        await this.selectProd(sel, prod);
 
         await waitForAngular();
         await t.wait(2000);
