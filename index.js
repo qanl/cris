@@ -29,8 +29,8 @@ export const baseUrl = () => {
 
 // export const username = 'r@gmail.com';
 // export const password = 'Ce9!';
-export const username = 'nlapuste@36eighttechnologies.com';
-export const password = 'Biserica89!';
+export const username = 'n;
+export const password = 'd';
 
 const d = new Date();
 
