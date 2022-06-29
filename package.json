@@ -60,7 +60,7 @@
     "report": "node report-generator.js",
     "test.cris": "npx testcafe -u -e",
     "test.cann": "npx testcafe chrome src/spec/patients.spec.js -u -e --env=CANN --disable-page-caching --reporter spec,xunit:report.xml",
-    "test.uat": "npx testcafe edge src/spec/orders.spec.js -u -e --env=UAT --disable-page-caching --reporter spec,html:artifacts/uat_23Jun_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
+    "test.uat": "npx testcafe edge src/spec/orders.spec.js -u -e --env=UAT --disable-page-caching --reporter spec,html:artifacts/uat_24Jun_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
     "test.admin": "npx testcafe chrome src/spec/admin.spec.js -u -e --env=ADM --cache --reporter html:artifacts/admin_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
     "test.all": "npm run lint && npm run test.cris && npm run test.cansafe"
   }

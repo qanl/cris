@@ -6,6 +6,7 @@
 /report.xml
 /cypress/
 /.env
+/index.js
 /config.js
 /artifacts
 workspace/code-workspace
