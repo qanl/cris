@@ -2,14 +2,14 @@
   "browsers": "edge",
   "proxyBypass": "*@36eighttechnologies.com",
   "disableHttp2": false,
-  "src": ["src/spec/reverseorder.spec.js"],
+  "src": ["src/spec/orders.spec.js"],
   "reporter": [
     {
       "name": "spec"
     },
     {
       "name": "html",
-      "output": "./artifacts/e2e_28_Jun_report.html"
+      "output": "./artifacts/SmokeTest_6_July_report.html"
     }
   ],
   "screenshots": {

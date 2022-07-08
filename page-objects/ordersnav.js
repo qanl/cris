@@ -649,7 +649,7 @@ class OrdersNav {
     async changeCurrency (currency) {
         let num;
 
-        if (currency == '$')
+        if (currency === '$')
             num = 1;
         else
             num = 0;
@@ -839,15 +839,15 @@ class OrdersNav {
     /**
    * Queries for all elements matching the selector
    * and returns a list of inner texts of the matching elements.
-   * @param {string} selector
+   * @param {string} sel
    * @returns {array}
    */
-    getInnerTexts (selector) {
-        return ClientFunction((selector) => {
-            return Array.prototype.map.call(document.querySelectorAll(selector), (el) => {
+    getInnerTexts (sel) {
+        return ClientFunction((sel) => {
+            return Array.prototype.map.call(document.querySelectorAll(sel), (el) => {
                 return el.innerText;
             });
-        })(selector);
+        })(sel);
     }
 
 }

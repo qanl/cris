@@ -1,5 +1,5 @@
 import { Selector, t } from 'testcafe';
-import { waitForAngular } from 'testcafe-angular-selectors';
+import waitForAngular from 'testcafe-angular-selectors';
 import xpathSelector from '../../src/utilities/xpath-selector';
 // import { xpathSelector } from '../../src/utilities/xpath-selector';
 // Import in tests like this:
@@ -295,6 +295,7 @@ class PatientNav {
         this.newOrderNext = Selector('.mx-2');
         this.btnAddToOrder = Selector('.modal-body.p-1 > product-list > div > div:nth-child(3) > div.col.text-right.d-flex.justify-content-end > div > span > button').withText('Add to Order');
         this.weighthLabel = Selector('div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt').withText('kg').filterVisible();
+        // this.weightLabel = Selector('div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt');
         this.inputWeight = Selector('div.d-flex.flex-column.w-100 > div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt');
         this.inputWeightIC = Selector('.icon_InputForm');
         this.inputField = Selector('#inputWeight');
@@ -325,9 +326,13 @@ class PatientNav {
         this.canCancelBtn = Selector('button.btn-danger');
         this.canNextBtn = Selector('i.fa-arrow-right');
         this.confRequiredPopup = Selector('div.b-style');
-        this.startNewTitration = Selector('[ng-reflect-label="Start a new titration schedule"] .icon_Circle');
-        this.continueTitration = Selector('[ng-reflect-label="Continue titrating from the mo"] .icon_Circle');
+        this.startNewTitration = Selector('.px-4 > div:nth-child(6) > check-mark-radio-button > div > div.d-flex.flex-row.align-items-center.justify-content-center > i');
+        // this.startNewTitration = Selector('[ng-reflect-label="Start a new titration schedule"] .icon_Circle');
+        // this.continueTitration = Selector('[ng-reflect-label="Continue titrating from the mo"] .icon_Circle');
+        this.continueTitration = Selector('.px-4 > div.d-flex.pt-1 > check-mark-radio-button > div > div.d-flex.flex-row.align-items-center.justify-content-center > i');
+        this.continueConfirmBtn = Selector('app-product-reorder-confirmation > div > div.d-flex.modal-footer > div:nth-child(1) > button');
         this.cotinueButton = Selector('.btn-success');
+
         this.closeButton = Selector('.close-btn.btn-width');
         /**Products List */
         this.btnAllProds = Selector('div.btn-group>label:nth-child(2)'); // Al Products
@@ -370,7 +375,7 @@ class PatientNav {
      * @param {*} text
      */
     async confirmMenuOptionExists (text) {
-        await waitForAngular();
+        // await waitForAngular();
 
         await t
             .scroll(this.navOption.withText(text))
@@ -383,7 +388,7 @@ class PatientNav {
      * @param {*} text
      */
     async selectMenuOption (text) {
-        await waitForAngular();
+        // await waitForAngular();
 
         await t
             .hover(this.navOption.withText(text))
@@ -396,7 +401,7 @@ class PatientNav {
      * @param {*} text
      */
     async selectHome (text) {
-        await waitForAngular();
+        // await waitForAngular();
 
         await t
             .hover(this.homeOption.withText(text))
@@ -410,9 +415,10 @@ class PatientNav {
      * @param {*} val
      */
     async selectPatRow (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
         await t.setNativeDialogHandler(() => true);
         const filterPatName = Selector('igx-grid-header-group:nth-child(1) > igx-grid-filtering-cell > igx-chips-area  div > div.igx-chip__content');
+        // const filterPatName = Selector('#igx-chip-0 > div > div.igx-chip__content > span').withExactText('Filter').nth(1).filterVisible();
 
         if (await filterPatName.exists && await filterPatName.visible) {
             await t
@@ -443,7 +449,7 @@ class PatientNav {
      * @param {*} val
      */
     async selectFld (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
 
         const selectedRow = Selector(sel).addCustomMethods(
             {
@@ -465,7 +471,7 @@ class PatientNav {
      * @param {*} val
      */
     async selectHealthIssue (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
 
         const selectedRow = Selector(sel).addCustomMethods(
             {
@@ -490,7 +496,7 @@ class PatientNav {
      * @param {*} val
      */
     async selectProd (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
 
         const selectedRow = Selector(sel).addCustomMethods(
             {
@@ -500,41 +506,52 @@ class PatientNav {
             },
             { returnDOMNodes: true }
         );
+
         /** If this product does not exists, then select the last in the list*/
-        const checkProd = await selectedRow.withText(val).exists === false ?
+        const checkProd = await selectedRow.withText(val).nth(-1).exists && await selectedRow.withText(val).nth(-1).visible === false ?
             await t
                 .click(this.btnAllProds)
                 .setNativeDialogHandler(() => true)
-                .hover(selectedRow.withText(val))
-                .click(selectedRow.withText(val))
+                .hover(selectedRow.withText(val).nth(-1))
+                .click(selectedRow.withText(val).nth(-1))
             :
             await t
-                .expect(selectedRow.withText(val).exists).ok('Oops no such product exists!!')
-                .wait(500);
+                .setNativeDialogHandler(() => true)
+                .hover(selectedRow.withText(val).nth(-1))
+                .click(selectedRow.withText(val).nth(-1));
 
-        await waitForAngular();
+        // await waitForAngular();
         await checkProd;
         await t
             .hover(this.btnAddToOrder)
             .click(this.btnAddToOrder);
 
         /**Check if the selected product is successfully no **/
-        const checkProdOkay = await Selector('.text-white.text-nowrap.bg-success').exists === false ?
-            await t
-                .click(this.btnAllProds)
-                .setNativeDialogHandler(() => true)
-                .hover(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(val)) //select a product
-                .click(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(val))
-                .hover(this.btnAddToOrder)
-                .click(this.btnAddToOrder)
-            :
-            await t
-                .expect(Selector('.text-white.text-nowrap.bg-success').exists).ok('Oops no such product exists!!')
-                .wait(500);
 
-        await waitForAngular();
 
-        await checkProdOkay;
+        // if (await this.confRequiredPopup.exists && this.confRequiredPopup.visible) {
+        //     await t.takeScreenshot('/orders/ConfirmTitration.png');
+        //     await t
+        //         .setNativeDialogHandler(() => true)
+        //         .click(this.continueTitration)
+        //         .click(this.cotinueButton);
+        // }
+        // const checkProdOkay = await Selector('.text-white.text-nowrap.bg-success').exists === false ?
+        //     await t
+        //         .click(this.btnAllProds)
+        //         .setNativeDialogHandler(() => true)
+        //         .hover(Selector('#productList igx-display-container > igx-grid-cell:nth-child(6) > div').withText(val)) //select a product
+        //         .click(Selector('#productList igx-display-container > igx-grid-cell:nth-child(6) > div').withText(val))
+        //         .hover(this.btnAddToOrder)
+        //         .click(this.btnAddToOrder)
+        //     :
+        //     await t
+        //         .expect(Selector('.text-white.text-nowrap.bg-success').exists).ok('Oops no such product exists!!')
+        //         .wait(500);
+
+        // await waitForAngular();
+
+        // await checkProdOkay;
         await t.takeScreenshot('/orders/ProductAdded.png');
         console.log('Product added successfully');
 
@@ -552,7 +569,7 @@ class PatientNav {
      * @param {*} sel
      */
     async fnChk (sel) {
-        await waitForAngular();
+        // await waitForAngular();
         await t.switchToMainWindow();
         const ct = await Selector(sel).count;
 
@@ -604,11 +621,10 @@ class PatientNav {
      */
     async fillHealthForm (weight, sel, prod) {
         await t.setNativeDialogHandler(() => true);
-        await waitForAngular();
+        // await waitForAngular();
         await t.wait(3000);
-
-
-        const checkWeight = await this.weighthLabel.exists === false ? await t
+        const checkWeight = await this.weighthLabel.exists && await this.weighthLabel.visible === false ? await t
+            // .wait(2000)
             .hover(this.inputWeightIC)
             .click(this.inputWeightIC)
             .typeText(this.inputField, weight, { paste: true, replace: true })
@@ -617,7 +633,7 @@ class PatientNav {
                 .expect(this.weighthLabel.exists).ok('Your patient does not have weight set -check it!!')
                 .wait(500);
 
-        await waitForAngular();
+        // await waitForAngular();
         await checkWeight;
 
         /** Click to select the Health Issue radio button */
@@ -633,21 +649,24 @@ class PatientNav {
         await t.click(this.canNextBtn);
         await t.setNativeDialogHandler(() => true);
 
-        await waitForAngular();
-        await t.wait(2000);
+        // await waitForAngular();
+        await t.wait(1000);
         /** Click to select a Recommended Product */
         // await this.selectFld(sel, prod);
         await this.selectProd(sel, prod);
 
-        await waitForAngular();
-        await t.wait(2000);
+        // await waitForAngular();
+        await t.wait(1000);
 
         if (await this.confRequiredPopup.exists && this.confRequiredPopup.visible) {
             await t.takeScreenshot('/orders/ConfirmTitration.png');
+
             await t
                 .setNativeDialogHandler(() => true)
+                .hover(this.continueTitration)
                 .click(this.continueTitration)
-                .click(this.cotinueButton);
+                .hover(this.continueConfirmBtn)
+                .click(this.continueConfirmBtn);
         }
 
         await t.click('.text-center.w-25 > button.btn.btn-sm.btn-link.pb-0 > i');

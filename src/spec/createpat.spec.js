@@ -75,7 +75,7 @@ test('Verify user can select a patient record from the Patients menu option', as
         .contains('DOE', 'oops!');
 });
 
-test('Verify Create Patient', async () => {
+test.only('Verify Create Patient', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 

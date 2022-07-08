@@ -1,7 +1,7 @@
 import { baseUrl, password, username } from '../../index.js';
 import Navbar from '../../page-objects/components/navbar.js';
 import PatientNav from '../../page-objects/components/patientnav.js';
-import { waitForAngular } from 'testcafe-angular-selectors';
+import waitForAngular from 'testcafe-angular-selectors';
 // import xpathSelector from '../utilities/xpath-selector.js';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const navbar = new Navbar();
@@ -59,7 +59,7 @@ test('Test PRODUCTS button on 36eighttechnologies.com site', async () => {
 }).disablePageCaching;
 test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('DRUG INTERACTIONS');
-    await waitForAngular();
+    // await waitForAngular();
     await t
         .setNativeDialogHandler(() => true)
         .expect(navbar.diModal.exists)
@@ -106,7 +106,7 @@ test('Verify that by default when the user logs in to CRIS, privacy should be ON
         .notOk('Oops, the Privacy button is toggled ON');
 });
 
-test.only('Verify New Order', async () => {
+test.only('Verify create New Order', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -124,10 +124,11 @@ test.only('Verify New Order', async () => {
     //     .notOk('Create Patient button is present!');
 
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'WENGER'); // select patient name starting with the given name'
-
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'KNUDSEN'); // select patient name starting with the given name'
     await t.takeScreenshot('/orders/patient_profile.png');
-    await waitForAngular();
+
+    // await waitForAngular();
+
     await t
         .expect(patientnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
@@ -150,7 +151,7 @@ test.only('Verify New Order', async () => {
     await t.click(patientnav.subOrders).click(patientnav.subNewOrderBtn);
     await t.setNativeDialogHandler(() => true);
     await t.click('.align-items-center > span.ng-star-inserted > button');
-    await t.takeElementScreenshot(Selector('create-mx-modal > div > div.modal-body.p-0'), '/orders/new_order.png');
+    await t.takeElementScreenshot(Selector('create-mx-modal > div > div.modal-body.p-0'), 'orders/new_order.png');
     /** Enter Mx */
     await t.setNativeDialogHandler(() => true);
 
@@ -162,25 +163,25 @@ test.only('Verify New Order', async () => {
             Selector(
                 'div:nth-child(2) > div.d-flex.input-group-sm.pl-2.align-items-center > div:nth-child(1) > input'
             ),
-            '0.30',
+            '1',
             { paste: true, replace: true }
         )
         .typeText(
             Selector(
                 'div:nth-child(4) > div.pl-2.w-50.d-flex.flex-column.justify-content-center > div.d-flex.align-items-center > div.input-group-sm > input'
             ),
-            '2',
+            '3',
             { paste: true, replace: true }
         );
     await t.click(
         'mat-dialog-container#mat-dialog-1 div.d-flex.input-group-sm.pl-2.align-items-center > div:nth-child(1) > input'
     );
 
-    /**Set the Period Of Use to 2 months */
+    /**Set the Period Of Use to 3 months */
     await t.click(
         'mat-dialog-container#mat-dialog-1 div.d-flex.align-items-center > div.input-group-sm > input'
     );
-    await t.takeElementScreenshot(Selector('create-mx-modal > div'), '/orders/MXLimitationsUpd.png');
+    await t.takeElementScreenshot(Selector('create-mx-modal > div'), 'orders/MXLimitationsUpd.png');
     /** Click Next */
     await t.click(
         'mat-dialog-container#mat-dialog-1 button[type="button"].btn.btn-primary.mx-2 > span'
@@ -189,12 +190,12 @@ test.only('Verify New Order', async () => {
     await t.setNativeDialogHandler(() => true);
 
     /** Select the first Health Practitioner available on the list */
-    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'BARZELAI');
-    await t.takeScreenshot('/orders/HCPToMx.png');
+    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'KUR');
+    await t.takeScreenshot('orders/HCPToMx.png');
     /** Select HCP button on top*/
     await t.click(Selector('.btn.btn-link').withText('Select HCP'));
     await t.setNativeDialogHandler(() => true);
-    await waitForAngular();
+    // await waitForAngular();
     await t.hover(
         'hcp-details > div > div > div:nth-child(1) > div:nth-child(1) > div.overflow'
     );
@@ -217,35 +218,38 @@ test.only('Verify New Order', async () => {
     /**Select Health Condition Arthritis with Mild Pain*/
     await patientnav.selectHealthIssue(
         'igx-grid-cell > div.igx-grid__td-text.ng-star-inserted',
-        'Anxiety'
+        'Anorexia'
+        // 'Amyotrophic Lateral Sclerosis'
+        // 'Arthritis (Osteoarthritis Inflammation with Mild Pain)'
     );
-    await t.takeScreenshot('/orders/HealthIssueMx.png');
+    await t.takeScreenshot('orders/HealthIssueMx.png');
     /**Click Create Mx */
     await t.click(
         Selector(
             'button.btn.btn-primary.mx-2.btn-success > span'
         ).withExactText('CREATE Mx')
     );
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
     await t.wait(1000);
+
     /** Click to select the new Mx */
-    await waitForAngular();
+    // await waitForAngular();
     await patientnav.selectFld(
         'igx-grid-cell:nth-child(6) > div > div.break-word.overflow',
-        'Barzelai, Laurence P Dr.'
-        // 'Kur, Jason K Dr.'
         // 'Becotte, Gregory W Dr.'
+        // 'Barzelai, Laurence P Dr.'
+        'Kur, Jason K Dr.'
     );
     await t.setNativeDialogHandler(() => true);
-    await waitForAngular();
+    // await waitForAngular();
     // /** Click Select Mx the last item -1 */
-    await t.takeElementScreenshot('create-order-modal.ng-star-inserted', '/orders/SelectMx.png');
-    const mX = Selector('igx-display-container > igx-grid-cell:nth-child(6) > div > div.break-word.overflow').withExactText('Becotte, Gregory W Dr.').nth(1);
+    await t.takeElementScreenshot('create-order-modal.ng-star-inserted', 'orders/SelectMx.png');
+    const mX = Selector('igx-display-container > igx-grid-cell:nth-child(6) > div > div.break-word.overflow').withText('Kur, Jason K Dr.').nth(-1);
 
     if (await mX.exists && await mX.visible)
         await t.click(mX.filterVisible());
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
 
     /**Click Next to advance to preview Patient Information. Here you can modify Mx condition and Health Issue */
@@ -254,34 +258,34 @@ test.only('Verify New Order', async () => {
 
     if (await selMx.exists && await selMx.visible)
         await t.doubleClick(selMx);
-    await waitForAngular();
+    // await waitForAngular();
     await t.wait(1000);
     /** Click Next to advance after Confirming Patient and HCP info */
 
     await t.click(patientnav.newOrderNext);
 
-    await waitForAngular();
+    // await waitForAngular();
     await t.wait(2000);
     await t.setNativeDialogHandler(() => true);
     /** Verify if the Weight field is empty */
 
-    await patientnav.fillHealthForm('105', 'igx-display-container>igx-grid-cell:nth-child(6)>div', 'Capsule');
+    await patientnav.fillHealthForm('105', '#productList igx-display-container>igx-grid-cell:nth-child(6)>div', 'Oil');
     await t.takeScreenshot('/orders/ReviewOrder.png');
 
     /**Click Review */
     await t.click(
         '.gray-modal-footer-bg-color > span > button.btn.mx-2.purple-btn.ng-star-inserted > div > span'
     );
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
     /** Click Place Order */
-    await t.takeScreenshot('/orders/PlaceOrder.png');
+    await t.takeScreenshot('orders/PlaceOrder.png');
     await t.click(
         '.gray-modal-footer-bg-color > span:nth-child(3) > button.btn.mx-2.ng-star-inserted.close-btn > div > span'
     );
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
-    await t.takeScreenshot('/orders/DefaultScheduleOrder.png');
+    await t.takeScreenshot('orders/DefaultScheduleOrder.png');
     await t
         .wait(2000)
         .click(
@@ -292,6 +296,7 @@ test.only('Verify New Order', async () => {
 test('Verify that the user should sign out from CRIS by clicking on sign out button', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
+
     const getLocation = ClientFunction(() => document.location.href);
     const signOut = await Selector(
         '#signOutBtn > div > div:nth-child(2) > strong'
