@@ -2,17 +2,22 @@
   "name": "cris",
   "version": "1.0.0",
   "dependencies": {
-    "chai": "4.3.6"
+    "@types/minimist": "^1.2.2",
+    "chai": "4.3.6",
+    "npx": "^10.2.2",
+    "tsc": "^2.0.4"
   },
   "description": "TestCafé end-to-end test automation boilerplate. Using Commonjs, Chai and Expect. CRIS",
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
+    "chalk": "^5.0.1",
     "dotenv": "^16.0.1",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-testcafe": "0.2.1",
     "eslint-plugin-ui-testing": "^2.0.1",
     "faker": "^5.5.3",
+    "jsome": "^2.5.0",
     "lint-staged": "^13.0.3",
     "minimist": "^1.2.6",
     "multiple-cucumber-html-reporter": "^1.21.4",
@@ -25,7 +30,9 @@
     "testcafe-reporter-nunit3": "^3.0.1",
     "testcafe-reporter-spec": "^2.1.1",
     "testcafe-reporter-xunit": "^2.2.1",
-    "ts-migrate": "^0.1.30"
+    "ts-migrate": "^0.1.30",
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
   },
   "homepage": "https://github.com/qanl/cris#readme",
   "keywords": [
@@ -59,7 +66,7 @@
     "lint:fix": "eslint --fix .",
     "report": "node report-generator.js",
     "test.cris": "npx testcafe -u -e",
-    "test.cris-dev": "npx --max-http-header-size=1024000 testcafe edge src/spec/orders.spec.js -u -e --env=DEV --disable-page-caching --reporter spec,html:artifacts/uat_7Jul_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
+    "test.cris-dev": "npx --max-http-header-size=1024000 testcafe edge src/spec/orders.spec.ts -u -e --env=DEV --disable-page-caching --reporter spec,html:artifacts/uat_7Jul_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
     "test.cann": "npx testcafe chrome src/spec/patients.spec.js -u -e --env=CANN --disable-page-caching --reporter spec,xunit:report.xml",
     "test.uat": "npx testcafe edge src/spec/orders.spec.js -u -e --env=UAT --disable-page-caching --reporter spec,html:artifacts/uat_24Jun_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",
     "test.admin": "npx testcafe chrome src/spec/admin.spec.js -u -e --env=ADM --cache --reporter html:artifacts/admin_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",

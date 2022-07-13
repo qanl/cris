@@ -1,14 +1,10 @@
 import { baseUrl, password, username } from '../../index.js';
-// import Navbar from '../../page-objects/components/navbar.js';
-import PatientNav from '../../page-objects/components/patientnav.js';
-import { waitForAngular } from 'testcafe-angular-selectors';
+
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const { expect } = require('chai');
-// const navbar = new Navbar();
-const patientnav = new PatientNav();
 
 const userOne = Role(
-    `${baseUrl()}/#/home`,
+    `${baseUrl()}/#`,
     async () => {
         await t
             .typeText('input[name="loginfmt"]', username)
@@ -19,21 +15,64 @@ const userOne = Role(
     { preserveUrl: true }
 );
 
-fixture`E2E - C/R/I/S Patients tests`
-    .page(`${baseUrl()}/home`)
+
+fixture`E2E - C/R/I/S Admin Portal Elements`
+    .page(`${baseUrl()}`)
     .before(async () => {
         console.log('Test begins');
     })
     .beforeEach(async () => {
-        // await t.maximizeWindow();
-        await t.useRole(userOne);
-    })
+        await t.maximizeWindow();
+        //await t.useRole(userOne);
+        await t
+            .typeText('input[name="loginfmt"]', username)
+            .click('[type="submit"]')
+            .typeText('input[name="passwd"]', password)
+            .click('[type="submit"]');
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
+    }, { preserveUrl: true })
     .afterEach(async () => {
-        // await t.maximizeWindow();
+        await t.maximizeWindow();
     })
-    .disablePageCaching.after(async () => {
+    .after(async () => {
         console.log('Test is Done!');
     });
+
+test.only('Log in CRIS Admin Portal and verify the logo and home page', async () => {
+    expect(
+        Selector('.top_nav > topnav-bar > div > div.align-self-center > h3')
+            .innerText
+    ).contains('QA Environment');
+    expect(Selector('#home > h1 > b').innerText).contains(
+        'Welcome to the CRIS Admin Portal.'
+    );
+    expect(
+        Selector(
+            'div.d-flex.flex-column.pl-4.portal-header > div.text-white.font-weight-bold'
+        ).innerText
+    ).contains('CRIS Admin Portal');
+    expect(Selector('#pharmacyLi').innerText).contains('Pharmacy');
+    expect(Selector('#ctl00_XXX').exists).ok('Logo is missing');
+    expect(
+        Selector(
+            'div.d-flex.flex-column.pl-4.portal-header > div:nth-child(1) > h2'
+        )
+    ).to.contain('CRIS');
+    expect(
+        Selector(
+            'div.d-flex.flex-column.pl-4.portal-header > div.text-white.font-weight-bold'
+        )
+    ).to.contain('Admin Portal');
+
+    await t.click(Selector('#pharmacyLi')).wait(1000);
+
+    expect(
+        Selector('#sidebar-menu > div > ul > li > ul > li:nth-child(1) > a')
+    ).to.contain('#/notifications');
+    expect(
+        Selector('#sidebar-menu > div > ul > li > ul > li:nth-child(2) > a')
+    ).to.contain('#/products');
+});
 
 test('Verify user is logged in CRIS', async () => {
     await t.maximizeWindow();
@@ -42,29 +81,7 @@ test('Verify user is logged in CRIS', async () => {
     const userNm = await Selector('body > app-root > div > top-nav > nav > div')
         .innerText;
 
-    expect(userNm).to.equal('Nicolae Lapusta');
-});
-
-test('Verify user can select the Patients menu option', async () => {
-    await t.switchToMainWindow();
-
-    await patientnav.clickOption(patientnav.patBtn);
-});
-
-test('Verify user can select a patient record from the Patients menu option', async () => {
-    await t.switchToMainWindow();
-
-    await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'DOE'); // select patient name starting with 'BAC'
-    // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
-    await waitForAngular();
-    await t
-        .expect(patientnav.patientDetailsBtnEnabled.exists)
-        .ok('Oops, something went wrong!')
-        .click(patientnav.patientDetailsBtnEnabled)
-        .wait(1000)
-        .expect(patientnav.subLastName.innerText)
-        .contains('DOE', 'oops!');
+    expect(userNm).to.equal('Nicolae Lapuste');
 });
 
 test('Verify that there are two subpages on CRIS homepage', async () => {
@@ -98,43 +115,36 @@ test('Verify that you can see CRIS notifications (created by admin portal)', asy
     expect(crisNotif).to.equal('CRIS Notifications');
 });
 
-test('Verify Patients List', async () => {
+test('Verify going to the wrong URL, should redirect the user to 404 page)', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
-    const privBtn = await Selector('button.btn.btn-toggle.active');
+    const crisNotif = await Selector('div.section-header').nth(1).innerText;
 
-    const patBtn = await Selector('i.icon_Nav-Patients.navIcon');
+    expect(crisNotif).to.equal('CRIS Notifications');
+    // const daylySales = await Selector('a.report-link').nth(1);
+
     const getLocation = ClientFunction(() => document.location.href);
 
-    await t.click(patBtn);
-    await t.wait(1000);
-    await t.click(privBtn);
-    await t.expect(getLocation()).contains('/#/patients');
-    await t.switchToMainWindow();
-    await waitForAngular();
+    await t
+        .navigateTo(`${baseUrl()}/#/daily-sales`)
+        .wait(1000)
+        .expect(getLocation())
+        .contains('/#/daily-sales');
 
-    const selRecord = await Selector(
-        '#igx-grid-0 > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container > igx-grid-row:nth-child(4) > igx-display-container'
-    );
+    await t
+        .navigateTo(`${baseUrl()}/#/daily-sale`)
+        .wait(1000)
+        .expect(Selector('#statusCode-label').innerText)
+        .contains('404')
+        .expect(getLocation())
+        .contains('/#/error-handling/404');
 
-    await t.expect(selRecord.exists).ok('It is not selectable');
-    await t.doubleClick(selRecord);
-    await t.wait(1000);
-    // await t.setNativeDialogHandler(() => true);
-    await waitForAngular();
-    await t.switchToMainWindow();
-    const patProfile = await Selector('span')
-        .withExactText('Patient: DOE, Georgina')
-        .filterVisible();
-
-    await t.hover(patProfile);
-    await t.click('.pencil-icon');
-    await t.setNativeDialogHandler(() => true);
-    const updateMenu = await Selector('div.modal-content div.text-center.h5')
-        .innerText;
-
-    expect(updateMenu).contains('UPDATE PATIENT DEMOGRAPHICS');
+    await t
+        .click('#btnBackToCris')
+        .wait(1000)
+        .expect(getLocation())
+        .contains('/#/home');
 });
 
 test('Verify that by default when the user logs in to CRIS, privacy should be ON', async () => {

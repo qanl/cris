@@ -2,14 +2,14 @@
   "browsers": "edge",
   "proxyBypass": "*@36eighttechnologies.com",
   "disableHttp2": false,
-  "src": ["src/spec/orders.spec.js"],
+  "src": ["src/spec/orders.spec.ts"],
   "reporter": [
     {
       "name": "spec"
     },
     {
       "name": "html",
-      "output": "./artifacts/SmokeTest_6_July_report.html"
+      "output": "./artifacts/SmokeTest_12_July_report.html"
     }
   ],
   "screenshots": {
@@ -19,7 +19,7 @@
     "pathPattern": "/${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
   },
   "filter": {
-    "testGrep": " "
+    "testGrep": "Verify create New Order"
   },
   "quarantineMode": false,
   "stopOnFirstFail": false,

@@ -1,6 +1,6 @@
+
 import { baseUrl, password, username } from '../../index.js';
-// import Navbar from '../../page-objects/components/navbar.js';
-import PatientNav from '../../page-objects/components/patientnav.js';
+import PatientNav from '../../page-objects/components/patientnav';
 import Random from '../../page-objects/components/rand.mo';
 import { waitForAngular } from 'testcafe-angular-selectors';
 import { faker } from '@faker-js/faker';
@@ -11,10 +11,8 @@ const patientnav = new PatientNav();
 const random = new Random();
 const dob =
     random.randomDay + '-' + faker.date.month() + '-' + random.randomYear;
-
-
 const userOne = Role(
-    `${baseUrl()}/#/home`,
+    `${baseUrl()}/home`,
     async ()=> {
         await t
             .typeText('input[name="loginfmt"]', username)
@@ -30,14 +28,14 @@ fixture`E2E - C/R/I/S Create Patients`
     .before(async () => {
         console.log('Test begins');
     })
-    .beforeEach(async ()=> {
+    .beforeEach(async () => {
         await t.maximizeWindow();
         await t.useRole(userOne);
         t.fixtureCtx.firstName = random.FirstName;
         t.fixtureCtx.lastName = random.LastName;
         t.fixtureCtx.datePast = random.DatePast;
     })
-    .afterEach(async ()=> {
+    .afterEach(async () => {
         await t.maximizeWindow();
     })
     .disablePageCaching.after(async () => {
@@ -55,7 +53,7 @@ test('Verify user is logged in CRIS', async () => {
 
 test('Verify user can select the Patients menu option', async () => {
     await t.switchToMainWindow();
-
+    await waitForAngular();
     await patientnav.clickOption(patientnav.patBtn);
 });
 
@@ -65,7 +63,7 @@ test('Verify user can select a patient record from the Patients menu option', as
     await patientnav.clickOption(patientnav.patBtn);
     await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'DOE'); // select patient name starting with 'BAC'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
-    await waitForAngular();
+    // await waitForAngular();
     await t
         .expect(patientnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
@@ -75,7 +73,7 @@ test('Verify user can select a patient record from the Patients menu option', as
         .contains('DOE', 'oops!');
 });
 
-test.only('Verify Create Patient', async () => {
+test('Verify Create Patient', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -164,7 +162,9 @@ test.only('Verify Create Patient', async () => {
     //         replace: true,
     //         paste: true,
     //     })
+    //     .click(patientnav.okEmailBtn);
 
+    // await t.switchToMainWindow();
     /**Add new ID */
     await t.click(patientnav.addNewIdBtn);
     // await waitForAngular();
@@ -172,6 +172,9 @@ test.only('Verify Create Patient', async () => {
 
     await t
         .click('#tag')
+        // .pressKey("down down enter")
+        // .click(Selector('option').filter('[value="British Columbia Provincial Health Number"]'))
+        // .click(Selector('option').filter('[value="Quebec Provincial Health Number"]'))
         .click(
             Selector('option').filter(
                 '[value="Ontario Provincial Health Number"]'

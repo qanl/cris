@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import minimist from 'minimist';
 
 require('dotenv').config();
@@ -27,10 +26,10 @@ export const baseUrl = () => {
     return environment; // for passing custom url
 };
 
-// export const username = 'r@gmail.com';
-// export const password = 'Ce9!';
-export const username = 'n;
-export const password = 'd';
+// export const username = 'ni4';
+// export const password = 'Chrt!';
+export const username = 'nlapuste@36eighttechnologies.com';
+export const password = 'Biserica89!';
 
 const d = new Date();
 

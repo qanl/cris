@@ -130,12 +130,12 @@ test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async ()=>
     await navbar.selectMenuOption('DRUG INTERACTIONS');
     await waitForAngular();
     await t
-        .setNativeDialogHandler(() => true)
-        .expect(navbar.diModal.exists)
-        .ok('oops, it doesnt exist')
-        .hover(navbar.diModal);
+    .setNativeDialogHandler(() => true)
+    .expect((navbar as any).diModal.exists)
+    .ok('oops, it doesnt exist')
+    .hover((navbar as any).diModal);
 
-    await t.wait(1000).click(navbar.diModal).switchToMainWindow();
+    await t.wait(1000).click((navbar as any).diModal).switchToMainWindow();
 }).disablePageCaching;
 test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async ()=> {
     await navbar.selectMenuOption('LICENSED SELLERS');
