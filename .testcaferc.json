@@ -2,7 +2,7 @@
   "browsers": "edge",
   "proxyBypass": "*@36eighttechnologies.com",
   "disableHttp2": false,
-  "src": ["src/spec/createpat.spec.ts"],
+  "src": ["src/spec/homepage.spec.ts"],
   "reporter": [
     {
       "name": "spec"

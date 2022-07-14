@@ -52,7 +52,7 @@ fixture`E2E - C/R/I/S Create Patients`
         console.log('Test is Done!');
     });
 
-test.only('Verify user is logged in CRIS', async () => {
+test('Verify user is logged in CRIS', async () => {
     await t.switchToMainWindow();
 
     const userNm = await Selector('body > app-root > div > top-nav > nav > div')

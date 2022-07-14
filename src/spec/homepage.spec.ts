@@ -1,8 +1,9 @@
 import { Config } from '../../config/config.interface';
 import { getCurrentConfig } from '../../config/testcafe-config';
+import { baseUrl, password, username } from '../../index.js';
 import { PatientNav } from '../../page-objects/components/patientnav';
 import { OrdersNav } from '../../page-objects/components/ordersnav';
-import { Navbar } from '../../page-objects/components/navbar.js';
+import { Navbar } from '../../page-objects/components/navbar';
 import { waitForAngular } from 'testcafe-angular-selectors';
 import { Selector, Role, ClientFunction, t, fixture } from 'testcafe';
 const { expect } = require('chai');
@@ -139,11 +140,11 @@ test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () =
     await waitForAngular();
     await t
         .setNativeDialogHandler(() => true)
-        .expect(navbar as any.diModal.exists)
+        .expect(navbar.diModal.exists)
         .ok('oops, it doesnt exist')
-        .hover(navbar as any.diModal);
+        .hover(navbar.diModal);
 
-    await t.wait(1000).click(navbar as any.diModal).switchToMainWindow();
+    await t.wait(1000).click(navbar.diModal).switchToMainWindow();
 }).disablePageCaching;
 test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('LICENSED SELLERS');
@@ -252,7 +253,7 @@ test('Verify going to the wrong URL, should redirect the user to 404 page)', asy
         .contains('/#/home');
 });
 
-test('Verify that by default when the user logs in to CRIS, privacy should be ON', async () => {
+test('Verify that by default when the user logs in to CRIS, privacy should be OFF', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -261,7 +262,7 @@ test('Verify that by default when the user logs in to CRIS, privacy should be ON
     await t
         .wait(1000)
         .expect(privacyON)
-        .ok('Oops, the Privacy button is toggles OFF');
+        .notOk('Oops, the Privacy button is toggles ON');
 });
 
 test('Verify that the user should sign out from CRIS by clicking on sign out button', async () => {

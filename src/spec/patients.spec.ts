@@ -1,9 +1,9 @@
 import { baseUrl, password, username } from '../../index.js';
-// import Navbar from '../../page-objects/components/navbar.js';
-import PatientNav from '../../page-objects/components/patientnav';
+// import {Navbar} from '../../page-objects/components/navbar';
+import {PatientNav} from '../../page-objects/components/patientnav';
 import { waitForAngular } from 'testcafe-angular-selectors';
-const { Selector, Role, ClientFunction, t } = require('testcafe');
-const { expect } = require('chai');
+import { Selector, Role, ClientFunction, t } from 'testcafe';
+import { expect } from 'chai';
 // const navbar = new Navbar();
 const patientnav = new PatientNav();
 
@@ -48,22 +48,22 @@ test('Verify user is logged in CRIS', async () => {
 test('Verify user can select the Patients menu option', async () => {
     await t.switchToMainWindow();
 
-    await patientnav.clickOption(patientnav as any.patBtn);
+    await patientnav.clickOption(patientnav.patBtn);
 });
 
 test('Verify user can select a patient record from the Patients menu option', async () => {
     await t.switchToMainWindow();
 
-    await patientnav.clickOption(patientnav as any.patBtn);
+    await patientnav.clickOption(patientnav.patBtn);
     await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'DOE'); // select patient name starting with 'BAC'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
-        .expect(patientnav as any.patientDetailsBtnEnabled.exists)
+        .expect(patientnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
-        .click(patientnav as any.patientDetailsBtnEnabled)
+        .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
-        .expect(patientnav as any.subLastName.innerText)
+        .expect(patientnav.subLastName.innerText)
         .contains('DOE', 'oops!');
 });
 
@@ -137,16 +137,14 @@ test('Verify Patients List', async () => {
     expect(updateMenu).contains('UPDATE PATIENT DEMOGRAPHICS');
 });
 
-test('Verify that by default when the user logs in to CRIS, privacy should be ON', async () => {
+test('Verify that by default when the user logs in to CRIS, privacy should be OFF', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
-    const privacyON = await Selector('button.btn.btn-toggle.active').exists;
-
     await t
         .wait(1000)
-        .expect(privacyON)
-        .ok('Oops, the Privacy button is toggles OFF');
+        .expect(patientnav.privacyIsOff)
+        .ok('Oops, the Privacy button is toggles ON!!');
 });
 
 test('Verify that the user should sign out from CRIS by clicking on sign out button', async () => {
