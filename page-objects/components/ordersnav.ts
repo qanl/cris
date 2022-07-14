@@ -1,6 +1,6 @@
 import { ClientFunction, Selector, t } from 'testcafe';
 import { waitForAngular } from 'testcafe-angular-selectors';
-// import xpathSelector from '../../src/utilities/xpath-selector';
+// import { xpathSelector } from '../../src/utilities/xpath-selector.js';
 // import { xpathSelector } from '../../src/utilities/xpath-selector';
 // Import in tests like this:
 // --------------------------
@@ -14,8 +14,9 @@ import { waitForAngular } from 'testcafe-angular-selectors';
 //     window.scrollBy(0, 3000);
 // });
 
-export class PatientNav {
 
+export class OrdersNav {
+// Selectors
     searchBox: Selector;
     homeOption: Selector;
     homeOption1: Selector;
@@ -33,40 +34,41 @@ export class PatientNav {
     signOutBtn: Selector;
     navOption: Selector;
     diModal: Selector;
-    privacyTxt: Selector;
-    privacyBtnActive: Selector;
-    privacyBtnDisabled: Selector;
+    privacyTxt: Selector;// Priacy text
+    privacyBtnActive: Selector; // privacy button is active ON
+    privacyBtnDisabled: Selector; //privacy button is disabled OFF
+    currencyOption: Selector;
     privacyIsOff: Selector;
     // Patients topbar menu items
-    patBtn: Selector;
-    patientstitle: Selector;
-    totalrecords: Selector;
-    totalnumber: Selector;
-    clearFilterBtn1: Selector;
-    clearFilterBtn: Selector;
-    clearFilterIcon: Selector;
-    patientDetailsBtn: Selector;
-    patientDetailsBtnEnabled: Selector;
-    createPatientBtn: Selector;
-    patnamecol: Selector;
-    patnamecol1: Selector;
-    patarrowup: Selector;
-    gendercol: Selector;
-    idnumbercol: Selector;
-    telephonecol: Selector;
-    addresscol: Selector;
-    filterPatientName: Selector;
-    filterGender: Selector;
-    filterTelephone: Selector;
-    filterAddress: Selector;
-    tblBody: Selector;
-    tblBodyContent: Selector;
-    firstSelPatRow: Selector;
+    patBtn: Selector;//Patient left menu button
+    patientstitle: Selector; //Patients title
+    totalrecords: Selector;//Total Record:##
+    totalnumber: Selector; // records number
+    clearFilterBtn1: Selector;// clear button
+    clearFilterBtn: Selector; // clear button
+    clearFilterIcon: Selector;// Clear Filter Icon
+    patientDetailsBtn: Selector;//Patient Details disabled
+    patientDetailsBtnEnabled: Selector; //Patient Details enabled
+    createPatientBtn: Selector;//Create Patient
+    patnamecol: Selector;// Patient name (LAST, First)
+    patnamecol1: Selector;// Patient name (LAST, First)
+    patarrowup: Selector;//arrow upward
+    gendercol: Selector;//gender icon
+    idnumbercol: Selector;//id number
+    telephonecol: Selector;//telephone
+    addresscol: Selector;//address
+    filterPatientName: Selector;// filter by Patient Name
+    filterGender: Selector;// filter by Patient Gender
+    filterTelephone: Selector;//filter by Telephone
+    filterAddress: Selector;// filter by Address
+    tblBody: Selector;// table body whole
+    tblBodyContent: Selector; //tbl content
+    firstSelPatRow: Selector;//selected first row
     thirdPatRow: Selector;
     rowSelector: Selector;
     //Patient subpage details
     subPatTitle: Selector;
-    patIcon: Selector;
+    patIcon:Selector;
     subFirstName: Selector;
     subLastName: Selector;
     subInfo: Selector;
@@ -98,6 +100,7 @@ export class PatientNav {
     addNewTelBtn: Selector;
     addNewEmailBtn: Selector;
     addNewIdBtn: Selector;
+    okAddPatAddressBtn: Selector;
     // Add Patient Address
     homeTagSel: Selector;
     homeTag: Selector;
@@ -112,7 +115,7 @@ export class PatientNav {
     provinceAB: Selector;
     provinceBC: Selector;
     postalCode: Selector;
-    okAddPatAddressBtn: Selector;
+    okAddPatAddressB: Selector;
     cancelAddPatAddressBtn: Selector;
     countryAdd: Selector;
     checkReview: Selector;
@@ -121,8 +124,8 @@ export class PatientNav {
     // Add Telephone
     phoneTag: Selector;
     phoneInput: Selector;
-    okPhoneBtn: Selector;
-    cancelPhoneBtn: Selector;
+    okPhoneBtn: Selector; //phone
+    cancelPhoneBtn: Selector; // Cancel //phone Selector('.btn.close-btn.btn-sm').nth(2)
     //Add Email
     emailTag: Selector;
     emailInput: Selector;
@@ -139,12 +142,11 @@ export class PatientNav {
     createPatEnabled: Selector;
     // CONSENT
     consentCheckbox: Selector;
-    // consentText: Selector;
     //UPDATE DEMOGRAPHICS
     updatePatientDemographicTitle: Selector;
     updateFirstName: Selector;
     updateLastName: Selector;
-    updateCalendarInput: Selector;
+    updateCalendarInput: Selector; // Format DD-MMM-YYYY
     updatePickCalendr: Selector;
     updatePreferredName: Selector;
     updateOccupation: Selector;
@@ -153,7 +155,7 @@ export class PatientNav {
     enterMxNextBtn: Selector;
     newOrderNext: Selector;
     btnAddToOrder: Selector;
-    weightLabel: Selector;
+    weighthLabel: Selector;
     inputWeight: Selector;
     inputWeightIC: Selector;
     inputField: Selector;
@@ -189,32 +191,87 @@ export class PatientNav {
     cotinueButton: Selector;
     closeButton: Selector;
     /**Products List */
-    btnAllProds: Selector;
-    btnRecommendeProds: Selector;
-    cicNr: Selector;
-    ProdName: Selector;
-    Seller: Selector;
-    typeProd: Selector;
-    formProd: Selector;
-    thcProd: Selector;
-    thcQty: Selector;
-    cbdProd: Selector;
-    gramEqv: Selector;
-    priceProd: Selector;
-    pricePerGrm: Selector;
-    /**New Order Review */
-    resetRecommendationBtn: Selector;
-    doseUpBtn: Selector;
-    doseDownBtn: Selector;
-    doseInRed: Selector;
-    doseInGreen: Selector;
-    reviewBtn: Selector;
-    previousBtn: Selector;
-    cancelOrder: Selector;
-    selectedProd: Selector;
-    removeProdBtn: Selector;
-    addProdToOrder: Selector;
-    anotherProd: Selector;
+    btnAllProds: Selector; // Al Products
+    btnRecommendeProds: Selector; // Recommended Pr
+    cicNr: Selector;//CIC
+    ProdName: Selector; //Product Name
+    Seller: Selector; //Seller
+    typeProd: Selector; // Type
+    formProd: Selector; //Form
+    thcProd: Selector; //THC
+    thcQty: Selector; // THC mg/gmn
+    cbdProd: Selector; // CBD
+    gramEqv: Selector;//Gram/Equiv
+    priceProd: Selector;//Price
+    pricePerGrm: Selector;//Price per gram
+    /**Orders menu and submenu */
+    /** status icons , last column*/
+    attentionIconm: Selector;// Missing Attachments icons
+    cancelledIcon: Selector;//cancelled/reversed Orders icons
+    orderedIcon: Selector;//ordered icon
+    toolbarIcons: Selector;// total of icons
+    readyToOrderIcon: Selector;//ready To submitt
+    /**Order Details UI */
+    ordersMainBtn: Selector;
+    ordersList: Selector;
+    ordersListFull: Selector; //list with data
+    ordersListEmpty: Selector;
+    ordersListTxt: string;
+    ordersTotal: Selector;
+    orderFilterClear: Selector;
+    orderPatientDetails: Selector;
+    orderOrderDetails: Selector; // Order Details button
+    orderFilterByStatus: Selector; //use to filter the status
+    orderFilterByState: Selector;
+    orderFilterInput: Selector; //search input here you type what you need to search
+    orderFilterClose: Selector;// used to close the filter
+    orderFilterReset: Selector; // user to reset the filter
+    orderPatName: Selector;
+    orderPatDOB: Selector;//patient date of birth in dd-MMM-YYYY format
+    orderProdSupplier: Selector;//supplier logo
+    orderSupplierAddress: Selector; // supplier list
+    orderSupplierCity: Selector;
+    orderSupplierCountry: Selector;
+    orderShippingAddress: Selector;//street Address
+    orderShippingCity: Selector;
+    orderShippingCountry: Selector;
+    orderHealthIssue: Selector;
+    orderNumber: Selector;
+    orderNum: Selector;//same as above
+    orderDate: Selector;
+    orderNumberBtn: Selector;//clickable Order number
+    orderHCPBtn: Selector; //HCP for the order
+    lsClient: Selector; //License seller name empty
+    orderCicCode: Selector;
+    orderCic: Selector; //same as above
+    orderProduct: Selector;
+    orderTHC: Selector;
+    orderCBD: Selector;
+    orderSize: Selector;
+    orderPrice: Selector;
+    orderQty: Selector;
+    orderTotal: Selector;
+    orderTotalGrand: Selector;
+    orderSubTotal: Selector;
+    orderGst: Selector;
+    orderPst: Selector;
+    orderTotalFooter: Selector;
+    orderAgent: Selector;
+    orderPharmacy: Selector;
+    orderReverseBtn: Selector;
+    orderPrintBtn: Selector;
+    orderCloseBtn: Selector;
+    orderReverseModal: Selector;
+    orderReverseWarningMsg: Selector;
+    orderWarningStringO: string;
+    orderWarningStringR: string;
+    orderReverseAccept: Selector;
+    orderReverseCheck: Selector;
+    orderReverseWarningBtn: Selector;
+    orderReverseWarningBack: Selector;
+    ordereReverseReadyToSubmitTxt: string;
+    orderFirstRecord: Selector;
+    orderLastRecord: Selector;
     /**Other generic form input selectors */
     selOpt: Selector;
     findFormFieldInputLabel: Selector;
@@ -223,46 +280,21 @@ export class PatientNav {
     el: Selector;
     t: TestCafe;
 
-
     constructor () {
         // Selectors
         this.searchBox = Selector('#searchTerm');
-        this.homeOption = Selector(
-            'left-nav > div > nav > a.nav-item.nav-link.rounded-0.px-1.active > div > span'
-        );
-        this.homeOption1 = Selector(
-            '.nav-item.nav-link.rounded-0.px-1 .align-items-center span'
-        );
-        this.ordersOption = Selector(
-            'left-nav > div > nav > a:nth-child(2) > div > div'
-        );
-        this.patOptions = Selector(
-            'left-nav > div > nav > a:nth-child(3) > div > div'
-        );
-        this.hpOption = Selector(
-            'left-nav > div > nav > a:nth-child(5) > div > div'
-        );
-        this.mxOption = Selector(
-            'left-nav > div > nav > a:nth-child(5) > div > div'
-        );
-        this.prodOption = Selector(
-            'left-nav > div > nav > a:nth-child(6) > div > div'
-        );
-        this.diOption = Selector(
-            'left-nav > div > nav > a:nth-child(7) > div > div'
-        );
-        this.lsOption = Selector(
-            'left-nav > div > nav > a:nth-child(8) > div > div'
-        );
-        this.coedOption = Selector(
-            'left-nav > div > nav > a:nth-child(9) > div > div'
-        );
-        this.virtualCare = Selector(
-            'left-nav > div > nav > a:nth-child(10) > div > div'
-        );
-        this.menuOption = Selector(
-            'a .routerlink .nav-item.nav-link.rounded-0.px-1.transparent-bg'
-        );
+        this.homeOption = Selector('left-nav > div > nav > a.nav-item.nav-link.rounded-0.px-1.active > div > span');
+        this.homeOption1 = Selector('.nav-item.nav-link.rounded-0.px-1 .align-items-center span');
+        this.ordersOption = Selector('left-nav > div > nav > a:nth-child(2) > div > div');
+        this.patOptions = Selector('left-nav > div > nav > a:nth-child(3) > div > div');
+        this.hpOption = Selector('left-nav > div > nav > a:nth-child(5) > div > div');
+        this.mxOption = Selector('left-nav > div > nav > a:nth-child(5) > div > div');
+        this.prodOption = Selector('left-nav > div > nav > a:nth-child(6) > div > div');
+        this.diOption = Selector('left-nav > div > nav > a:nth-child(7) > div > div');
+        this.lsOption = Selector('left-nav > div > nav > a:nth-child(8) > div > div');
+        this.coedOption = Selector('left-nav > div > nav > a:nth-child(9) > div > div');
+        this.virtualCare = Selector('left-nav > div > nav > a:nth-child(10) > div > div');
+        this.menuOption = Selector('a .routerlink .nav-item.nav-link.rounded-0.px-1.transparent-bg');
         this.signOutIcon = Selector('#dropdownMenuButton > img');
         this.signOutBtn = Selector('button#signOutBtn strong');
         this.navOption = Selector('.d-flex.flex-row.align-items-center');
@@ -275,23 +307,13 @@ export class PatientNav {
         this.patBtn = Selector('i.icon_Nav-Patients.navIcon'); //Patient left menu button
         this.patientstitle = Selector('.blue-tinted-bg.overflow > span'); //Patients title
         this.totalrecords = Selector('.col-auto > filter-info > div > div'); //Total Record:##
-        this.totalnumber = Selector(
-            '.col-auto > filter-info > div > div > div > strong'
-        ); // records number
-        this.clearFilterBtn1 = Selector(
-            '.col.text.d-flex.justify-content-end.pr-0 > div:nth-child(1)'
-        ); // clear button
+        this.totalnumber = Selector('.col-auto > filter-info > div > div > div > strong'); // records number
+        this.clearFilterBtn1 = Selector('.col.text.d-flex.justify-content-end.pr-0 > div:nth-child(1)'); // clear button
         this.clearFilterBtn = Selector('btn.btn-link').nth(1); // clear button
         this.clearFilterIcon = Selector('.icon_Filter.toolbaricon'); // Clear Filter Icon
-        this.patientDetailsBtn = Selector(
-            'ncol.text.d-flex.justify-content-end.pr-0 > div:nth-child(2)'
-        ); //Patient Details disabled
-        this.patientDetailsBtnEnabled = Selector(
-            '.col.text.d-flex.justify-content-end.pr-0 > div:nth-child(2) > button'
-        ); //Patient Details enabled
-        this.createPatientBtn = Selector(
-            '.col.text.d-flex.justify-content-end.pr-0 > div:nth-child(3) > button'
-        ); //Create Patient
+        this.patientDetailsBtn = Selector('ncol.text.d-flex.justify-content-end.pr-0 > div:nth-child(2)'); //Patient Details disabled
+        this.patientDetailsBtnEnabled = Selector('.col.text.d-flex.justify-content-end.pr-0 > div:nth-child(2) > button'); //Patient Details enabled
+        this.createPatientBtn = Selector('.col.text.d-flex.justify-content-end.pr-0 > div:nth-child(3) > button'); //Create Patient
         this.patnamecol = Selector('#igx-grid-0_patientName > span'); // Patient name (LAST, First)
         this.patnamecol1 = Selector('igx-grid-header').nth(1); // Patient name (LAST, First)
         this.patarrowup = Selector('#igx-grid-0_patientName > div'); //arrow upward
@@ -299,89 +321,41 @@ export class PatientNav {
         this.idnumbercol = Selector('#igx-grid-0_identityNo > span > div'); //id number
         this.telephonecol = Selector('#igx-grid-0_phoneField > span > span'); //telephone
         this.addresscol = Selector('#igx-grid-0_addressField > span > span'); //address
-        this.filterPatientName = Selector(
-            '#igx-chip-0 > div > div.igx-chip__content'
-        ); // filter by Patient Name
-        this.filterGender = Selector(
-            '#igx-chip-1 > div > div.igx-chip__content > span'
-        ); // filter by Patient Gender
-        this.filterTelephone = Selector(
-            '#igx-chip-6 > div > div.igx-chip__content > span'
-        ); //filter by Telephone
-        this.filterAddress = Selector(
-            '#igx-chip-7 > div > div.igx-chip__content > span'
-        ); // filter by Address
+        this.filterPatientName = Selector('#igx-chip-0 > div > div.igx-chip__content'); // filter by Patient Name
+        this.filterGender = Selector('#igx-chip-1 > div > div.igx-chip__content > span'); // filter by Patient Gender
+        this.filterTelephone = Selector('#igx-chip-6 > div > div.igx-chip__content > span'); //filter by Telephone
+        this.filterAddress = Selector('#igx-chip-7 > div > div.igx-chip__content > span'); // filter by Address
         this.tblBody = Selector('#igx-grid-1 > div.igx-grid__tbody'); // table body whole
-        this.tblBodyContent = Selector(
-            '#igx-grid-1 > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container'
-        ); //tbl content
-        this.firstSelPatRow = Selector(
-            'igx-grid-row.igx-grid__tr.igx-grid__tr--odd.igx-grid__tr--selected'
-        ); //selected first row
-        this.thirdPatRow = Selector(
-            'igx-grid-row:nth-child(3) > igx-display-container'
-        );
+        this.tblBodyContent = Selector('#igx-grid-1 > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container'); //tbl content
+        this.firstSelPatRow = Selector('igx-grid-row.igx-grid__tr.igx-grid__tr--odd.igx-grid__tr--selected'); //selected first row
+        this.thirdPatRow = Selector('igx-grid-row:nth-child(3) > igx-display-container');
         this.rowSelector = Selector('igx-grid-row');
         //Patient subpage details
-        this.subPatTitle = Selector(
-            '.d-print-none.p-2.text-white.h3.mb-0.blue-tinted-bg.overflow > span'
-        );
+        this.subPatTitle = Selector('.d-print-none.p-2.text-white.h3.mb-0.blue-tinted-bg.overflow > span');
         this.patIcon = Selector('div > div.p-2 > img');
         this.subFirstName = Selector('.blue-label-color > div');
         this.subLastName = Selector('div.blue-label-color > strong > div');
-        this.subInfo = Selector(
-            'patient-left-nav > div > div > nav > a > div > div'
-        );
-        this.subMx = Selector(
-            'patient-left-nav > div > nav:nth-child(2) > a > div'
-        );
-        this.subOrders = Selector(
-            'patient-left-nav > div > nav:nth-child(3) > a'
-        );
-        this.subNewOrderBtn = Selector(
-            '.align-items-center > div:nth-child(4) > button'
-        );
-        this.subMeds = Selector(
-            'patient-left-nav > div > nav:nth-child(4) > a > div'
-        );
-        this.subConsultations = Selector(
-            'patient-left-nav > div > nav:nth-child(5) > a > div'
-        );
-        this.subNotes = Selector(
-            ' patient-left-nav > div > nav:nth-child(6) > a > div'
-        );
-        this.subAttachments = Selector(
-            'patient-left-nav > div > nav:nth-child(7) > a > div > span:nth-child(1)'
-        );
-        this.pencilDemographic = Selector(
-            '#info-div > div:nth-child(1) > div.d-flex.align-items-center > i'
-        );
+        this.subInfo = Selector('patient-left-nav > div > div > nav > a > div > div');
+        this.subMx = Selector('patient-left-nav > div > nav:nth-child(2) > a > div');
+        this.subOrders = Selector('patient-left-nav > div > nav:nth-child(3) > a');
+        this.subNewOrderBtn = Selector('.align-items-center > div:nth-child(4) > button');
+        this.subMeds = Selector('patient-left-nav > div > nav:nth-child(4) > a > div');
+        this.subConsultations = Selector('patient-left-nav > div > nav:nth-child(5) > a > div');
+        this.subNotes = Selector(' patient-left-nav > div > nav:nth-child(6) > a > div');
+        this.subAttachments = Selector('patient-left-nav > div > nav:nth-child(7) > a > div > span:nth-child(1)');
+        this.pencilDemographic = Selector('#info-div > div:nth-child(1) > div.d-flex.align-items-center > i');
         // Patient Demographics / Create Patient
-        this.firstNameCreate = Selector(
-            '.modal-body > div > form > div:nth-child(1) > div:nth-child(1) > input'
-        );
-        this.lastNameCreate = Selector(
-            '.modal-body > div > form > div:nth-child(1) > div:nth-child(2) > input'
-        );
+        this.firstNameCreate = Selector('.modal-body > div > form > div:nth-child(1) > div:nth-child(1) > input');
+        this.lastNameCreate = Selector('.modal-body > div > form > div:nth-child(1) > div:nth-child(2) > input');
         this.calendarCreate = Selector('#birthDate > input');
         this.preferredName = Selector('#preferredName');
         this.occupation = Selector('#occupation');
         this.weight = Selector('#inputWeight');
-        this.height = Selector(
-            'patient-height > div > div.ng-star-inserted > up-down-arrows-container > div > input'
-        );
-        this.metricWeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(
-            1
-        );
-        this.metricHeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(
-            2
-        );
-        this.imperialWeight = Selector(
-            '.icon_Circle.disabled-radio.ng-star-inserted'
-        ).nth(1);
-        this.imperialHeight = Selector(
-            '.icon_Circle.disabled-radio.ng-star-inserted'
-        ).nth(2);
+        this.height = Selector('patient-height > div > div.ng-star-inserted > up-down-arrows-container > div > input');
+        this.metricWeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(1);
+        this.metricHeight = Selector('.icon_Checkpoint.ng-star-inserted').nth(2);
+        this.imperialWeight = Selector('.icon_Circle.disabled-radio.ng-star-inserted').nth(1);
+        this.imperialHeight = Selector('.icon_Circle.disabled-radio.ng-star-inserted').nth(2);
         this.addressLabel = Selector('.blue-label-color.fs-18').nth(1);
         this.telephoneLabel = Selector('.blue-label-color.fs-18').nth(2);
         this.emailLabel = Selector('.blue-label-color.fs-18').nth(3);
@@ -392,57 +366,35 @@ export class PatientNav {
         this.addNewIdBtn = Selector('#addNewidBtn > i');
         // Add Patient Address
         this.homeTagSel = Selector('#gender');
-        this.homeTag = Selector(
-            '.dropdown.cursor-pointer.pt-0.ng-pristine.ng-valid.ng-touched'
-        );
+        this.homeTag = Selector('.dropdown.cursor-pointer.pt-0.ng-pristine.ng-valid.ng-touched');
         this.homeOpt = Selector('#gender > option:nth-child(1)');
         this.workOpt = Selector('#gender > option:nth-child(2)');
         this.otherOpt = Selector('#gender > option:nth-child(3)');
-        this.addressInput = Selector(
-            '#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(1) > input'
-        );
-        this.addressTwoInput = Selector(
-            '#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(2) > input'
-        );
-        this.cityInput = Selector(
-            '#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(3) > div:nth-child(1) > input'
-        );
-        this.provinceSel = Selector(
-            'mat-dialog-container#mat-dialog-7 div:nth-child(2) > label > select#gender'
-        );
+        this.addressInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(1) > input');
+        this.addressTwoInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(2) > div:nth-child(2) > input');
+        this.cityInput = Selector('#mat-dialog-1 > patient-address-form > div > div.modal-body.bg-white.d-print-block.pt-1.py-4.align-items-center.pl-4 > form > div:nth-child(3) > div:nth-child(1) > input');
+        this.provinceSel = Selector('mat-dialog-container#mat-dialog-7 div:nth-child(2) > label > select#gender');
         this.provinceOpt = Selector('#gender > option:nth-child(1)');
         this.provinceAB = Selector('option').filter('[value="AB"]');
         this.provinceBC = Selector('option').filter('[value="BC"]');
         this.postalCode = Selector('#inputZip');
-        this.okAddPatAddressBtn = Selector(
-            '.btn.close-btn.btn-sm.ok-close-btn'
-        ).withText('OK');
-        this.cancelAddPatAddressBtn = Selector(
-            '.btn.close-btn.btn-sm.ok-close-btn'
-        ).withText('Cancel');
-        this.countryAdd = Selector(
-            'form > div:nth-child(4) > div:nth-child(2) > div.gray-text.pt-4.mt-1.border-bottom'
-        );
+        this.okAddPatAddressBtn = Selector('.btn.close-btn.btn-sm.ok-close-btn').withText('OK');
+        this.cancelAddPatAddressBtn = Selector('.btn.close-btn.btn-sm.ok-close-btn').withText('Cancel');
+        this.countryAdd = Selector('form > div:nth-child(4) > div:nth-child(2) > div.gray-text.pt-4.mt-1.border-bottom');
         this.checkReview = Selector('#consentCheck');
         this.consentText = Selector('form > div:nth-child(6) > div > div > label');
         this.createPatDisabled = Selector('#mat-dialog-0 > app-create-patient-modal > div > div.d-flex.modal-footer.justify-content-end.p-2 > button.btn.btn-success.btn-sm.mr-2').withAttribute('disabled');
         // Add Telephone
         this.phoneTag = Selector('#tag');
         this.phoneInput = Selector('#telephone');
-        this.okPhoneBtn = Selector(
-            'telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(1)'
-        ); //phone Selector('.btn.close-btn.btn-sm').nth(1)
-        this.cancelPhoneBtn = Selector(
-            'telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(2)'
-        ); // Cancel //phone Selector('.btn.close-btn.btn-sm').nth(2)
+        this.okPhoneBtn = Selector('telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(1)'); //phone Selector('.btn.close-btn.btn-sm').nth(1)
+        this.cancelPhoneBtn = Selector('telephone-form > contact-base-form > div > div.d-flex.modal-footer.justify-content-center > button:nth-child(2)'); // Cancel //phone Selector('.btn.close-btn.btn-sm').nth(2)
         //Add Email
         this.emailTag = Selector('#tag');
         this.emailInput = Selector('#inputEmail');
         this.okEmailBtn = Selector('.btn.close-btn.btn-sm').nth(1);
         this.cancelEmailBtn = Selector('.btn.close-btn.btn-sm').nth(2);
-        this.emailTooltipTxt = Selector(
-            '[ng-reflect-tooltip="Please enter a valid email add"]'
-        );
+        this.emailTooltipTxt = Selector('[ng-reflect-tooltip="Please enter a valid email add"]');
         this.emailSaved = Selector('#emailList .text-primary.ng-star-inserted');
         // Add IDENTIFICATION
         this.provTag = Selector('#tag');
@@ -450,24 +402,14 @@ export class PatientNav {
         this.okIDBtn = Selector('.btn.close-btn.btn-sm').nth(1);
         this.cancelIDBtn = Selector('.btn.close-btn.btn-sm').nth(2);
         this.savedIDTxt = Selector('.btn.btn-sm.btn-link.pl-0.text-left');
-        this.createPatEnabled = Selector(
-            'button.btn.btn-success.btn-sm.mr-2'
-        ).withText('CREATE PATIENT');
+        this.createPatEnabled = Selector('button.btn.btn-success.btn-sm.mr-2').withText('CREATE PATIENT');
         // CONSENT
         this.consentCheckbox = Selector('#consentCheck');
-        this.consentText = Selector(
-            'form > div:nth-child(6) > div > div > label'
-        );
+        this.consentText = Selector('form > div:nth-child(6) > div > div > label');
         //UPDATE DEMOGRAPHICS
-        this.updatePatientDemographicTitle = Selector(
-            '.h5.blue-label-color.mx-1.my-2.py-2.col-md-12'
-        );
-        this.updateFirstName = Selector(
-            '#mat-dialog-0 div:nth-child(1) > div:nth-child(1) > input'
-        );
-        this.updateLastName = Selector(
-            '#mat-dialog-0 div:nth-child(1) > div:nth-child(2) > input'
-        );
+        this.updatePatientDemographicTitle = Selector('.h5.blue-label-color.mx-1.my-2.py-2.col-md-12');
+        this.updateFirstName = Selector('#mat-dialog-0 div:nth-child(1) > div:nth-child(1) > input');
+        this.updateLastName = Selector('#mat-dialog-0 div:nth-child(1) > div:nth-child(2) > input');
         this.updateCalendarInput = Selector('div#birthDate > input'); // Format DD-MMM-YYYY
         this.updatePickCalendr = Selector('div#birthDate i');
         this.updatePreferredName = Selector('input#preferredName');
@@ -477,7 +419,7 @@ export class PatientNav {
         this.enterMxNextBtn = Selector('create-mx-modal.ng-star-inserted>div>div:nth-child(3)>button:nth-child(2)');
         this.newOrderNext = Selector('.mx-2');
         this.btnAddToOrder = Selector('.modal-body.p-1 > product-list > div > div:nth-child(3) > div.col.text-right.d-flex.justify-content-end > div > span > button').withText('Add to Order');
-        this.weightLabel = Selector('div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt').withText('kg').filterVisible();
+        this.weighthLabel = Selector('div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt').withText('kg').filterVisible();
         this.inputWeight = Selector('div.d-flex.flex-column.w-100 > div.border-0.pb-0.outline-none.w-100.pl-1.weight-txt');
         this.inputWeightIC = Selector('.icon_InputForm');
         this.inputField = Selector('#inputWeight');
@@ -507,9 +449,9 @@ export class PatientNav {
         this.canPreviousBtn = Selector('div.modal-footer>span>button:nth-child(1)');
         this.canCancelBtn = Selector('button.btn-danger');
         this.canNextBtn = Selector('i.fa-arrow-right');
-        this.confRequiredPopup = Selector('div.pop-up-border.d-flex.flex-column.b-style.confirmation-pop-up');
-        this.startNewTitration = Selector('div.pb-3>div:nth-child(6)>check-mark-radio-button>div>div:nth-child(1)>i');
-        this.continueTitration = Selector('div.pb-3>div:nth-child(7)>check-mark-radio-button>div>div:nth-child(1)>i');
+        this.confRequiredPopup = Selector('div.b-style');
+        this.startNewTitration = Selector('[ng-reflect-label="Start a new titration schedule"] .icon_Circle');
+        this.continueTitration = Selector('[ng-reflect-label="Continue titrating from the mo"] .icon_Circle');
         this.cotinueButton = Selector('.btn-success');
         this.closeButton = Selector('.close-btn.btn-width');
         /**Products List */
@@ -526,23 +468,88 @@ export class PatientNav {
         this.gramEqv = Selector('igx-display-container>igx-grid-cell:nth-child(9)>div'); //Gram/Equiv
         this.priceProd = Selector('igx-display-container>igx-grid-cell:nth-child(10)>div>div:nth-child(1)'); //Price
         this.pricePerGrm = Selector('gx-display-container>igx-grid-cell:nth-child(10)>div>div:nth-child(2)'); //Price per gram
-        /** New Order Review Order */
-        this.resetRecommendationBtn = Selector('div.d-flex > button.btn.btn-link').withText('Reset Recommendations');
-        this.doseDownBtn = Selector('.btn.btn-sm.btn-link.pt-0 > i.fas.fa-caret-down');
-        this.doseUpBtn = Selector('.btn.btn-sm.btn-link.pb-0 > i.fas.fa-caret-up');
-        this.doseInRed = Selector('div.text-white.text-nowrap.bg-danger');
-        this.reviewBtn = Selector('.d-flex.modal-footer.justify-content-end.p-2.gray-modal-footer-bg-color > span > button.btn.mx-2.purple-btn.ng-star-inserted:disabled');
-        this.previousBtn = Selector('.d-flex.modal-footer.justify-content-end.p-2.gray-modal-footer-bg-color > span > button.btn.btn-primary.ng-star-inserted');
-        this.cancelOrder = Selector('.d-flex.modal-footer.justify-content-end.p-2.gray-modal-footer-bg-color > span > button.btn.btn-danger');
-        this.doseInGreen = Selector('.d-flex.flex-row.text-success.mt-1.ng-star-inserted');
-        this.selectedProd = Selector('#dosingCalcGrid > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container > igx-grid-row > igx-display-container > igx-grid-cell:nth-child(2) > div > span');
-        this.removeProdBtn = Selector('dosing-calculator > div > div > div.d-flex.justify-content-between.d-print-none > div.d-flex > div > button:nth-child(2)');
-        this.addProdToOrder = Selector('#dosingCalcGrid > div.igx-grid__tbody > div.igx-grid__tbody-content > div.mt-2.text-center.ng-star-inserted > button');
-        this.anotherProd =  Selector('igx-display-container > igx-grid-cell:nth-child(6) > div');
+        /**Orders menu and submenu */
+        /** status icons , last column*/
+        this.attentionIconm = Selector('.icon_Attention'); // Missing Attachments icons
+        this.cancelledIcon = Selector('.icon_Cancelled'); //cancelled/reversed Orders icons
+        this.orderedIcon = Selector('.icon_Ordered'); //ordered icon
+        this.toolbarIcons = Selector('.toolbaricon'); // total of icons
+        this.readyToOrderIcon = Selector('.icon_ReadyQueue'); //ready To submitt
+        /**Order Details UI */
+        this.ordersMainBtn = Selector('nav.nav>a:nth-child(2)>div>div');
+        this.ordersList = Selector('div.text-white>span');
+        this.ordersListFull = Selector('div.px-3'); //list with data
+        this.ordersListEmpty = Selector('#orderList > div.igx-grid__tbody > div.igx-grid__tbody-content > span');
+        this.ordersListTxt = 'No records found.';
+        this.ordersTotal = Selector('div.pink-text>div');
+        this.orderFilterClear = Selector('div.justify-content-end>button');
+        this.orderPatientDetails = Selector('div.justify-content-end>div:nth-child(2)>button');
+        this.orderOrderDetails = Selector('div.justify-content-end>div:nth-child(3)>button'); // Order Details button
+        this.orderFilterByStatus = Selector('igx-chip#igx-chip-7'); //use to filter the status
+        this.orderFilterByState = Selector('igx-grid-filtering-cell').nth(-1);
+        this.orderFilterInput = Selector('input.igx-input-group__input'); //search input here you type what you need to search
+        this.orderFilterClose = Selector('div.igx-grid__filtering-row-editing-buttons>button:nth-child(2)'); // used to close the filter
+        this.orderFilterReset = Selector('div.igx-grid__filtering-row-editing-buttons>button:nth-child(1)'); // user to reset the filter
+        this.orderPatName = Selector('div.h4>strong');
+        this.orderPatDOB = Selector('div.text-uppercase'); //patient date of birth in dd-MMM-YYYY format
+        this.orderProdSupplier = Selector('img.w-200'); //supplier logo
+        this.orderSupplierAddress = Selector('div.regular-text>div:nth-child(1)'); // supplier list
+        this.orderSupplierCity = Selector('div.regular-text>div:nth-child(2)');
+        this.orderSupplierCountry = Selector('div.regular-text>div:nth-child(3)');
+        this.orderShippingAddress = Selector('div.shipping-address>div:nth-child(1)'); //street Address
+        this.orderShippingCity = Selector('div.shipping-address>div:nth-child(2)');
+        this.orderShippingCountry = Selector('div.shipping-address>div:nth-child(3)');
+        this.orderHealthIssue = Selector('div.border-bottom>div:nth-child(4)>div:nth-child(2)');
+        this.orderNumber = Selector('.order-details.table td:nth-of-type(1) > strong');
+        this.orderNum = Selector('table.order-details>tbody>tr:nth-child(2)>td:nth-child(1)>strong'); //same as above
+        this.orderDate = Selector('table.order-details>tbody>tr:nth-child(2)>td:nth-child(2)>strong');
+        this.orderNumberBtn = Selector('table.order-details>tbody>tr:nth-child(2)>td:nth-child(3)>button'); //clickable Order number
+        this.orderHCPBtn = Selector('button.hcp-btn'); //HCP for the order
+        this.lsClient = Selector('.order-details.table td.font-italic'); //License seller name empty
+        this.orderCicCode = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(1)');
+        this.orderCic = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(1)'); //same as above
+        this.orderProduct = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(2)');
+        this.orderTHC = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(3)');
+        this.orderCBD = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(4)');
+        this.orderSize = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(5)');
+        this.orderPrice = Selector('.w-100.text-right > strong:nth-child(1)');
+        this.orderQty = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(7)');
+        this.orderTotal = Selector('igx-grid#orderDetailsGrid>div:nth-child(2)>div:nth-child(1)>igx-display-container>igx-grid-row>igx-display-container>igx-grid-cell:nth-child(8)');
+        this.orderTotalGrand = Selector('table.text-right>tbody>tr:nth-child(6)>td:nth-child(2)');
+        this.orderSubTotal = Selector('table.text-right>tbody>tr:nth-child(3)>td:nth-child(2)');
+        this.orderGst = Selector('table.text-right>tbody>tr:nth-child(4)>td:nth-child(2)>div');
+        this.orderPst = Selector('table.text-right>tbody>tr:nth-child(5)>td:nth-child(2)');
+        this.orderTotalFooter = Selector('div.modal-footer>div:nth-child(2)'); //Total grand in Footer of the modal
+        this.orderAgent = Selector('div.modal-footer>div:nth-child(1)>div:nth-child(2)>div:nth-child(1)>b');
+        this.orderPharmacy = Selector('div.modal-footer>div:nth-child(1)>div:nth-child(2)>div:nth-child(2)');
+        this.orderReverseBtn = Selector('button.btn.btn-danger.btn-sm');
+        this.orderPrintBtn = Selector('button.btn.btn-primary.btn-sm.ml-2.btn-order-details');
+        this.orderCloseBtn = Selector('button.btn.btn-sm.close-btn.ml-2.btn-order-details');
+        this.orderReverseModal = Selector('app-reverse-order-confirmation.ng-star-inserted>div');
+        this.orderReverseWarningMsg = Selector('mat-dialog-content.m-3>div:nth-child(1)>div');
+        this.orderWarningStringO = 'Reversing the order will:\nShow the order as reversed throughout CRIS\nRemove it from your sales report\nRemove any grams used against the Mx\nRemove all consultations that have taken place against the product (unless another order has been placed for the same product in the past)\nIf this is the only order linked to the Mx it will also:\nUnregister the Mx from the Licensed Seller\nCAUTION: If the Mx associated to this order has already been registered with a Licensed Seller, you should only order other products from the same Licensed Seller\nRemove the Registration Date from the MX';
+        this.orderWarningStringR = 'Reversing the order will:Show the order as reversed throughout CRISRemove it from your sales reportRemove any grams used against the MxRemove all consultations that have taken place against the product (unless another order has been placed for the same product in the past)If this is the only order linked to the Mx it will also:Unregister the Mx from the Licensed Seller CAUTION: If the Mx associated to this order has already been registered with a Licensed Seller, you should only order other products from the same Licensed SellerRemove the Registration Date from the MX';
+        this.orderReverseAccept = Selector('label.checkbox-label');
+        this.orderReverseCheck = Selector('input#consentCheck');
+        this.orderReverseWarningBtn = Selector('mat-dialog-actions.m-3>button:nth-child(2)');
+        this.orderReverseWarningBack = Selector('button.mr-2');
+        this.ordereReverseReadyToSubmitTxt = 'Reversing the order will:Show the order as reversed throughout CRISRemove it from your sales reportRemove any grams used against the MxRemove all consultations that have taken place against the product (unless another order has been placed for the same product in the past)If this is the only order linked to the Mx it will also:Unregister the Mx from the Licensed Seller CAUTION: If the Mx associated to this order has already been registered with a Licensed Seller, you should only order other products from the same Licensed SellerRemove the Registration Date from the MX';
+        this.orderFirstRecord = Selector('div.igx-grid__tbody-content>igx-display-container>igx-grid-row >igx-display-container>igx-grid-cell').nth(1); //first record
+        this.orderLastRecord = Selector('div.igx-grid__tbody-content>igx-display-container>igx-grid-row >igx-display-container>igx-grid-cell').nth(-1); //last record
+        //last record
     }
     // Functions
 
+    /** covert text to numeric value */
+    async getNumValue (sel) {
+        const displayedTxt = await Selector(sel).textContent;
+        /** clean the string from $ */
+        const strVal = displayedTxt.toString().replace('$', '');
 
+        const getNumValue = parseFloat(strVal);
+
+        return getNumValue;
+    }
     /**
  * getElementAttribute e, a parameters
  */
@@ -693,8 +700,8 @@ export class PatientNav {
             },
             { returnDOMNodes: true }
         );
-            /** If this product does not exists, then select the last in the list*/
-        const checkProd = await selectedRow.withText(val).exists && await selectedRow.withText(val).visible === false ?
+        /** If this product does not exists, then select the last in the list*/
+        const checkProd = (await selectedRow.withText(val).exists && await selectedRow.withText(val).visible) === false ?
             await t
                 .click(this.btnAllProds)
                 .setNativeDialogHandler(() => true)
@@ -703,38 +710,34 @@ export class PatientNav {
             :
             await t
                 .expect(selectedRow.withText(val).exists).ok('Oops no such product exists!!')
-                .setNativeDialogHandler(() => true)
-                .hover(selectedRow.withText(val))
-                .click(selectedRow.withText(val))
                 .wait(500);
-
 
         await waitForAngular();
         await checkProd;
-
         await t
             .hover(this.btnAddToOrder)
             .click(this.btnAddToOrder);
 
-    }
-    /** Check Product Ordered Status */
-    async checkProdStatus () {
-        /**Check if the dosage needs adjustment **/
-        const checkProdStatus = await this.doseInRed.exists && await this.doseInRed.visible === true ?
+        /**Check if the selected product is successfully no **/
+        const checkProdOkay = await Selector('.text-white.text-nowrap.bg-success').exists === false ?
             await t
+                .click(this.btnAllProds)
                 .setNativeDialogHandler(() => true)
-                .click(this.doseDownBtn)
-                .click(this.doseDownBtn)
+                .hover(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(val)) //select a product
+                .click(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(val))
+                .hover(this.btnAddToOrder)
+                .click(this.btnAddToOrder)
             :
             await t
-                .click(this.doseUpBtn)
-            // .expect(this.doseInGreen.exists).ok('Your Dosage is Not right. Adjust it!!')
+                .expect(Selector('.text-white.text-nowrap.bg-success').exists).ok('Oops no such product exists!!')
                 .wait(500);
 
         await waitForAngular();
-        await checkProdStatus;
+
+        await checkProdOkay;
         await t.takeScreenshot('/orders/ProductAdded.png');
-        console.log('Product dosage adjusted!');
+        console.log('Product added successfully');
+
     }
     /**
      * -- Check all checkboxes
@@ -743,37 +746,6 @@ export class PatientNav {
     async clickOption (sel) {
         this.selOpt = Selector(sel);
         await t.click(this.selOpt).wait(1000);
-    }
-
-    async checkProductOk (prod) {
-        await waitForAngular();
-        await t.setNativeDialogHandler(() => true);
-
-        /**Check if the selected product is successfully no **/
-        const checkProdOkay = await this.reviewBtn.exists && await this.reviewBtn.visible === true ?
-            await t
-                .hover(this.selectedProd)
-                .click(this.selectedProd)
-                .hover(this.removeProdBtn)
-                .click(this.removeProdBtn)
-                .wait(500)
-                .click(this.addProdToOrder)
-                .setNativeDialogHandler(() => true)
-                .click(this.btnAllProds)
-                .setNativeDialogHandler(() => true)
-                .hover(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(prod)) //select a product
-                .click(Selector('igx-display-container > igx-grid-cell:nth-child(5) > div').withText(prod))
-                .hover(this.btnAddToOrder)
-                .click(this.btnAddToOrder)
-            :
-            await t
-                .expect(this.doseInGreen.exists).ok('Oops, this product cannot be ordered!')
-                .wait(500);
-
-        await checkProdOkay;
-
-        await t.takeScreenshot('/orders/ProductAddedOK.png');
-        console.log('Product added successfully');
     }
     /**
      * --check all options
@@ -798,7 +770,35 @@ export class PatientNav {
             i++;
         }
     }
+    async changeCurrency (currency) {
+        let num;
 
+        if (currency === '$')
+            num = 1;
+        else
+            num = 0;
+
+        // return currency.toNum
+        // await t
+        // .setTestSpeed(0.1)
+        // .click(this.currencySelect) // removed
+        // .click(Selector("option", { text: currency })) // not working
+        // .click(Selector('option').filter("[value='Euro']")) // not working
+        // .click(this.currencyOption.withText(currency)) // removed
+        // get the selected option
+        // const selectedOption = this.currencyOption
+        //     .filter((option) => {
+        //     if (option && option.selected) {
+        //         return true;
+        //     }
+        //     return false;
+        //     })
+        //     .nth(0);
+        // const selectedOptionContent = await selectedOption.textContent;
+        // await t.expect(selectedOptionContent).eql(currency)
+        await t.expect(this.currencyOption.nth(num).innerText).eql(currency); //removed
+        //removed
+    }
     /**
      * Fill Health Issue Form
      */
@@ -808,13 +808,13 @@ export class PatientNav {
         await t.wait(3000);
 
 
-        const checkWeight = await this.weightLabel.exists && await this.weightLabel.visible === false ? await t
+        const checkWeight = await this.weighthLabel.exists === false ? await t
             .hover(this.inputWeightIC)
             .click(this.inputWeightIC)
             .typeText(this.inputField, weight, { paste: true, replace: true })
             .click(this.inputOkBtn)
             : await t
-                .expect(this.weightLabel.exists).ok('Your patient does not have weight set -check it!!')
+                .expect(this.weighthLabel.exists).ok('Your patient does not have weight set -check it!!')
                 .wait(500);
 
         await waitForAngular();
@@ -823,7 +823,7 @@ export class PatientNav {
         /** Click to select the Health Issue radio button */
         await t.click(this.healthIssueFive);
         /**Click to set Patient Preferences Yes, No,No,NO */
-        await this.canFormNo.exists, this.canTypeNo.exists, await this.canAlertNoPref.exists && await this.canFormNo.visible, this.canTypeNo.visible, this.canAlertNoPref.visible;
+        await this.canFormNo.exists, await this.canTypeNo.exists, await this.canAlertNoPref.exists && await this.canFormNo.visible, await this.canTypeNo.visible, await this.canAlertNoPref.visible;
         await t.click(this.canUserYes);
         await t.click(this.canFormNo);
         await t.click(this.canTypeNo);
@@ -838,7 +838,9 @@ export class PatientNav {
         /** Click to select a Recommended Product */
         // await this.selectFld(sel, prod);
         await this.selectProd(sel, prod);
-        // await waitForAngular();
+
+        await waitForAngular();
+        await t.wait(2000);
 
         if (await this.confRequiredPopup.exists && await this.confRequiredPopup.visible)
             await t.takeScreenshot('/orders/ConfirmTitration.png');
@@ -846,10 +848,6 @@ export class PatientNav {
             .setNativeDialogHandler(() => true)
             .click(this.continueTitration)
             .click(this.cotinueButton);
-
-
-        await waitForAngular();
-        // await this.checkProductOk('Oil');
 
         await t.click('.text-center.w-25 > button.btn.btn-sm.btn-link.pb-0 > i');
     }
@@ -863,7 +861,6 @@ export class PatientNav {
     // Checkbox
     // =====================================
     async getTextBoxValue (name) {
-        // const el = Selector('input');
         return this.el.find(`input[name="${name}"]`).value;
     }
 
@@ -889,7 +886,8 @@ export class PatientNav {
 
         await t.click(selectContainer);
 
-        const option = Selector(`#${containerId} .chzn-results .active-result`)
+        // @ts-expect-error TS(7009): 'new' expression, whose target lacks a construct s... Remove this comment to see the full error message
+        const option = await new Selector(`#${containerId} .chzn-results .active-result`)
             .nth(index);
 
         await t.click(option);
@@ -899,7 +897,7 @@ export class PatientNav {
     // =====================================
 
     async selectRadioButtonOption (fieldName, index) {
-        const radioOption = await this.findFormFieldInput(fieldName)
+        const radioOption = this.findFormFieldInput(fieldName)
             .find('.radio-label')
             .nth(index);
         const radioTextContent = await radioOption.textContent;
@@ -932,19 +930,19 @@ export class PatientNav {
     async clickElement (selector) {
         await t.click(this.el.find(selector));
     }
+
     /**
    * Queries for all elements matching the selector
    * and returns a list of inner texts of the matching elements.
-   * @param {string} selector
+   * @param {string} sel
    * @returns {array}
    */
-    getInnerTexts (selector) {
-        return ClientFunction((selector) => {
-            return Array.prototype.map.call(document.querySelectorAll(selector), (el:any) => {
+    getInnerTexts (sel) {
+        return ClientFunction((sel) => {
+            return Array.prototype.map.call(document.querySelectorAll(sel), (el) => {
                 return el.innerText;
             });
-        })(selector);
+        })(sel);
     }
-
 
 }

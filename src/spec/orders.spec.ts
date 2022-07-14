@@ -3,12 +3,14 @@ import { getCurrentConfig } from '../../config/testcafe-config';
 // import { env } from '../../step-filters/env'
 // import { baseUrl, password, username } from '../../index.js';
 import Navbar from '../../page-objects/components/navbar';
-import { PatientNav } from "C:/Users/nl/vsprojects/cris/page-objects/components/patientnav"
-// import waitForAngular from 'testcafe-angular-selectors';
+import { PatientNav } from '../../page-objects/components/patientnav';
+import { OrdersNav } from '../../page-objects/components/ordersnav';
+import waitForAngular from 'testcafe-angular-selectors';
 // import xpathSelector from '../utilities/xpath-selector.js';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const navbar = new Navbar();
 const patientnav = new PatientNav();
+
 declare const fixture: FixtureFn;
 // import Random from '../../page-objects/components/rand.mo';
 // import { faker } from '@faker-js/faker';
@@ -42,7 +44,7 @@ fixture`E2E - C/R/I/S HOME PAGE Elements`
     })
     .beforeEach(async (ctx) => {
         await t.maximizeWindow();
-        // await t.useRole(userOne);
+        await t.useRole(userOne);
     })
     .afterEach(async () => {
         await t.maximizeWindow();
@@ -72,13 +74,13 @@ test('Test PRODUCTS button on 36eighttechnologies.com site', async () => {
 test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('DRUG INTERACTIONS');
     // await waitForAngular();
-await t
-    .setNativeDialogHandler(() => true)
-    .expect((navbar as any).diModal.exists)
-    .ok('oops, it doesnt exist')
-    .hover((navbar as any).diModal);
+    await t
+        .setNativeDialogHandler(() => true)
+        .expect(navbar as any.diModal.exists)
+        .ok('oops, it doesnt exist')
+        .hover(navbar as any.diModal);
 
-    await t.wait(1000).click((navbar as any).diModal).switchToMainWindow();
+    await t.wait(1000).click(navbar as any.diModal).switchToMainWindow();
 }).disablePageCaching;
 test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('LICENSED SELLERS');
@@ -123,27 +125,28 @@ test('Verify create New Order', async () => {
     await t.switchToMainWindow();
 
     const getLocation = ClientFunction(() => document.location.href);
+
     /** Navigate to Patients list */
-await t.click((patientnav as any).patBtn);
+    await t.click(patientnav as any.patBtn);
     await t.wait(1000);
     // await t.click(patientnav.privacyBtnActive);
     await t.expect(getLocation()).contains('/#/patients');
     await t.takeElementScreenshot(Selector('body.ng-tns-0-0'), 'patients/patients_full.png');
     /** Open Create Patient modal menu */
-// await t
-//     .expect(patientnav.createPatientBtn.exists)
-//     .notOk('Create Patient button is present!');
-await patientnav.clickOption((patientnav as any).patBtn);
+    // await t
+    //     .expect(patientnav.createPatientBtn.exists)
+    //     .notOk('Create Patient button is present!');
+    await patientnav.clickOption(patientnav as any.patBtn);
     await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'KNUDSEN'); // select patient name starting with the given name'
     await t.takeScreenshot('/orders/patient_profile.png');
 
     // await waitForAngular();
-await t
-    .expect((patientnav as any).patientDetailsBtnEnabled.exists)
-    .ok('Oops, something went wrong!')
-    .click((patientnav as any).patientDetailsBtnEnabled)
-    .wait(1000)
-    .expect((patientnav as any).subLastName.innerText).notEql('');
+    await t
+        .expect(patientnav as any.patientDetailsBtnEnabled.exists)
+        .ok('Oops, something went wrong!')
+        .click(patientnav as any.patientDetailsBtnEnabled)
+        .wait(1000)
+        .expect(patientnav as any.subLastName.innerText).notEql('');
     // .contains('MOHORUK', 'oops!');
 
     const inputFirstName = await Selector(
@@ -156,8 +159,8 @@ await t
     console.log(inputFirstName.toString());
     console.log(inputLastName.toString());
     // await t.takeElementScreenshot('body > app-root > div > div > div:nth-child(2)', '/orders/profile_full.png');
-/** Add New Order */
-await t.click((patientnav as any).subOrders).click((patientnav as any).subNewOrderBtn);
+    /** Add New Order */
+    await t.click(patientnav as any.subOrders).click(patientnav as any.subNewOrderBtn);
     await t.setNativeDialogHandler(() => true);
     await t.click('.align-items-center > span.ng-star-inserted > button');
     await t.takeElementScreenshot(Selector('create-mx-modal > div > div.modal-body.p-0'), 'orders/new_order.png');
@@ -256,7 +259,7 @@ await t.click((patientnav as any).subOrders).click((patientnav as any).subNewOrd
     await t.takeElementScreenshot('create-order-modal.ng-star-inserted', 'orders/SelectMx.png');
     const mX = Selector('igx-display-container > igx-grid-cell:nth-child(6) > div > div.break-word.overflow').withText('Kur, Jason K Dr.').nth(-1);
 
-    if ((await mX.exists) && (await mX.visible))
+    if (await mX.exists && await mX.visible)
         await t.click(mX.filterVisible());
     // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
@@ -265,12 +268,12 @@ await t.click((patientnav as any).subOrders).click((patientnav as any).subNewOrd
 
     const selMx = Selector('div.col.text-right.d-flex.justify-content-end.align-items-center > button:nth-child(3) > div').withExactText('S Select Mx').filterVisible();
 
-    if ((await selMx.exists) && (await selMx.visible))
+    if (await selMx.exists && await selMx.visible)
         await t.doubleClick(selMx);
     // await waitForAngular();
     await t.wait(1000);
     /** Click Next to advance after Confirming Patient and HCP info */
-await t.click((patientnav as any).newOrderNext);
+    await t.click(patientnav as any.newOrderNext);
 
     // await waitForAngular();
     await t.wait(2000);

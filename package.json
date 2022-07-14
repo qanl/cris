@@ -10,6 +10,10 @@
   "description": "TestCafé end-to-end test automation boilerplate. Using Commonjs, Chai and Expect. CRIS",
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
+    "@types/faker": "^6.6.9",
+    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/parser": "^5.30.6",
+    "axios": "^0.27.2",
     "chalk": "^5.0.1",
     "dotenv": "^16.0.1",
     "eslint": "^8.19.0",
@@ -61,9 +65,10 @@
     "type": "git",
     "url": "git+https://github.com/qanl/cris.git"
   },
+  "type": "module",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint": "eslint . --ext .ts,.spec.ts",
+    "lint:fix": "eslint . --ext .ts,.spec.ts --fix",
     "report": "node report-generator.js",
     "test.cris": "npx testcafe -u -e",
     "test.cris-dev": "npx --max-http-header-size=1024000 testcafe edge src/spec/orders.spec.ts -u -e --env=DEV --disable-page-caching --reporter spec,html:artifacts/uat_7Jul_cris_testreport.html -S -s path=./artifacts/screenshots -p \"${DATE} ${TIME}/test ${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png\"",

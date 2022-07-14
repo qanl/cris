@@ -48,23 +48,23 @@ test('Verify user is logged in CRIS', async () => {
 test('Verify user can select the Patients menu option', async () => {
     await t.switchToMainWindow();
 
-    await patientnav.clickOption((patientnav as any).patBtn);
+    await patientnav.clickOption(patientnav as any.patBtn);
 });
 
 test('Verify user can select a patient record from the Patients menu option', async () => {
     await t.switchToMainWindow();
 
-    await patientnav.clickOption((patientnav as any).patBtn);
+    await patientnav.clickOption(patientnav as any.patBtn);
     await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'DOE'); // select patient name starting with 'BAC'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
-    .expect((patientnav as any).patientDetailsBtnEnabled.exists)
-    .ok('Oops, something went wrong!')
-    .click((patientnav as any).patientDetailsBtnEnabled)
-    .wait(1000)
-    .expect((patientnav as any).subLastName.innerText)
-    .contains('DOE', 'oops!');
+        .expect(patientnav as any.patientDetailsBtnEnabled.exists)
+        .ok('Oops, something went wrong!')
+        .click(patientnav as any.patientDetailsBtnEnabled)
+        .wait(1000)
+        .expect(patientnav as any.subLastName.innerText)
+        .contains('DOE', 'oops!');
 });
 
 test('Verify that there are two subpages on CRIS homepage', async () => {

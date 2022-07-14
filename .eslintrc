@@ -3,7 +3,10 @@
     "sourceType": "module",
     "ecmaVersion": 2020
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "no-alert": 2,
     "no-array-constructor": 2,

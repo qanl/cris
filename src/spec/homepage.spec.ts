@@ -1,7 +1,10 @@
-import { baseUrl, password, username } from '../../index.js';
-import Navbar from '../../page-objects/components/navbar.js';
+import { Config } from '../../config/config.interface';
+import { getCurrentConfig } from '../../config/testcafe-config';
+import { PatientNav } from '../../page-objects/components/patientnav';
+import { OrdersNav } from '../../page-objects/components/ordersnav';
+import { Navbar } from '../../page-objects/components/navbar.js';
 import { waitForAngular } from 'testcafe-angular-selectors';
-const { Selector, Role, ClientFunction, t } = require('testcafe');
+import { Selector, Role, ClientFunction, t, fixture } from 'testcafe';
 const { expect } = require('chai');
 const navbar = new Navbar();
 
@@ -24,13 +27,18 @@ const endPoint = [
     '/virtual-care',
 ];
 
+const config: Config = getCurrentConfig();
+
+
 const userOne = Role(
-    `${baseUrl()}/home`,
-    async ()=> {
+
+    config.env?.url,
+
+    async () => {
         await t
-            .typeText('input[name="loginfmt"]', username)
+            .typeText('input[name="loginfmt"]', config.user?.login)
             .click('[type="submit"]')
-            .typeText('input[name="passwd"]', password)
+            .typeText('input[name="passwd"]', config.user?.password)
             .click('[type="submit"]');
     },
     { preserveUrl: true }
@@ -44,7 +52,7 @@ for (let i = 0; i < ct; i++) {
     // console.log(title);
     const userTwo = Role(
         `${baseUrl()}/home`,
-        async ()=> {
+        async () => {
             await t
                 .typeText('input[name="loginfmt"]', username)
                 .click('[type="submit"]')
@@ -56,7 +64,7 @@ for (let i = 0; i < ct; i++) {
 
     fixture`E2E - C/R/I/S End Points`.page(`${baseUrl()}${title}`);
 
-    test('Test ' + `${title}` + ' endPoint on 36eight', async ()=> {
+    test('Test ' + `${title}` + ' endPoint on 36eight', async () => {
         await t.maximizeWindow();
         await t.useRole(userTwo);
         // await t.openWindow(`${baseUrl()}${title}`);
@@ -97,53 +105,53 @@ fixture`E2E - C/R/I/S HOME PAGE Elements`
     .before(async () => {
         console.log('Test begins');
     })
-    .beforeEach(async ()=> {
+    .beforeEach(async () => {
         await t.maximizeWindow();
         await t.useRole(userOne);
     })
-    .afterEach(async ()=> {
+    .afterEach(async () => {
         await t.maximizeWindow();
     })
     .disablePageCaching.after(async () => {
         console.log('Test is Done!');
     });
 
-test('Test Home button on 36eighttechnologies.com site', async ()=> {
+test('Test Home button on 36eighttechnologies.com site', async () => {
     await navbar.selectHome('HOME');
 }).disablePageCaching;
-test('Test ORDERS button on 36eighttechnologies.com site', async ()=> {
+test('Test ORDERS button on 36eighttechnologies.com site', async () => {
     await navbar.confirmMenuOptionExists('ORDERS');
 }).disablePageCaching;
-test('Test PATIENTS button on 36eighttechnologies.com site', async ()=> {
+test('Test PATIENTS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('PATIENTS');
 }).disablePageCaching;
-test('Test PRACTITIONERS button on 36eighttechnologies.com site', async ()=> {
+test('Test PRACTITIONERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('PRACTITIONERS');
 }).disablePageCaching;
-test('Test Medical Authorizations button on 36eighttechnologies.com site', async ()=> {
+test('Test Medical Authorizations button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('MEDICAL AUTHORIZATIONS');
 }).disablePageCaching;
-test('Test PRODUCTS button on 36eighttechnologies.com site', async ()=> {
+test('Test PRODUCTS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('PRODUCTS');
 }).disablePageCaching;
-test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async ()=> {
+test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('DRUG INTERACTIONS');
     await waitForAngular();
     await t
-    .setNativeDialogHandler(() => true)
-    .expect((navbar as any).diModal.exists)
-    .ok('oops, it doesnt exist')
-    .hover((navbar as any).diModal);
+        .setNativeDialogHandler(() => true)
+        .expect(navbar as any.diModal.exists)
+        .ok('oops, it doesnt exist')
+        .hover(navbar as any.diModal);
 
-    await t.wait(1000).click((navbar as any).diModal).switchToMainWindow();
+    await t.wait(1000).click(navbar as any.diModal).switchToMainWindow();
 }).disablePageCaching;
-test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async ()=> {
+test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('LICENSED SELLERS');
 }).disablePageCaching;
-test('Test CONTINUE EDUCATION button on 36eighttechnologies.com site', async ()=> {
+test('Test CONTINUE EDUCATION button on 36eighttechnologies.com site', async () => {
     await navbar.confirmMenuOptionExists('CONTINUING EDUCATION');
 }).disablePageCaching;
-test('Test CONTINUE EDUCATION button on 36eighttechnologies.com site', async ()=> {
+test('Test CONTINUE EDUCATION button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('VIRTUAL CARE');
 }).disablePageCaching;
 
@@ -152,11 +160,11 @@ fixture`E2E - C/R/I/S HOME PAGE Elements`
     .before(async () => {
         console.log('Test begins');
     })
-    .beforeEach(async ()=> {
+    .beforeEach(async () => {
         await t.maximizeWindow();
         await t.useRole(userOne);
     })
-    .afterEach(async ()=> {
+    .afterEach(async () => {
         await t.maximizeWindow();
     })
     .disablePageCaching.after(async () => {

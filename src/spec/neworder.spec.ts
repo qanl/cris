@@ -62,12 +62,12 @@ test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () =
     await navbar.selectMenuOption('DRUG INTERACTIONS');
     await waitForAngular();
     await t
-    .setNativeDialogHandler(() => true)
-    .expect((navbar as any).diModal.exists)
-    .ok('oops, it doesnt exist')
-    .hover((navbar as any).diModal);
+        .setNativeDialogHandler(() => true)
+        .expect(navbar as any.diModal.exists)
+        .ok('oops, it doesnt exist')
+        .hover(navbar as any.diModal);
 
-    await t.wait(1000).click((navbar as any).diModal).switchToMainWindow();
+    await t.wait(1000).click(navbar as any.diModal).switchToMainWindow();
 }).disablePageCaching;
 test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('LICENSED SELLERS');
@@ -112,28 +112,29 @@ test.only('Verify Update Patient', async () => {
     await t.switchToMainWindow();
 
     const getLocation = ClientFunction(() => document.location.href);
+
     /** Navigate to Patients list */
-await t.click((patientnav as any).patBtn);
+    await t.click(patientnav as any.patBtn);
     await t.wait(1000);
     // await t.click(patientnav.privacyBtnActive);
     await t.expect(getLocation()).contains('/#/patients');
     /** Open Create Patient modal menu */
-await t
-    .expect((patientnav as any).createPatientBtn.exists)
-    .notOk('Create Patient button is present!');
+    await t
+        .expect(patientnav as any.createPatientBtn.exists)
+        .notOk('Create Patient button is present!');
     // await t.click(patientnav.createPatientBtn);
-// Select first patient from the list
-await patientnav.clickOption((patientnav as any).patBtn);
+    // Select first patient from the list
+    await patientnav.clickOption(patientnav as any.patBtn);
     await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'AMENTA'); // select patient name starting with 'A'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
     await waitForAngular();
     await t
-    .expect((patientnav as any).patientDetailsBtnEnabled.exists)
-    .ok('Oops, something went wrong!')
-    .click((patientnav as any).patientDetailsBtnEnabled)
-    .wait(1000)
-    .expect((patientnav as any).subLastName.innerText)
-    .contains('ALAEI', 'oops!');
+        .expect(patientnav as any.patientDetailsBtnEnabled.exists)
+        .ok('Oops, something went wrong!')
+        .click(patientnav as any.patientDetailsBtnEnabled)
+        .wait(1000)
+        .expect(patientnav as any.subLastName.innerText)
+        .contains('ALAEI', 'oops!');
 
     const inputFirstName = await Selector(
         'div:nth-child(2) > div:nth-child(1) > div.pl-1.overflow'
@@ -145,7 +146,7 @@ await patientnav.clickOption((patientnav as any).patBtn);
     console.log(inputFirstName.toString());
     console.log(inputLastName.toString());
     /** Add New Order */
-await t.click((patientnav as any).subOrders).click((patientnav as any).subNewOrderBtn);
+    await t.click(patientnav as any.subOrders).click(patientnav as any.subNewOrderBtn);
 
     await t.setNativeDialogHandler(() => true);
     await t.click('.align-items-center > span.ng-star-inserted > button');

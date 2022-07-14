@@ -2,7 +2,7 @@
   "browsers": "edge",
   "proxyBypass": "*@36eighttechnologies.com",
   "disableHttp2": false,
-  "src": ["src/spec/orders.spec.ts"],
+  "src": ["src/spec/createpat.spec.ts"],
   "reporter": [
     {
       "name": "spec"
@@ -19,7 +19,7 @@
     "pathPattern": "/${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
   },
   "filter": {
-    "testGrep": "Verify create New Order"
+    "testGrep": "Verify"
   },
   "quarantineMode": false,
   "stopOnFirstFail": false,
