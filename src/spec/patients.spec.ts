@@ -1,6 +1,6 @@
 import { baseUrl, password, username } from '../../index.js';
 // import {Navbar} from '../../page-objects/components/navbar';
-import {PatientNav} from '../../page-objects/components/patientnav';
+import { PatientNav } from '../../page-objects/components/patientnav';
 import { waitForAngular } from 'testcafe-angular-selectors';
 import { Selector, Role, ClientFunction, t } from 'testcafe';
 import { expect } from 'chai';
