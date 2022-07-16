@@ -1,6 +1,6 @@
 export const personas: UserInfo[] = [
     { name: 'user 1', login: 'n ', password: ' qw!' },
-    { name: 'user 2', login: 'nic36eight@gmnail.com', password: 'C!' },
+    { name: 'user 2', login: 'ni om', password: 'C!' },
     { name: 'user 3', login: 'u  m ', password: 'P ' },
 ];
 
