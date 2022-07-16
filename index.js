@@ -28,8 +28,8 @@ export const baseUrl = () => {
 
 // export const username = 'ni4';
 // export const password = 'Chrt!';
-export const username = 'nlapuste@36eighttechnologies.com';
-export const password = 'Biserica89!';
+export const username = 'dx';
+export const password = 'dd';
 
 const d = new Date();
 
