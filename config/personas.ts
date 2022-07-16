@@ -29,4 +29,4 @@ export interface UserInfo {
   password?: string;
 }
 
-export type Email = 'nlapuste@36eighttechnologies.com' | 'nic36eight@gmnail.com' | 'user3@example.com';
+export type Email = 'n ' | ' dm' | 'd';
