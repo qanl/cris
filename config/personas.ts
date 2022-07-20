@@ -1,8 +1,8 @@
 export const personas: UserInfo[] = [
 <<<<<<< HEAD
-    { name: 'user 1', login: 'nlapuste@36eighttechnologies.com', password: 'Biserica89!' },
-    { name: 'user 2', login: 'nic36eight@gmail.com', password: 'Churchill89!' },
-    { name: 'user 3', login: 'user3@example.com', password: 'Password1' },
+    { name: 'user 1', login: 'n7a7', password: 'B76' },
+    { name: 'user 2', login: 'n7m', password: 'Churchill89!' },
+    { name: 'user 3', login: 'user3@example.com', password: 'Pass7' },
 =======
     { name: 'user 1', login: 'n ', password: ' qw!' },
     { name: 'user 2', login: 'ni om', password: 'C!' },
@@ -36,7 +36,7 @@ export interface UserInfo {
 }
 
 <<<<<<< HEAD
-export type Email = 'nlapuste@36eighttechnologies.com' | 'nic36eight@gmail.com' | 'user3@example.com';
+export type Email = 'n7' | 'ni7m' | 'use7om';
 =======
 export type Email = 'n ' | ' dm' | 'd';
 >>>>>>> f4587317c84a9df2d36c91acbd10b523e1375812
