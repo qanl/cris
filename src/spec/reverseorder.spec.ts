@@ -1,6 +1,6 @@
-import { baseUrl, password, username } from '../../index.js';
-import Navbar from '../../page-objects/components/navbar.js';
-import OrdersNav from '../../page-objects/ordersnav.js';
+import { baseUrl, password, username } from '../../index';
+import { Navbar } from '../../page-objects/components/navbar';
+import { OrdersNav } from '../../page-objects/components/ordersnav';
 import { waitForAngular } from 'testcafe-angular-selectors';
 // import xpathSelector from '../utilities/xpath-selector.js';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
@@ -62,11 +62,11 @@ test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () =
     await waitForAngular();
     await t
         .setNativeDialogHandler(() => true)
-        .expect(navbar as any.diModal.exists)
+        .expect(navbar.diModal.exists)
         .ok('oops, it doesnt exist')
-        .hover(navbar as any.diModal);
+        .hover(navbar.diModal);
 
-    await t.wait(1000).click(navbar as any.diModal).switchToMainWindow();
+    await t.wait(1000).click(navbar.diModal).switchToMainWindow();
 }).disablePageCaching;
 test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('LICENSED SELLERS');
@@ -113,27 +113,27 @@ test('Verify Create New Order', async () => {
     const getLocation = ClientFunction(() => document.location.href);
 
     /** Navigate to Patients list */
-    await t.click(ordersnav as any.patBtn);
+    await t.click(ordersnav.patBtn);
     await t.wait(1000);
     // await t.click(ordersnav.privacyBtnActive);
     await t.expect(getLocation()).contains('/#/patients');
     await t.takeElementScreenshot(Selector('body.ng-tns-0-0'), 'patients/patients_full.png');
     /** Open Create Patient modal menu */
     await t
-        .expect(ordersnav as any.createPatientBtn.exists)
+        .expect(ordersnav.createPatientBtn.exists)
         .notOk('Create Patient button is present!');
 
-    await ordersnav.clickOption(ordersnav as any.patBtn);
+    await ordersnav.clickOption(ordersnav.patBtn);
     await ordersnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'AHMED'); // select patient name starting with the given name'
 
     await t.takeScreenshot('/orders/patient_profile.png');
     await waitForAngular();
     await t
-        .expect(ordersnav as any.patientDetailsBtnEnabled.exists)
+        .expect(ordersnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
-        .click(ordersnav as any.patientDetailsBtnEnabled)
+        .click(ordersnav.patientDetailsBtnEnabled)
         .wait(1000)
-        .expect(ordersnav as any.subLastName.innerText).notEql('');
+        .expect(ordersnav.subLastName.innerText).notEql('');
     // .contains('MOHORUK', 'oops!');
 
     const inputFirstName = await Selector(
@@ -147,7 +147,7 @@ test('Verify Create New Order', async () => {
     console.log(inputLastName.toString());
     // await t.takeElementScreenshot('body > app-root > div > div > div:nth-child(2)', '/orders/profile_full.png');
     /** Add New Order */
-    await t.click(ordersnav as any.subOrders).click(ordersnav as any.subNewOrderBtn);
+    await t.click(ordersnav.subOrders).click(ordersnav.subNewOrderBtn);
     await t.setNativeDialogHandler(() => true);
     await t.click('.align-items-center > span.ng-star-inserted > button');
     await t.takeElementScreenshot(Selector('create-mx-modal > div > div.modal-body.p-0'), '/orders/new_order.png');
@@ -253,7 +253,7 @@ test('Verify Create New Order', async () => {
     await waitForAngular();
     await t.wait(1000);
     /** Click Next to advance after Confirming Patient and HCP info */
-    await t.click(ordersnav as any.newOrderNext);
+    await t.click(ordersnav.newOrderNext);
 
     await waitForAngular();
     await t.wait(2000);
@@ -284,70 +284,70 @@ test('Verify Create New Order', async () => {
         );
 
 });
-test.disablePageCaching.only('Verify the Reverse Order ', async () => {
+test.disablePageCaching('Verify the Reverse Order ', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
     const getLocation = ClientFunction(() => document.location.href);
 
     /** Navigate to Patients list */
-    await ordersnav.clickOption(ordersnav as any.ordersOption);
+    await ordersnav.clickOption(ordersnav.ordersOption);
     await t.expect(getLocation()).contains('/#/orders');
-    await t.expect(ordersnav as any.ordersListFull.innerText).contains('0000', 'Oops, no orders!');
+    await t.expect(ordersnav.ordersListFull.innerText).contains('0000', 'Oops, no orders!');
 
-    await t.takeElementScreenshot(ordersnav as any.ordersListFull, 'orders/orders_full.png');
+    await t.takeElementScreenshot(ordersnav.ordersListFull, 'orders/orders_full.png');
 
 
     /**Filter Orders by given Status */
     await t
-        .click(ordersnav as any.orderFilterByStatus)
-        .typeText(ordersnav as any.orderFilterInput, 'Missing', { replace: true, speed: 0.07 })
+        .click(ordersnav.orderFilterByStatus)
+        .typeText(ordersnav.orderFilterInput, 'Missing', { replace: true, speed: 0.07 })
         .pressKey('enter');
 
-    await t.expect(ordersnav as any.orderFirstRecord.exists).ok('Oops, no record matched your search criteria!');
+    await t.expect(ordersnav.orderFirstRecord.exists).ok('Oops, no record matched your search criteria!');
 
     await t.takeElementScreenshot('body.ng-tns-0-0', 'patients/patient_filtered.png');
     await t
         .setNativeDialogHandler(() => true)
-        .hover(ordersnav as any.orderFirstRecord)
-        .click(ordersnav as any.orderFirstRecord)
-        .click(ordersnav as any.orderOrderDetails);
+        .hover(ordersnav.orderFirstRecord)
+        .click(ordersnav.orderFirstRecord)
+        .click(ordersnav.orderOrderDetails);
     await waitForAngular();
     await t.wait(2000);
     await t.setNativeDialogHandler(() => true);
 
-    await t.expect(ordersnav as any.orderPatientDetails.exists).ok('Ooops, details are missing something went wrong!');
-    await t.expect(ordersnav as any.orderReverseBtn.exists).ok('Ooops, button Reverser Order does NOT exists!');
-    await t.expect(ordersnav as any.orderPrintBtn.exists).ok('Ooops, buttton Print does not exists!');
-    await t.expect(ordersnav as any.orderCloseBtn.exists).ok('Ooops, button Close does not exists!');
+    await t.expect(ordersnav.orderPatientDetails.exists).ok('Ooops, details are missing something went wrong!');
+    await t.expect(ordersnav.orderReverseBtn.exists).ok('Ooops, button Reverser Order does NOT exists!');
+    await t.expect(ordersnav.orderPrintBtn.exists).ok('Ooops, buttton Print does not exists!');
+    await t.expect(ordersnav.orderCloseBtn.exists).ok('Ooops, button Close does not exists!');
 
     /** Verify other Order Details Elements */
-    await t.expect(ordersnav as any.orderCic.exists).ok();
-    await t.expect(ordersnav as any.orderPatDOB.exists).ok();
-    await t.expect(ordersnav as any.orderProduct.exists).ok();
-    await t.expect(ordersnav as any.orderTHC.exists).ok();
-    await t.expect(ordersnav as any.orderCBD.exists).ok();
-    await t.expect(ordersnav as any.orderSize.exists).ok();
-    await t.expect(ordersnav as any.orderPrice.exists).ok();
-    await t.expect(ordersnav as any.orderQty.exists).ok();
+    await t.expect(ordersnav.orderCic.exists).ok();
+    await t.expect(ordersnav.orderPatDOB.exists).ok();
+    await t.expect(ordersnav.orderProduct.exists).ok();
+    await t.expect(ordersnav.orderTHC.exists).ok();
+    await t.expect(ordersnav.orderCBD.exists).ok();
+    await t.expect(ordersnav.orderSize.exists).ok();
+    await t.expect(ordersnav.orderPrice.exists).ok();
+    await t.expect(ordersnav.orderQty.exists).ok();
 
-    await t.expect(await ordersnav.getNumValue(ordersnav as any.orderPrice)).gte(10);
+    await t.expect(await ordersnav.getNumValue(ordersnav.orderPrice)).gte(10);
 
     // Reverse Order
-    await t.click(ordersnav as any.orderReverseBtn);
+    await t.click(ordersnav.orderReverseBtn);
     await waitForAngular();
     await t.wait(2000);
     await t.setNativeDialogHandler(() => true);
 
-    await t.expect(ordersnav as any.orderReverseModal.exists).ok('Ooops, this warning did not popup!');
+    await t.expect(ordersnav.orderReverseModal.exists).ok('Ooops, this warning did not popup!');
 
-    await t.expect(ordersnav as any.orderReverseWarningMsg.innerText).contains(ordersnav as any.orderWarningStringO.toString());
-    await t.expect(ordersnav as any.orderReverseAccept.innerText).contains('I accept all conditions and impacts identified above.', 'Oops, the accept text is not there!');
+    await t.expect(ordersnav.orderReverseWarningMsg.innerText).contains(ordersnav.orderWarningStringO.toString());
+    await t.expect(ordersnav.orderReverseAccept.innerText).contains('I accept all conditions and impacts identified above.', 'Oops, the accept text is not there!');
 
-    await t.takeElementScreenshot(ordersnav as any.orderReverseModal, 'orders/warning_reverseOrder.png');
-    await t.click(ordersnav as any.orderReverseCheck);
-    await t.takeElementScreenshot(ordersnav as any.orderReverseModal, 'orders/warning_checked_reverseOrder.png');
-    await t.click(ordersnav as any.orderReverseWarningBtn);
+    await t.takeElementScreenshot(ordersnav.orderReverseModal, 'orders/warning_reverseOrder.png');
+    await t.click(ordersnav.orderReverseCheck);
+    await t.takeElementScreenshot(ordersnav.orderReverseModal, 'orders/warning_checked_reverseOrder.png');
+    await t.click(ordersnav.orderReverseWarningBtn);
 
 
 });

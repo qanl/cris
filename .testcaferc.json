@@ -1,15 +1,16 @@
 {
   "browsers": "edge",
-  "proxyBypass": "*@36eighttechnologies.com",
+  "proxyBypass": "*.36eighttechnologies.com",
   "disableHttp2": false,
-  "src": ["src/spec/homepage.spec.ts"],
+  "baseUrl": "https://cris-web-int.36eighttechnologies.com/#/home",
+  "src": ["src/spec/consultation.spec.ts"],
   "reporter": [
     {
       "name": "spec"
     },
     {
       "name": "html",
-      "output": "./artifacts/SmokeTest_14_July_report.html"
+      "output": "./artifacts/E2E_IT124_18_July_report.html"
     }
   ],
   "screenshots": {
@@ -19,7 +20,7 @@
     "pathPattern": "/${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
   },
   "filter": {
-    "testGrep": "Verify"
+    "testGrep": " "
   },
   "quarantineMode": false,
   "stopOnFirstFail": false,

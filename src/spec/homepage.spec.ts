@@ -4,7 +4,7 @@ import { baseUrl, password, username } from '../../index.js';
 import { PatientNav } from '../../page-objects/components/patientnav';
 import { OrdersNav } from '../../page-objects/components/ordersnav';
 import { Navbar } from '../../page-objects/components/navbar';
-import { waitForAngular } from 'testcafe-angular-selectors';
+// import { waitForAngular } from 'testcafe-angular-selectors';
 import { Selector, Role, ClientFunction, t, fixture } from 'testcafe';
 const { expect } = require('chai');
 const navbar = new Navbar();
@@ -14,13 +14,13 @@ const endPoint = [
     '/daily-sales',
     '/orders',
     '/patients',
-    '/patients/690/information',
-    '/patients/690/medical-authorizations',
-    '/patients/690/orders',
-    '/patients/690/medications',
-    '/patients/690/consultations',
-    '/patients/690/notes',
-    '/patients/690/attachments',
+    '/patients/714/information',
+    '/patients/714/medical-authorizations',
+    '/patients/714/orders',
+    '/patients/714/medications',
+    '/patients/714/consultations',
+    '/patients/714/notes',
+    '/patients/714/attachments',
     '/hcps',
     '/medical-authorizations',
     '/products',
@@ -80,7 +80,7 @@ for (let i = 0; i < ct; i++) {
             path:     'test-reports/' + `${title}` + '.png',
             fullPage: true,
         });
-    }).disablePageCaching;
+    });
 }
 
 // fixture.only`Selector.addCustomMethods propagation`
@@ -142,7 +142,7 @@ test('Verify that under my reports there are two subpages: Consultation Reminder
 
     await t.takeElementScreenshot('body > app-root > div > div > div:nth-child(2) > div:nth-child(2)', 'homepage/7184_twosubpageslnks.png' );
 
-}).disablePageCaching;
+});
 test('Verify that you can see CRIS notifications (created by admin portal)', async () => {
     await navbar.selectHome('HOME');
     await t.maximizeWindow();
@@ -152,24 +152,23 @@ test('Verify that you can see CRIS notifications (created by admin portal)', asy
 
     expect(crisNotif).to.equal('CRIS Notifications', 'Oops there is NO notification. Add at least one notification! in Admin Portal');
     await t.takeElementScreenshot('.notification-box.p-4', 'homepage/7185_crisnotifications.png' );
-}).disablePageCaching;
+});
 
 
-test('Verify if the user duplicates the windows tab, CRIS should log you out of the original tab. New tab remains signed in.', async () => {
+test.only('Verify if the user duplicates the windows tab, CRIS should log you out of the original tab. New tab remains signed in.', async () => {
     await navbar.selectHome('HOME');
     await t
-        .openWindow('https://cris-web-int.36eighttechnologies.com/#/home')
+        .openWindow('https://cris-web-int.36eighttechnologies.com')
         .resizeWindow(1024, 768)
         .takeScreenshot('homepage/7186_NewWindowsSignedIn.png');
 
-    const parentWindow = await t.getCurrentWindow();
-
     await t
-        .switchToParentWindow()
+        .switchToPreviousWindow()
         .wait(1000);
 
+    /**refresh*/
 
-    await t.eval(() => location.reload());
+    navbar.refresh;
     await t.wait(2000);
 
     const url = await t.eval(() => document.documentURI);
@@ -178,16 +177,7 @@ test('Verify if the user duplicates the windows tab, CRIS should log you out of 
 
     await t.takeScreenshot( 'homepage/7186_crisOldWindowSignedOut.png' );
 
-
-    await t.switchToPreviousWindow();
-
-    const cUrl = await t.eval(() => document.documentURI);
-
-    await t.expect(cUrl).contains('cris-web-int.36eighttechnologies.com');
-
-    await t.takeScreenshot( 'homepage/7186_NewWindowSignINSuccess.png' );
-
-}).disablePageCaching;
+});
 
 test('Verify going to the wrong URL, should redirect the user to 404 page', async () => {
     await navbar.selectHome('HOME');
@@ -223,13 +213,13 @@ test('Verify going to the wrong URL, should redirect the user to 404 page', asyn
         .expect(getLocation())
         .contains('/#/home');
     await t.takeScreenshot('homepage/7187_crisBackHomeindow.png');
-}).disablePageCaching;
+});
 
 test('Verify that the user should extend the session timeout by clicking extend my session', async () => {
     await navbar.selectHome('HOME');
     await t.wait(5000); /// needs 20 minutes way too longTimeout
     await t.takeScreenshot( 'homepage/7188_CRISBeforeTimeout.png' );
-}).disablePageCaching;
+});
 
 test('Verify that the user should sign out from CRIS by clicking on sign out button', async () => {
     await navbar.selectHome('HOME');
@@ -251,7 +241,7 @@ test('Verify that the user should sign out from CRIS by clicking on sign out but
 
     await t.switchToMainWindow();
     await t.takeScreenshot('homepage/7189_SignedOut.png' );
-}).disablePageCaching;
+});
 test('Verify that by default when the user logs in to CRIS, privacy should be OFF', async () => {
     await navbar.selectHome('HOME');
     await t.switchToMainWindow();
@@ -262,7 +252,7 @@ test('Verify that by default when the user logs in to CRIS, privacy should be OF
         .ok('Oops, the Privacy button is toggles ON!!');
 
     await t.takeElementScreenshot(navbar.privacyIsOff, 'homepage/7190_PrivacyIsOff.png' );
-}).disablePageCaching;
+});
 test('Verify that if the user clicks on the CRIS logo anywhere in the app, the user should be redirected to the home page', async () => {
     await navbar.selectHome('HOME');
     const getLocation = ClientFunction(() => document.location.href);
@@ -276,25 +266,25 @@ test('Verify that if the user clicks on the CRIS logo anywhere in the app, the u
         .expect(getLocation())
         .contains('/#/home');
 
-}).disablePageCaching;
+});
 test('Test ORDERS button on 36eighttechnologies.com site', async () => {
     await navbar.confirmMenuOptionExists('ORDERS');
-}).disablePageCaching;
+});
 test('Test PATIENTS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('PATIENTS');
-}).disablePageCaching;
+});
 test('Test PRACTITIONERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('PRACTITIONERS');
-}).disablePageCaching;
+});
 test('Test Medical Authorizations button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('MEDICAL AUTHORIZATIONS');
-}).disablePageCaching;
+});
 test('Test PRODUCTS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('PRODUCTS');
-}).disablePageCaching;
+});
 test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('DRUG INTERACTIONS');
-    await waitForAngular();
+    // await waitForAngular();
     await t
         .setNativeDialogHandler(() => true)
         .expect(navbar.diModal.exists)
@@ -302,16 +292,16 @@ test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () =
         .hover(navbar.diModal);
 
     await t.wait(1000).click(navbar.diModal).switchToMainWindow();
-}).disablePageCaching;
+});
 test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('LICENSED SELLERS');
-}).disablePageCaching;
+});
 test('Test CONTINUE EDUCATION button on 36eighttechnologies.com site', async () => {
     await navbar.confirmMenuOptionExists('CONTINUING EDUCATION');
-}).disablePageCaching;
+});
 test('Test CONTINUE EDUCATION button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('VIRTUAL CARE');
-}).disablePageCaching;
+});
 
 fixture`E2E - C/R/I/S HOME PAGE Elements`
     .page(`${baseUrl()}/home`)

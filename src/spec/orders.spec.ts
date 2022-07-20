@@ -2,10 +2,10 @@ import { Config } from '../../config/config.interface';
 import { getCurrentConfig } from '../../config/testcafe-config';
 // import { env } from '../../step-filters/env'
 // import { baseUrl, password, username } from '../../index.js';
-import Navbar from '../../page-objects/components/navbar';
+import { Navbar } from '../../page-objects/components/navbar';
 import { PatientNav } from '../../page-objects/components/patientnav';
 import { OrdersNav } from '../../page-objects/components/ordersnav';
-import waitForAngular from 'testcafe-angular-selectors';
+import { waitForAngular } from 'testcafe-angular-selectors';
 // import xpathSelector from '../utilities/xpath-selector.js';
 const { Selector, Role, ClientFunction, t } = require('testcafe');
 const navbar = new Navbar();
@@ -76,11 +76,11 @@ test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () =
     // await waitForAngular();
     await t
         .setNativeDialogHandler(() => true)
-        .expect(navbar as any.diModal.exists)
+        .expect(navbar.diModal.exists)
         .ok('oops, it doesnt exist')
-        .hover(navbar as any.diModal);
+        .hover(navbar.diModal);
 
-    await t.wait(1000).click(navbar as any.diModal).switchToMainWindow();
+    await t.wait(1000).click(navbar.diModal).switchToMainWindow();
 }).disablePageCaching;
 test('Test LICENSED SELLERS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('LICENSED SELLERS');
@@ -108,7 +108,7 @@ fixture`E2E - C/R/I/S Create Order for Patient`
         console.log('Test is Done!');
     });
 
-test('Verify that by default when the user logs in to CRIS, privacy should be ON', async () => {
+test('Verify that by default when the user logs in to CRIS, privacy should be OFF', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -127,7 +127,7 @@ test('Verify create New Order', async () => {
     const getLocation = ClientFunction(() => document.location.href);
 
     /** Navigate to Patients list */
-    await t.click(patientnav as any.patBtn);
+    await t.click(patientnav.patBtn);
     await t.wait(1000);
     // await t.click(patientnav.privacyBtnActive);
     await t.expect(getLocation()).contains('/#/patients');
@@ -136,17 +136,17 @@ test('Verify create New Order', async () => {
     // await t
     //     .expect(patientnav.createPatientBtn.exists)
     //     .notOk('Create Patient button is present!');
-    await patientnav.clickOption(patientnav as any.patBtn);
+    await patientnav.clickOption(patientnav.patBtn);
     await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'KNUDSEN'); // select patient name starting with the given name'
     await t.takeScreenshot('/orders/patient_profile.png');
 
     // await waitForAngular();
     await t
-        .expect(patientnav as any.patientDetailsBtnEnabled.exists)
+        .expect(patientnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
-        .click(patientnav as any.patientDetailsBtnEnabled)
+        .click(patientnav.patientDetailsBtnEnabled)
         .wait(1000)
-        .expect(patientnav as any.subLastName.innerText).notEql('');
+        .expect(patientnav.subLastName.innerText).notEql('');
     // .contains('MOHORUK', 'oops!');
 
     const inputFirstName = await Selector(
@@ -160,7 +160,7 @@ test('Verify create New Order', async () => {
     console.log(inputLastName.toString());
     // await t.takeElementScreenshot('body > app-root > div > div > div:nth-child(2)', '/orders/profile_full.png');
     /** Add New Order */
-    await t.click(patientnav as any.subOrders).click(patientnav as any.subNewOrderBtn);
+    await t.click(patientnav.subOrders).click(patientnav.subNewOrderBtn);
     await t.setNativeDialogHandler(() => true);
     await t.click('.align-items-center > span.ng-star-inserted > button');
     await t.takeElementScreenshot(Selector('create-mx-modal > div > div.modal-body.p-0'), 'orders/new_order.png');
@@ -273,7 +273,7 @@ test('Verify create New Order', async () => {
     // await waitForAngular();
     await t.wait(1000);
     /** Click Next to advance after Confirming Patient and HCP info */
-    await t.click(patientnav as any.newOrderNext);
+    await t.click(patientnav.newOrderNext);
 
     // await waitForAngular();
     await t.wait(2000);

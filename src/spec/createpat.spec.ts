@@ -4,7 +4,7 @@ import { getCurrentConfig } from '../../config/testcafe-config';
 import { PatientNav } from '../../page-objects/components/patientnav';
 import { OrdersNav } from '../../page-objects/components/ordersnav';
 import Random from '../../page-objects/components/rand.mo';
-import { waitForAngular } from 'testcafe-angular-selectors';
+// import { waitForAngular } from 'testcafe-angular-selectors';
 
 import { faker } from '@faker-js/faker';
 
@@ -76,7 +76,7 @@ test('Verify user can select a patient record from the Patients menu option', as
     await patientnav.clickOption(patientnav.patBtn);
     await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'ABAO'); // select patient name starting with 'BAC'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
-    await waitForAngular();
+    // await waitForAngular();
     await t
         .expect(patientnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
@@ -86,7 +86,7 @@ test('Verify user can select a patient record from the Patients menu option', as
         .contains('ABAO', 'oops!');
 });
 
-test.skip('Verify Create Patient', async () => {
+test.only('Verify Create Patient', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 

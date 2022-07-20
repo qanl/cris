@@ -1,6 +1,6 @@
 export const personas: UserInfo[] = [
     { name: 'user 1', login: 'nlapuste@36eighttechnologies.com', password: 'Biserica89!' },
-    { name: 'user 2', login: 'nic36eight@gmnail.com', password: 'Churchill89!' },
+    { name: 'user 2', login: 'nic36eight@gmail.com', password: 'Churchill89!' },
     { name: 'user 3', login: 'user3@example.com', password: 'Password1' },
 ];
 
@@ -15,9 +15,9 @@ export function user (login: Email | undefined): UserInfo | undefined {
     }
     const foundUser = personas.filter((p: UserInfo): boolean => p.login === login)[0];
 
-    if (foundUser) 
+    if (foundUser)
         return foundUser;
-  
+
 
     // eslint-disable-next-line no-console
     console.warn(`User login "${login}" is not found. Available logins are: ${userLogins}`);
@@ -29,4 +29,4 @@ export interface UserInfo {
   password?: string;
 }
 
-export type Email = 'nlapuste@36eighttechnologies.com' | 'nic36eight@gmnail.com' | 'user3@example.com';
+export type Email = 'nlapuste@36eighttechnologies.com' | 'nic36eight@gmail.com' | 'user3@example.com';

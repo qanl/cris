@@ -1,5 +1,5 @@
-import { Selector, t } from 'testcafe';
-import { waitForAngular } from 'testcafe-angular-selectors';
+import { ClientFunction, Selector, t } from 'testcafe';
+// import { waitForAngular } from 'testcafe-angular-selectors';
 // Import in tests like this:
 // --------------------------
 // import Navbar from '../page-objects/components/Navbar'
@@ -29,6 +29,9 @@ export class Navbar {
     privacyBtnActive: Selector;
     privacyBtnDisabled: Selector;
     privacyIsOff: Selector;
+    /**Timeout popup */
+    timeoutSignOutBtn: Selector;
+    timeoutSessionDlg: Selector;
     /**Other generic form input selectors */
     selOpt: Selector;
     findFormFieldInputLabel: Selector;
@@ -58,9 +61,28 @@ export class Navbar {
         this.privacyBtnActive = Selector('.btn.btn-toggle.active'); // privacy button is active ON
         this.privacyBtnDisabled = Selector('.btn.btn-toggle'); //privacy button is disabled OFF
         this.privacyIsOff = Selector('body > app-root > div > div > div.d-print-none.dark-blue-tint-bg > left-nav > div > div > div > button[aria-pressed="false"]'); //privacy button is disabled OFF
+        /**Timeout popup UI elements */
+        this.timeoutSignOutBtn = Selector('session-timeout-pop-up > div > div.d-flex.modal-footer.justify-content-center.w-100.pt-2.mt-2 > div:nth-child(1) > button');
+        this.timeoutSessionDlg = Selector('session-timeout-pop-up > div > div.d-flex.py-2.mat-dialog-title.w-100.justify-content-betweeen.timeout-dialog-header > div.timeout-dialog-title');
     }
 
     // Functions
+
+    //    async chkGreaterDate (x:Date,y:Date) => {
+
+    //       const a = new Date(x);
+    //       const b = new Date(y);
+
+    //       if (a > b) return
+    //    }
+
+    /** Refresh action */
+    async refresh () {
+        await ClientFunction(() => {
+            document.location.reload();
+        })();
+    }
+
     /**
      *
      * @param {*} text
@@ -75,7 +97,7 @@ export class Navbar {
      * @param {*} text
      */
     async confirmMenuOptionExists (text) {
-        await waitForAngular();
+        // await waitForAngular();
 
         await t
             .hover(this.navOption.withText(text))
@@ -87,7 +109,7 @@ export class Navbar {
      * @param {*} text
      */
     async selectMenuOption (text) {
-        await waitForAngular();
+        // await waitForAngular();
 
         await t
             .hover(this.navOption.withText(text))
@@ -100,7 +122,7 @@ export class Navbar {
      * @param {*} text
      */
     async selectHome (text) {
-        await waitForAngular();
+        // await waitForAngular();
 
         await t
             .hover(this.homeOption.withText(text))
@@ -121,7 +143,7 @@ export class Navbar {
      * @param {*} sel
      */
     async fnChk (sel) {
-        await waitForAngular();
+        // await waitForAngular();
         await t.switchToMainWindow();
         const ct = await Selector(sel).count;
 

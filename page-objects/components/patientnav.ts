@@ -542,6 +542,12 @@ export class PatientNav {
     }
     // Functions
 
+    /** Refresh action */
+    async refresh () {
+        await ClientFunction(() => {
+            document.location.reload();
+        })();
+    }
 
     /**
  * getElementAttribute e, a parameters
@@ -605,7 +611,7 @@ export class PatientNav {
      * @param {*} val
      */
     async selectPatRow (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
         await t.setNativeDialogHandler(() => true);
         const filterPatName = Selector('igx-grid-header-group:nth-child(1) > igx-grid-filtering-cell > igx-chips-area  div > div.igx-chip__content');
 
@@ -638,7 +644,7 @@ export class PatientNav {
      * @param {*} val
      */
     async selectFld (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
 
         const selectedRow = Selector(sel).addCustomMethods(
             {
@@ -660,7 +666,7 @@ export class PatientNav {
      * @param {*} val
      */
     async selectHealthIssue (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
 
         const selectedRow = Selector(sel).addCustomMethods(
             {
@@ -683,7 +689,7 @@ export class PatientNav {
      * @param {*} val
      */
     async selectProd (sel, val) {
-        await waitForAngular();
+        // await waitForAngular();
 
         const selectedRow = Selector(sel).addCustomMethods(
             {
@@ -709,7 +715,7 @@ export class PatientNav {
                 .wait(500);
 
 
-        await waitForAngular();
+        // await waitForAngular();
         await checkProd;
 
         await t
@@ -804,7 +810,7 @@ export class PatientNav {
      */
     async fillHealthForm (weight, sel, prod) {
         await t.setNativeDialogHandler(() => true);
-        await waitForAngular();
+        // await waitForAngular();
         await t.wait(3000);
 
 
@@ -817,7 +823,7 @@ export class PatientNav {
                 .expect(this.weightLabel.exists).ok('Your patient does not have weight set -check it!!')
                 .wait(500);
 
-        await waitForAngular();
+        // await waitForAngular();
         await checkWeight;
 
         /** Click to select the Health Issue radio button */
@@ -833,7 +839,7 @@ export class PatientNav {
         await t.click(this.canNextBtn);
         await t.setNativeDialogHandler(() => true);
 
-        await waitForAngular();
+        // await waitForAngular();
         await t.wait(2000);
         /** Click to select a Recommended Product */
         // await this.selectFld(sel, prod);
@@ -848,7 +854,7 @@ export class PatientNav {
             .click(this.cotinueButton);
 
 
-        await waitForAngular();
+        // await waitForAngular();
         // await this.checkProductOk('Oil');
 
         await t.click('.text-center.w-25 > button.btn.btn-sm.btn-link.pb-0 > i');

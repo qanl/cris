@@ -272,6 +272,9 @@ export class OrdersNav {
     ordereReverseReadyToSubmitTxt: string;
     orderFirstRecord: Selector;
     orderLastRecord: Selector;
+    /**Timeout popup */
+    timeoutSignOutBtn: Selector;
+    timeoutSessionDlg: Selector;
     /**Other generic form input selectors */
     selOpt: Selector;
     findFormFieldInputLabel: Selector;
@@ -536,9 +539,19 @@ export class OrdersNav {
         this.ordereReverseReadyToSubmitTxt = 'Reversing the order will:Show the order as reversed throughout CRISRemove it from your sales reportRemove any grams used against the MxRemove all consultations that have taken place against the product (unless another order has been placed for the same product in the past)If this is the only order linked to the Mx it will also:Unregister the Mx from the Licensed Seller CAUTION: If the Mx associated to this order has already been registered with a Licensed Seller, you should only order other products from the same Licensed SellerRemove the Registration Date from the MX';
         this.orderFirstRecord = Selector('div.igx-grid__tbody-content>igx-display-container>igx-grid-row >igx-display-container>igx-grid-cell').nth(1); //first record
         this.orderLastRecord = Selector('div.igx-grid__tbody-content>igx-display-container>igx-grid-row >igx-display-container>igx-grid-cell').nth(-1); //last record
+        /**Timeout popup UI elements */
+        this.timeoutSignOutBtn = Selector('session-timeout-pop-up > div > div.d-flex.modal-footer.justify-content-center.w-100.pt-2.mt-2 > div:nth-child(1) > button');
+        this.timeoutSessionDlg = Selector('session-timeout-pop-up > div > div.d-flex.py-2.mat-dialog-title.w-100.justify-content-betweeen.timeout-dialog-header > div.timeout-dialog-title');
         //last record
     }
     // Functions
+
+    /** Refresh action */
+    async refresh () {
+        await ClientFunction(() => {
+            document.location.reload();
+        })();
+    }
 
     /** covert text to numeric value */
     async getNumValue (sel) {
