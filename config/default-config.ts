@@ -14,5 +14,5 @@ export const defaultConfig: Config = {
         ...{ 'on-waiting-remote-server-response': 180000 },
         ...{ 'on-waiting-custom-event': 5000 },
     },
-    user: user('nlapuste@36eighttechnologies.com'),
+    user: user('nm'),
 };
