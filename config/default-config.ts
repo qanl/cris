@@ -4,7 +4,7 @@ import { user } from './personas';
 
 
 export const defaultConfig: Config = {
-    env:        env('QA'),
+    env:        env('PROD'),
     showConfig: false,
     testSpeed:  1.0,
     timeout:    {

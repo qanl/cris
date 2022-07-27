@@ -255,7 +255,7 @@ test('7199: Verify that the user can submit a consultation', async () => {
     //     .expect(patientnav.createPatientBtn.exists)
     //     .notOk('Create Patient button is present!');
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'KNUDSEN'); // select patient name starting with the given name'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'MCCULLOUGH'); // select patient name starting with the given name'
     await t.takeScreenshot('/consultationreminders/7199_patient_profile.png');
 
     // await waitForAngular();
@@ -642,25 +642,3 @@ test('Verify that the user should sign out from CRIS by clicking on sign out but
         .expect(getLocation())
         .contains('https://login.microsoftonline.com/');
 });
-
-test('Verify that the user can signOut', async () => {
-    await t.maximizeWindow();
-    await t.switchToMainWindow();
-
-    await t.click('.border-primary');
-
-    const select = Selector("s.mt-3 );
-
-    const selectedOption = select
-            .find("option")
-                .filter((node) => {
-                    const option = node as HTMLOptionElement;
-                    if (option && option.selected) {
-                        return true;
-                    }
-                    return false;
-                })
-                .nth(0);
-    const selectedOptionContent = await selectedOption.textContent;
-    await t.click(selectedOption);
-            });

@@ -120,7 +120,7 @@ test('Verify that by default when the user logs in to CRIS, privacy should be OF
         .notOk('Oops, the Privacy button is toggled ON');
 });
 
-test('Verify create New Order', async () => {
+test.only('Verify create New Order', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -137,7 +137,7 @@ test('Verify create New Order', async () => {
     //     .expect(patientnav.createPatientBtn.exists)
     //     .notOk('Create Patient button is present!');
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'KNUDSEN'); // select patient name starting with the given name'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'FAY'); // select patient name starting with the given name'
     await t.takeScreenshot('/orders/patient_profile.png');
 
     // await waitForAngular();
@@ -231,8 +231,8 @@ test('Verify create New Order', async () => {
     await patientnav.selectHealthIssue(
         'igx-grid-cell > div.igx-grid__td-text.ng-star-inserted',
         // 'Anorexia'
-        'Amyotrophic Lateral Sclerosis'
-        // 'Arthritis (Osteoarthritis Inflammation with Mild Pain)'
+        // 'Amyotrophic Lateral Sclerosis'
+        'Arthritis (Osteoarthritis Inflammation with Mild Pain)'
     );
     await t.takeScreenshot('orders/HealthIssueMx.png');
     /**Click Create Mx */
@@ -280,7 +280,7 @@ test('Verify create New Order', async () => {
     await t.setNativeDialogHandler(() => true);
     /** Verify if the Weight field is empty */
 
-    await patientnav.fillHealthForm('98', '#productList > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container > igx-grid-row', 'Tilray');
+    await patientnav.fillHealthForm('98', '#productList > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container > igx-grid-row', 'Starseed Medicinal Inc.');
     await t.takeScreenshot('/orders/ReviewOrder.png');
     // await patientnav.checkProductOk('Oil');
     /**Click Review */

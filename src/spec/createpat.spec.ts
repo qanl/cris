@@ -33,6 +33,7 @@ const userOne = Role(
     { preserveUrl: true }
 );
 
+console.log(dob.toString());
 
 fixture`E2E - C/R/I/S Create Patients`
     .before(async (ctx) => {
@@ -119,6 +120,7 @@ test.only('Verify Create Patient', async () => {
             replace: true,
             paste:   true,
         })
+        .click('app-create-patient-modal > div > div.modal-body > div > form > div:nth-child(1) > div:nth-child(3) > div.small-text.gray-text.required > label')
         .typeText(patientnav.weight, random.randomWeight.toString(), {
             replace: true,
             paste:   true,
@@ -141,7 +143,7 @@ test.only('Verify Create Patient', async () => {
             replace: true,
             paste:   true,
         })
-        .typeText(patientnav.cityInput, 'Toronto', {
+        .typeText(patientnav.cityInput, 'LONDON', {
             replace: true,
             paste:   true,
         })
