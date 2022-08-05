@@ -101,23 +101,23 @@ for (let i = 0; i < ct; i++) {
 //         .click(fieldSet.withAttribute('id', 'tried-section').getInput(0));
 // });
 
-fixture`E2E - C/R/I/S HOME PAGE Elements`
+fixture.only`E2E - C/R/I/S HOME PAGE`
     .page(`${baseUrl()}/home`)
     .before(async () => {
         console.log('Test begins');
     })
     .beforeEach(async () => {
-        await t.maximizeWindow();
+        // await t.maximizeWindow();
         await t.useRole(userOne);
     })
     .afterEach(async () => {
-        await t.maximizeWindow();
+        // await t.maximizeWindow();
     })
     .disablePageCaching.after(async () => {
         console.log('Test is Done!');
     });
 
-test('Verify that under my reports there are two subpages: Consultation Reminders and Daily Sales', async () => {
+test('7184: Verify that under my reports there are two subpages: Consultation Reminders and Daily Sales', async () => {
     await navbar.selectHome('HOME');
 
     const sectionHeader = await Selector('.section-header').innerText;
@@ -143,7 +143,7 @@ test('Verify that under my reports there are two subpages: Consultation Reminder
     await t.takeElementScreenshot('body > app-root > div > div > div:nth-child(2) > div:nth-child(2)', 'homepage/7184_twosubpageslnks.png' );
 
 });
-test('Verify that you can see CRIS notifications (created by admin portal)', async () => {
+test('7185: Verify that you can see CRIS notifications (created by admin portal)', async () => {
     await navbar.selectHome('HOME');
     await t.maximizeWindow();
     await t.switchToMainWindow();
@@ -155,31 +155,33 @@ test('Verify that you can see CRIS notifications (created by admin portal)', asy
 });
 
 
-test.only('Verify if the user duplicates the windows tab, CRIS should log you out of the original tab. New tab remains signed in.', async () => {
+test('7186: Verify if the user duplicates the windows tab, CRIS should log you out of the original tab. New tab remains signed in.', async () => {
     await navbar.selectHome('HOME');
     await t
         .openWindow('https://cris-web-int.36eighttechnologies.com')
         .resizeWindow(1024, 768)
-        .takeScreenshot('homepage/7186_NewWindowsSignedIn.png');
+        .takeScreenshot('homepage/7186_crisNewWindow.png' );
 
-    await t
-        .switchToPreviousWindow()
-        .wait(1000);
-
-    /**refresh*/
-
-    navbar.refresh;
-    await t.wait(2000);
 
     const url = await t.eval(() => document.documentURI);
 
-    await t.expect(url).contains('https://login.microsoftonline.com/');
+    await t
+        .wait(1000)
+        .switchToParentWindow()
+        .expect(url.toString()).contains('https://login.microsoftonline.com/');
 
-    await t.takeScreenshot( 'homepage/7186_crisOldWindowSignedOut.png' );
+    /**refresh*/
+
+    await t.switchToPreviousWindow();
+    navbar.refresh;
+    await t
+        .wait(2000)
+        .resizeWindow(1024, 768);
+    await t.takeScreenshot( 'homepage/7186_crisOldWindowSignedOut.PNG' );
 
 });
 
-test('Verify going to the wrong URL, should redirect the user to 404 page', async () => {
+test('7187: Verify going to the wrong URL, should redirect the user to 404 page', async () => {
     await navbar.selectHome('HOME');
     await t.maximizeWindow();
     await t.switchToMainWindow();
@@ -197,31 +199,37 @@ test('Verify going to the wrong URL, should redirect the user to 404 page', asyn
         .expect(getLocation())
         .contains('/daily-sales');
 
+
     await t
         .navigateTo(`${baseUrl()}/daily-sale`)
         .wait(1000)
         .expect(Selector('#statusCode-label').innerText)
         .contains('404')
         .expect(getLocation())
-        .contains('/#/error-handling/404');
+        .contains('/#/error-handling/404')
+        .resizeWindow(1024, 768)
+        .takeScreenshot('homepage/7187_CRIS_404Page.png' );
 
-    await t.takeElementScreenshot('body > app-root > div > div > div:nth-child(2) > div:nth-child(2)', 'homepage/7187_CRIS_404Page.png' );
 
     await t
         .click('#btnBackToCris')
         .wait(1000)
         .expect(getLocation())
         .contains('/#/home');
-    await t.takeScreenshot('homepage/7187_crisBackHomeindow.png');
+
+    await t
+        .resizeWindow(1024, 768)
+        .takeElementScreenshot('body > app-root > div > div > div:nth-child(2)', 'homepage/7187_crisBackHomeindow.png');
 });
 
-test('Verify that the user should extend the session timeout by clicking extend my session', async () => {
+test('7188: Verify that the user should extend the session timeout by clicking extend my session', async () => {
     await navbar.selectHome('HOME');
-    await t.wait(5000); /// needs 20 minutes way too longTimeout
-    await t.takeScreenshot( 'homepage/7188_CRISBeforeTimeout.png' );
+    await t
+        .resizeWindow(1024, 768)
+        .takeElementScreenshot('body > app-root > div > div > div:nth-child(2)', 'homepage/7188_BeforeTimeOut.png' ); // needs 20 minutes way too longTimeout
 });
 
-test('Verify that the user should sign out from CRIS by clicking on sign out button', async () => {
+test('7189: Verify that the user should sign out from CRIS by clicking on sign out button', async () => {
     await navbar.selectHome('HOME');
     // await t.maximizeWindow();
     await t.switchToMainWindow();
@@ -233,7 +241,7 @@ test('Verify that the user should sign out from CRIS by clicking on sign out but
         .click('button#dropdownMenuButton > img')
         .wait(500)
         .hover(signOut)
-        .takeElementScreenshot('button#dropdownMenuButton > img', 'homepage/7189_SignOutBtn.png' )
+        .takeElementScreenshot('#signOutBtn', 'homepage/7189_SignOutBtn.png' )
         .click(signOut)
         .wait(1000)
         .expect(getLocation())
@@ -242,18 +250,19 @@ test('Verify that the user should sign out from CRIS by clicking on sign out but
     await t.switchToMainWindow();
     await t.takeScreenshot('homepage/7189_SignedOut.png' );
 });
-test('Verify that by default when the user logs in to CRIS, privacy should be OFF', async () => {
+test('7190: Verify that by default when the user logs in to CRIS, privacy should be OFF', async () => {
     await navbar.selectHome('HOME');
     await t.switchToMainWindow();
 
     await t
         .wait(1000)
         .expect(navbar.privacyIsOff.exists)
-        .ok('Oops, the Privacy button is toggles ON!!');
+        .ok('Oops, the Privacy button is toggles ON!!')
+        .resizeWindow(1024, 768)
+        .takeScreenshot('homepage/7190_PrivacyIsOff.png' );
 
-    await t.takeElementScreenshot(navbar.privacyIsOff, 'homepage/7190_PrivacyIsOff.png' );
 });
-test('Verify that if the user clicks on the CRIS logo anywhere in the app, the user should be redirected to the home page', async () => {
+test('7191: Verify that if the user clicks on the CRIS logo anywhere in the app, the user should be redirected to the home page', async () => {
     await navbar.selectHome('HOME');
     const getLocation = ClientFunction(() => document.location.href);
     /**Navigate to a different page eg. Orders*/

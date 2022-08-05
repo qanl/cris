@@ -29,6 +29,7 @@ export class Navbar {
     privacyBtnActive: Selector;
     privacyBtnDisabled: Selector;
     privacyIsOff: Selector;
+    enterMxBtn: Selector;
     /**Timeout popup */
     timeoutSignOutBtn: Selector;
     timeoutSessionDlg: Selector;
@@ -55,8 +56,9 @@ export class Navbar {
         this.coedOption = Selector('left-nav > div > nav > a:nth-child(9) > div > div');
         this.virtualCare = Selector('left-nav > div > nav > a:nth-child(10) > div > div');
         this.menuOption = Selector('a .routerlink .nav-item.nav-link.rounded-0.px-1.transparent-bg');
-        this.navOption = Selector('.d-flex.flex-row.align-items-center');
+        this.navOption = Selector('.d-flex.flex-row.align-items-center > div');
         this.diModal = Selector('.btn.close-btn.btn-sm.btn-width');
+        this.enterMxBtn = Selector('mx-list span > .btn').withText('Enter Mx');
         this.privacyTxt = Selector('h5.text-white-50'); // Priacy text
         this.privacyBtnActive = Selector('.btn.btn-toggle.active'); // privacy button is active ON
         this.privacyBtnDisabled = Selector('.btn.btn-toggle'); //privacy button is disabled OFF

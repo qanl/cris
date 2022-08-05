@@ -2,25 +2,25 @@
   "browsers": "chrome",
   "proxyBypass": "*.36eighttechnologies.com",
   "disableHttp2": false,
-  "baseUrl": "https://cris-web.36eighttechnologies.com/",
-  "src": ["src/spec/orders.spec.ts"],
+  "baseUrl": "https://cris-web-int.36eighttechnologies.com/",
+  "src": ["src/spec/medicalauth.spec.ts"],
   "reporter": [
     {
       "name": "spec"
     },
     {
       "name": "html",
-      "output": "./artifacts/E2E_PROD_26_July_report.html"
+      "output": "./artifacts/E2E_Orders_4_AUG_report.html"
     }
   ],
   "screenshots": {
     "path": "./artifacts/screenshots/",
-    "takeOnFails": true,
-    "fullPage": false,
+    "takeOnFails": 1,
+    "fullPage":0,
     "pathPattern": "/${DATE}_${TIME}/test-${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png"
   },
   "filter": {
-    "testGrep": ""
+    "testGrep": "Verify"
   },
   "quarantineMode": false,
   "stopOnFirstFail": false,

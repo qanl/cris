@@ -11,3 +11,5 @@
 /artifacts
 workspace/code-workspace
 /config/personas.ts
+/config/default-config.ts
+/config/environments.ts

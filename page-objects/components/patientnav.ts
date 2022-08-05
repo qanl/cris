@@ -215,6 +215,16 @@ export class PatientNav {
     removeProdBtn: Selector;
     addProdToOrder: Selector;
     anotherProd: Selector;
+    /**Daily Sales selectors */
+    dailySalesTitle: Selector;
+    dailySalesDate: Selector;
+    dailySalesLink: Selector;
+    dailySalesGrid: Selector;
+    dailySalesGridTreeGrouping: Selector;
+    dailySalesGridRow: Selector;
+    dailySalesArrow: Selector;
+    dailySalesSelectedArrow: Selector;
+
     /**Other generic form input selectors */
     selOpt: Selector;
     findFormFieldInputLabel: Selector;
@@ -539,6 +549,9 @@ export class PatientNav {
         this.removeProdBtn = Selector('dosing-calculator > div > div > div.d-flex.justify-content-between.d-print-none > div.d-flex > div > button:nth-child(2)');
         this.addProdToOrder = Selector('#dosingCalcGrid > div.igx-grid__tbody > div.igx-grid__tbody-content > div.mt-2.text-center.ng-star-inserted > button');
         this.anotherProd =  Selector('igx-display-container > igx-grid-cell:nth-child(6) > div');
+        this.dailySalesSelectedArrow = Selector('div > igx-icon').withAttribute(/aria-hidden/, /true/);
+        this.dailySalesLink = Selector('[routerlink="/daily-sales"]');
+        this.dailySalesGrid = Selector('igx-tree-grid#dailySalesRpt');
     }
     // Functions
 
@@ -821,6 +834,9 @@ export class PatientNav {
             .click(this.inputOkBtn)
             : await t
                 .expect(this.weightLabel.exists).ok('Your patient does not have weight set -check it!!')
+                // .hover(this.inputWeightIC)
+                // .click(this.inputWeightIC)
+                // .typeText(this.inputField, weight, { paste: true, replace: true })
                 .wait(500);
 
         // await waitForAngular();
@@ -845,13 +861,20 @@ export class PatientNav {
         // await this.selectFld(sel, prod);
         await this.selectProd(sel, prod);
         // await waitForAngular();
-
-        if (await this.confRequiredPopup.exists && await this.confRequiredPopup.visible)
-            await t.takeScreenshot('/orders/ConfirmTitration.png');
         await t
             .setNativeDialogHandler(() => true)
-            .click(this.continueTitration)
-            .click(this.cotinueButton);
+            .wait(2000);
+
+
+        if (await this.confRequiredPopup.exists && await this.confRequiredPopup.visible) {
+            await t
+                .setNativeDialogHandler(() => true)
+                .wait(1000) // wait to load the titration
+                .hover(this.continueTitration)
+                .takeScreenshot('/orders/ConfirmTitration.png')
+                .click(this.continueTitration)
+                .click(this.cotinueButton);
+        }
 
 
         // await waitForAngular();

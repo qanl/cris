@@ -1,31 +1,55 @@
 
+import { Config } from '../../config/config.interface';
+import { getCurrentConfig } from '../../config/testcafe-config';
 import { baseUrl, password, username } from '../../index.js';
-
-import Navbar from '../../page-objects/components/navbar';
-
-import PatientNav from '../../page-objects/components/patientnav';
-// import Random from '../../page-objects/components/rand.mo';
-import { waitForAngular } from 'testcafe-angular-selectors';
-// import { faker } from '@faker-js/faker';
-const { Selector, Role, ClientFunction, t } = require('testcafe');
-// const { expect } = require('chai');
+import { PatientNav } from '../../page-objects/components/patientnav';
+import { OrdersNav } from '../../page-objects/components/ordersnav';
+import { Navbar } from '../../page-objects/components/navbar';
+// import { waitForAngular } from 'testcafe-angular-selectors';
+import { Selector, Role, ClientFunction, t, fixture } from 'testcafe';
+import { lte } from 'lodash';
+const { expect } = require('chai');
 const navbar = new Navbar();
 const patientnav = new PatientNav();
-// const random = new Random();
-// const dob =
-//     random.randomDay + '-' + faker.date.month() + '-' + random.randomYear;
+const endPoint = [
+    '/consultation-reminders',
+    '/daily-sales',
+    '/orders',
+    '/patients',
+    '/patients/714/information',
+    '/patients/714/medical-authorizations',
+    '/patients/714/orders',
+    '/patients/714/medications',
+    '/patients/714/consultations',
+    '/patients/714/notes',
+    '/patients/714/attachments',
+    '/hcps',
+    '/medical-authorizations',
+    '/products',
+    '/licensed-sellers',
+    '/virtual-care',
+];
+
+const config: Config = getCurrentConfig();
+
 
 const userOne = Role(
-    `${baseUrl()}/home`,
+
+    config.env?.url,
+
     async () => {
         await t
-            .typeText('input[name="loginfmt"]', username)
+            .typeText('input[name="loginfmt"]', config.user?.login)
             .click('[type="submit"]')
-            .typeText('input[name="passwd"]', password)
+            .typeText('input[name="passwd"]', config.user?.password)
             .click('[type="submit"]');
     },
     { preserveUrl: true }
 );
+
+// const random = new Random();
+// const dob =
+//     random.randomDay + '-' + faker.date.month() + '-' + random.randomYear;
 
 fixture.only`E2E - C/R/I/S HOME PAGE Elements`
     .page(`${baseUrl()}/home`)
@@ -63,7 +87,7 @@ test('Test PRODUCTS button on 36eighttechnologies.com site', async () => {
 }).disablePageCaching;
 test('Test DRUG INTERACTIONS button on 36eighttechnologies.com site', async () => {
     await navbar.selectMenuOption('DRUG INTERACTIONS');
-    await waitForAngular();
+    // await waitForAngular();
     await t
         .setNativeDialogHandler(() => true)
         .expect(navbar.diModal.exists)
@@ -98,7 +122,7 @@ fixture`E2E - C/R/I/S Create Order for Patient`
         console.log('Test is Done!');
     });
 
-test.only('Verify that by default when the user logs in to CRIS, privacy should be ON', async () => {
+test('Verify that by default when the user logs in to CRIS, privacy should be ON', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -110,7 +134,41 @@ test.only('Verify that by default when the user logs in to CRIS, privacy should 
         .notOk('Oops, the Privacy button is toggled ON');
 });
 
-test.only('Verify Update Patient', async () => {
+test.only('Verify Daily Sale grid is displayed', async () => {
+    await t.maximizeWindow();
+    await t.switchToMainWindow();
+    await t.wait(1000);
+    await t.click(patientnav.dailySalesLink);
+    await t.switchToMainWindow();
+    await t.wait(3000);
+
+    const clickedArrow = Selector('igx-tree-grid-cell > div');
+    const totalRecord = await Selector('daily-sales > div > div > div:nth-child(1) > div.col-auto.p-1.mb-0.ml-3.align-self-center > filter-info > div > div > div > strong').textContent;
+
+    await t.expect(await clickedArrow.visible).ok('Oops, the arrow is not displayed');
+    // Selector('igx-icon.material-icons.igx-icon.ng-star-inserted');
+    // const ct = clickedArrow.length;
+
+    // console.log('This number of selectors will be clicked: ' + ct.toString());
+
+
+    for (let i = 0; i < parseFloat(totalRecord) && await Selector('igx-tree-grid-cell > div').nth(i).filterVisible().exists === true; i++) {
+
+        await t
+            .hover(Selector('igx-tree-grid-cell > div').nth(i).filterVisible())
+            .click(Selector('igx-tree-grid-cell > div').nth(i).filterVisible())
+            .wait(1000);
+
+    }
+
+
+    await t.takeElementScreenshot('body .igx-grid__td--tree-cell', 'dailysales/dailysalesgrid.png');
+
+    await t.expect(patientnav.dailySalesGrid.exists).ok('Daily Sales grid is not displayed');
+    await t.takeElementScreenshot(patientnav.dailySalesGrid, 'dailysales/dailysalesgrid.png');
+}).disablePageCaching;
+
+test('Verify Update Patient', async () => {
     await t.maximizeWindow();
     await t.switchToMainWindow();
 
@@ -131,7 +189,7 @@ test.only('Verify Update Patient', async () => {
     await patientnav.clickOption(patientnav.patBtn);
     await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'ALAEI'); // select patient name starting with 'A'
     // await patientnav.selectFld('igx-grid-cell:nth-child(4) > div', '- 4444') // select patient telephone nding in -3333
-    await waitForAngular();
+    // await waitForAngular();
     await t
         .expect(patientnav.patientDetailsBtnEnabled.exists)
         .ok('Oops, something went wrong!')
@@ -189,7 +247,7 @@ test.only('Verify Update Patient', async () => {
     await t.click(
         'mat-dialog-container#mat-dialog-1 button[type="button"].btn.btn-primary.mx-2 > span'
     );
-    await waitForAngular();
+    // await waitForAngular();
     await t.setNativeDialogHandler(() => true);
     /** Select the first Health Practitioner available on the list */
     await patientnav.selectFld('igx-grid-cell:nth-child(1) > div', 'ASHRAF');
@@ -200,20 +258,20 @@ test.only('Verify Update Patient', async () => {
     await t.click(Selector('.btn.btn-link').withText('Select HCP'));
 
     // await t.setNativeDialogHandler(() => true);
-    await waitForAngular();
+    // await waitForAngular();
     /**Click Next button */
     await t.click(
         Selector(
             '.p-2.gray-modal-footer-bg-color > button.btn.btn-primary.mx-2 > span'
         )
     );
-    await waitForAngular();
+    // await waitForAngular();
     /**Select Health Condition Arthritis with Mild Pain*/
     await patientnav.selectFld('igx-grid-cell > div', 'Arthritis');
     // await t.click(
     //     ".igx-grid__tr.igx-grid__tr--odd.igx-grid__tr--selected > igx-display-container > igx-grid-cell"
     // );
-    await waitForAngular();
+    // await waitForAngular();
     /**Click Create Mx */
     await t.click(
         '.gray-modal-footer-bg-color > button.btn.btn-primary.mx-2.btn-success > span'
@@ -228,7 +286,7 @@ test.only('Verify Update Patient', async () => {
     // await t.click(
     //     ".igx-grid__tr--even.igx-grid__tr--selected > igx-display-container > igx-grid-cell:nth-child(7) > div > i"
     // );
-    await waitForAngular();
+    // await waitForAngular();
     await patientnav.selectFld(
         'igx-grid-cell:nth-child(6) > div > div.break-word.overflow',
         'Ashraf, Nazia Dr.'
@@ -250,7 +308,7 @@ test.only('Verify Update Patient', async () => {
             '.p-2.gray-modal-footer-bg-color > span > button.btn.mx-2.btn-primary.ng-star-inserted'
         )
     );
-    await waitForAngular();
+    // await waitForAngular();
     // await t.click('#mat-dialog-3 > create-mx-modal > div > div.d-flex.modal-footer.justify-content-end.p-2.gray-modal-footer-bg-color > button.btn.btn-primary.mx-2 > span');
     /** Click to select the Health Issue radio button */
     await t.click(
@@ -275,7 +333,7 @@ test.only('Verify Update Patient', async () => {
         '.modal-footer.justify-content-end.p-2.gray-modal-footer-bg-color > span > button.btn.mx-2.btn-primary.ng-star-inserted > span'
     );
     await t.setNativeDialogHandler(() => true);
-    await waitForAngular();
+    // await waitForAngular();
     /** Click to select a Recommended Product */
     await t.click(
         '.igx-grid__tr--even.igx-grid__tr--selected > igx-display-container > igx-grid-cell:nth-child(3) > div > div.small.text-secondary'
@@ -288,12 +346,12 @@ test.only('Verify Update Patient', async () => {
     await t.click(
         '.gray-modal-footer-bg-color > span > button.btn.mx-2.purple-btn.ng-star-inserted > div > span'
     );
-    await waitForAngular();
+    // await waitForAngular();
     /** Click Place Order */
     await t.click(
         '.gray-modal-footer-bg-color > span:nth-child(3) > button.btn.mx-2.ng-star-inserted.close-btn > div > span'
     );
-    await waitForAngular();
+    // await waitForAngular();
     await t
         .wait(1000)
         .click(
@@ -329,7 +387,7 @@ test.only('Verify Update Patient', async () => {
     //     .click(Selector("option").filter('[value="F"]'));
 
     // /**Add New Address to the patient */
-    // // await waitForAngular();
+    // await waitForAngular();
     // await t.setNativeDialogHandler(() => true);
     // await t
     //     .typeText(patientnav.addressInput, random.randomStreetAddress, {
@@ -351,7 +409,7 @@ test.only('Verify Update Patient', async () => {
 
     // /** Add telefone */
     // await t.click(patientnav.addNewTelBtn);
-    // // await waitForAngular();
+    // await waitForAngular();
     // await t.setNativeDialogHandler(() => true);
     // await t
     //     .typeText(patientnav.phoneInput, random.randomPhone, {
@@ -363,7 +421,7 @@ test.only('Verify Update Patient', async () => {
     // await t.switchToMainWindow();
     // /**Add new email */
     // // await t.click(patientnav.addNewEmailBtn);
-    // // await waitForAngular();
+    // await waitForAngular();
     // // await t.setNativeDialogHandler(() => true);
     // // await t
     // //     .typeText(patientnav.emailInput, random.randEmail, {
@@ -375,7 +433,7 @@ test.only('Verify Update Patient', async () => {
     // // await t.switchToMainWindow();
     // /**Add new ID */
     // await t.click(patientnav.addNewIdBtn);
-    // // await waitForAngular();
+    // await waitForAngular();
     // await t.setNativeDialogHandler(() => true);
 
     // await t

@@ -212,6 +212,7 @@ export class OrdersNav {
     toolbarIcons: Selector;// total of icons
     readyToOrderIcon: Selector;//ready To submitt
     /**Order Details UI */
+    enterMxBtn: Selector;
     ordersMainBtn: Selector;
     ordersList: Selector;
     ordersListFull: Selector; //list with data
@@ -479,6 +480,7 @@ export class OrdersNav {
         this.toolbarIcons = Selector('.toolbaricon'); // total of icons
         this.readyToOrderIcon = Selector('.icon_ReadyQueue'); //ready To submitt
         /**Order Details UI */
+        this.enterMxBtn = Selector('mx-list span > .btn').withText('Enter Mx');
         this.ordersMainBtn = Selector('nav.nav>a:nth-child(2)>div>div');
         this.ordersList = Selector('div.text-white>span');
         this.ordersListFull = Selector('div.px-3'); //list with data

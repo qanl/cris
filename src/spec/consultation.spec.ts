@@ -47,7 +47,7 @@ const userOne = Role(
     { preserveUrl: true }
 );
 
-fixture`E2E - C/R/I/S Consultation Reminders`
+fixture.only`E2E - C/R/I/S Consultation Reminders`
     .page(`${baseUrl()}/#/home`)
     .before(async () => {
         console.log('Test begins');
@@ -255,7 +255,7 @@ test('7199: Verify that the user can submit a consultation', async () => {
     //     .expect(patientnav.createPatientBtn.exists)
     //     .notOk('Create Patient button is present!');
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'MCCULLOUGH'); // select patient name starting with the given name'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'GILMOUR'); // select patient name starting with the given name'
     await t.takeScreenshot('/consultationreminders/7199_patient_profile.png');
 
     // await waitForAngular();
@@ -347,9 +347,9 @@ test('7199: Verify that the user can submit a consultation', async () => {
     /**Select Health Condition eg Arthritis with Mild Pain*/
     await patientnav.selectHealthIssue(
         'igx-grid-cell > div.igx-grid__td-text.ng-star-inserted',
-        'Anorexia'
+        // 'Anorexia'
         // 'Amyotrophic Lateral Sclerosis'
-        // 'Arthritis (Osteoarthritis Inflammation with Mild Pain)'
+        'Arthritis (Osteoarthritis Inflammation with Mild Pain)'
     );
     await t.takeScreenshot('orders/HealthIssueMx.png');
     /**Click Create Mx */
@@ -397,7 +397,7 @@ test('7199: Verify that the user can submit a consultation', async () => {
     await t.setNativeDialogHandler(() => true);
     /** Verify if the Weight field is empty */
 
-    await patientnav.fillHealthForm('98', '#productList > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container > igx-grid-row', 'Tilray');
+    await patientnav.fillHealthForm('98', '#productList > div.igx-grid__tbody > div.igx-grid__tbody-content > igx-display-container > igx-grid-row', 'Starseed Medicinal Inc.');
     await t.takeScreenshot('/consultationreminders/7199_ReviewOrder.png');
     // await patientnav.checkProductOk('Oil');
     /**Click Review */

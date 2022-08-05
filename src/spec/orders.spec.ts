@@ -137,7 +137,7 @@ test.only('Verify create New Order', async () => {
     //     .expect(patientnav.createPatientBtn.exists)
     //     .notOk('Create Patient button is present!');
     await patientnav.clickOption(patientnav.patBtn);
-    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'FAY'); // select patient name starting with the given name'
+    await patientnav.selectPatRow('igx-grid-cell:nth-child(1) > div', 'KONKEL'); // select patient name starting with the given name'
     await t.takeScreenshot('/orders/patient_profile.png');
 
     // await waitForAngular();
@@ -175,7 +175,7 @@ test.only('Verify create New Order', async () => {
             Selector(
                 'div:nth-child(2) > div.d-flex.input-group-sm.pl-2.align-items-center > div:nth-child(1) > input'
             ),
-            '0.30',
+            '0.20',
             { paste: true, replace: true }
         )
         .typeText(

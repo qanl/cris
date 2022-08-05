@@ -4,7 +4,7 @@ import { user } from './personas';
 
 
 export const defaultConfig: Config = {
-    env:        env('PROD'),
+    env:        env('QA'),
     showConfig: false,
     testSpeed:  1.0,
     timeout:    {
@@ -14,5 +14,5 @@ export const defaultConfig: Config = {
         ...{ 'on-waiting-remote-server-response': 180000 },
         ...{ 'on-waiting-custom-event': 5000 },
     },
-    user: user('nm'),
+    user: user('nlapuste@36eighttechnologies.com'),
 };
